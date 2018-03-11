@@ -9,7 +9,7 @@ class Life extends Component {
             <div>
                 <Plane
                     size={10}
-                    zoom={10}
+                    zoom={30}
                 />
                 <button>next</button>
             </div>

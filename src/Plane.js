@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './Plane.css';
 
 import Cell from './Cell';
 
@@ -40,6 +39,11 @@ class Plane extends Component {
                     (x === 5 && y===5)
                     || (x === 6 && y===5)
                     || (x === 7 && y===5)
+                    || (x === 0 && y===0)
+                    || (x === 1 && y===0)
+                    || (x === 2 && y===0)
+                    || (x === 3 && y===0)
+                    || (x === 4 && y===0)
                 ) {
                     plane[x][y] = CELL_ALIVE;
                 }

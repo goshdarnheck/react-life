@@ -1,12 +1,26 @@
+html {
+    background-color: black;
+}
+
 html,
 body,
-#root {
+#life {
     height: 100%;
     width: 100%;
 }
 
-#root {
+#life {
     align-items: center;
     display: flex;
     justify-content: center;
+}
+
+.Plane {
+    border: 1px solid white;
+}
+
+.cell {
+    outline: 1px dotted black;
+    position: absolute;
+    text-align: center;
 }
