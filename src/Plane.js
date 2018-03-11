@@ -21,8 +21,6 @@ class Plane extends Component {
             () => this.updatePlane(),
             1000
         );
-        // this.updatePlane();
-        console.log(this.getAliveNeighbourCount(this.state.plane, 6, 4));
     }
 
     componentWillUnmount() {
@@ -70,8 +68,6 @@ class Plane extends Component {
             count++;
         }
 
-        //
-
         if (x - 1 >= 0 && y - 1 >= 0 && plane[x - 1][y - 1] === CELL_ALIVE) {
             count++;
         }
@@ -109,7 +105,9 @@ class Plane extends Component {
                             break;
                         }
                         case 2: {
-                            newPlane[x][y] = CELL_ALIVE;
+                            if (prevState.plane[x][y] === CELL_ALIVE) {
+                                newPlane[x][y] = CELL_ALIVE;
+                            }
                             break;
                         }
                         case 3: {
@@ -126,7 +124,7 @@ class Plane extends Component {
                     }
                 }
             }
-console.log(newPlane)
+
             return {
                 plane: newPlane
             };

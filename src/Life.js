@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
+import './Life.css';
 
 import Plane from './Plane';
 
-class App extends Component {
+class Life extends Component {
     render() {
         return (
             <div>
@@ -17,4 +17,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default Life;
