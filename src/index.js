@@ -5,4 +5,4 @@ import Life from './Life';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(<Life />, document.getElementById('life'));
-// registerServiceWorker();
+registerServiceWorker();
