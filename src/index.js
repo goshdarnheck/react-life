@@ -2,7 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Life from './Life';
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<Life />, document.getElementById('life'));
-registerServiceWorker();
+ReactDOM.render(
+    <Life
+        size={30}
+        zoom={20}
+        speed={250}
+    />,
+    document.getElementById('life')
+);
+// registerServiceWorker();

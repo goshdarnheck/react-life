@@ -1,5 +1,45 @@
+html {
+    background-color: black;
+}
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+html,
+body,
+#life {
+    height: 100%;
+    width: 100%;
+}
+
+#life {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.grid {
+    position: relative;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+    cursor: crosshair;
+}
+
+.cell {
+    outline: 1px dashed black;
+    position: absolute;
+    text-align: center;
+}
+
+.cell:hover {
+    outline: 3px dotted white;
+    z-index: 1;
 }
