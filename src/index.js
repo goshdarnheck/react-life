@@ -9,6 +9,7 @@ ReactDOM.render(
         size={30}
         zoom={20}
         speed={250}
+        paused={true}
     />,
     document.getElementById('life')
 );

@@ -14,16 +14,21 @@ class Life extends Component {
         this.state = {
             grid: this.buildGrid(),
             tick: 0,
-            speed: this.props.speed
+            speed: this.props.speed,
+            paused: this.props.paused
         };
 
         this.handleCellClick = this.handleCellClick.bind(this);
+        this.handlePauseClick = this.handlePauseClick.bind(this);
+        this.handlePlayClick = this.handlePlayClick.bind(this);
     }
 
     componentDidMount() {
         this.timerID = setInterval(
             () => {
-                this.updateGrid();
+                if (this.state.paused === false) {
+                    this.updateGrid();
+                }
             },
             this.state.speed
         );
@@ -33,8 +38,21 @@ class Life extends Component {
         clearInterval(this.timerID);
     }
 
+    handlePauseClick() {
+        console.log('pause');
+        this.setState({
+            paused: true
+        });
+    }
+
+    handlePlayClick() {
+        console.log('play');
+        this.setState({
+            paused: false
+        });
+    }
+
     handleCellClick(x, y) {
-        console.log(x + ' ' + y);
         this.setState(function(prevState, props) {
             prevState.grid[x][y] = CELL_ALIVE;
 
@@ -168,7 +186,11 @@ class Life extends Component {
                     zoom={this.props.zoom}
                     handleCellClick={this.handleCellClick}
                 />
-                <Controls />
+                <Controls
+                    handlePauseClick={this.handlePauseClick}
+                    handlePlayClick={this.handlePlayClick}
+                    paused={this.state.paused}
+                />
                 <div>
                     <h2>Info</h2>
                     <ul>
@@ -185,7 +207,8 @@ class Life extends Component {
 Life.propTypes = {
     size: PropTypes.number.isRequired, // todo - default value
     zoom: PropTypes.number.isRequired, // todo - default value
-    speed: PropTypes.number // todo - default value
+    speed: PropTypes.number, // todo - default value
+    paused: PropTypes.bool // todo - default value
 };
 
 export default Life;
