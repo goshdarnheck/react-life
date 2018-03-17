@@ -2,7 +2,7 @@ import React from 'react';
 
 function Controls(props) {
     return (
-        <div>
+        <div className="controls">
             <h2>Controls</h2>
             <ul>
                 <li><button onClick={props.handlePauseClick} disabled={props.paused}>Pause</button></li>

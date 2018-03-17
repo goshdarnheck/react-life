@@ -125,7 +125,6 @@ class Life extends Component {
 
             for (let x = 0; x < this.props.size; x++) {
                 nextGrid[x] = [];
-
                 for (let y = 0; y < this.props.size; y++) {
                     switch (this.getAliveNeighbourCount(prevState.grid, x, y)) {
                         case 2:
@@ -157,7 +156,7 @@ class Life extends Component {
 
     render() {
         return (
-            <div>
+            <div className="life">
                 <Grid
                     grid={this.state.grid}
                     size={this.props.size}
@@ -170,7 +169,7 @@ class Life extends Component {
                     handleClearClick={this.handleClearClick}
                     paused={this.state.paused}
                 />
-                <div>
+                <div className="info">
                     <h2>Info</h2>
                     <ul>
                         <li>Tick:{this.state.tick}</li>

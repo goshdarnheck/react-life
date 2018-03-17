@@ -5,7 +5,7 @@ import Life from './Life';
 
 ReactDOM.render(
     <Life
-        size={40}
+        size={80}
         zoom={16}
         speed={250}
         paused={true}

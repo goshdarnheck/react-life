@@ -16,10 +16,9 @@ body,
     width: 100%;
 }
 
-#life {
-    align-items: center;
-    display: flex;
-    justify-content: center;
+.life {
+    height: 100%;
+    width: 100%;
 }
 
 .grid {
@@ -31,9 +30,12 @@ body,
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
     cursor: crosshair;
+
+    margin: 0 auto;
 }
 
 .cell {
+    display: block;
     outline: 1px dashed black;
     position: absolute;
     text-align: center;
@@ -42,4 +44,24 @@ body,
 .cell:hover {
     outline: 3px dotted white;
     z-index: 1;
+}
+
+.info,
+.controls {
+    background-color: rgba(32, 0, 0, 0.3);
+    position: fixed;
+    width: 100%;
+}
+
+.controls {
+    bottom: 0;
+}
+
+.controls li {
+    float: left;
+    list-style: none;
+}
+
+.info {
+    top: 0;
 }
