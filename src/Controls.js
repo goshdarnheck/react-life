@@ -8,9 +8,9 @@ function Controls(props) {
                 <li><button onClick={props.handlePauseClick} disabled={props.paused}>❚❚ Pause</button></li>
                 <li><button onClick={props.handlePlayClick} disabled={!props.paused}>► Play</button></li>
                 <li><button onClick={props.handleClearClick}>◼ Clear</button></li>
-                <li><button onClick={props.handleImportClick}>⟲ Import</button></li>
-                <li><button>⟳ Export</button></li>
-                <li><button>ℹ About</button></li>
+                <li><button disabled onClick={props.handleImportClick}>⟲ Import</button></li>
+                <li><button disabled>⟳ Export</button></li>
+                <li><button disabled>ℹ About</button></li>
             </ul>
             <ul className="stats">
                 <li>Tick: {props.tick}</li>
