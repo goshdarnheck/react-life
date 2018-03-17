@@ -8,9 +8,10 @@ import {
 
 function Cell(props) {
     let style = {
-        backgroundColor: props.state === CELL_ALIVE ? 'yellowgreen' : 'darkred',
-        color: props.state ? 'white' : 'darkred',
+        backgroundColor: props.state === CELL_ALIVE ? 'DeepSkyBlue' : 'orangered',
+        color: props.state ? 'white' : 'orangered',
         width: 1 * props.zoom,
+        borderRadius: '20%',
         height: 1 * props.zoom,
         lineHeight: 1 * props.zoom + 'px',
         top: 0 + props.y * props.zoom,

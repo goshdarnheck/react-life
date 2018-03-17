@@ -21,6 +21,7 @@ class Life extends Component {
         this.handleCellClick = this.handleCellClick.bind(this);
         this.handlePauseClick = this.handlePauseClick.bind(this);
         this.handlePlayClick = this.handlePlayClick.bind(this);
+        this.handleClearClick = this.handleClearClick.bind(this);
     }
 
     componentDidMount() {
@@ -39,22 +40,26 @@ class Life extends Component {
     }
 
     handlePauseClick() {
-        console.log('pause');
         this.setState({
             paused: true
         });
     }
 
     handlePlayClick() {
-        console.log('play');
         this.setState({
             paused: false
         });
     }
 
+    handleClearClick() {
+        this.setState({
+            grid: this.buildGrid()
+        });
+    }
+
     handleCellClick(x, y) {
         this.setState(function(prevState, props) {
-            prevState.grid[x][y] = CELL_ALIVE;
+            prevState.grid[x][y] = (prevState.grid[x][y] === CELL_ALIVE) ? CELL_EMPTY : CELL_ALIVE;
 
             return {
                 grid: prevState.grid
@@ -108,24 +113,6 @@ class Life extends Component {
 
             for (let y = 0; y < this.props.size; y++) {
                 grid[x][y] = CELL_EMPTY;
-
-                if (
-                    (x === 5 && y===5)
-                    || (x === 6 && y===5)
-                    || (x === 7 && y===5)
-                    || (x === 0 && y===0)
-                    || (x === 1 && y===0)
-                    || (x === 2 && y===0)
-                    || (x === 3 && y===0)
-                    || (x === 4 && y===0)
-                    || (x === 0 && y===5)
-                    || (x === 1 && y===5)
-                    || (x === 2 && y===5)
-                    || (x === 3 && y===5)
-                    || (x === 4 && y===5)
-                ) {
-                    grid[x][y] = CELL_ALIVE;
-                }
             }
         }
 
@@ -141,31 +128,22 @@ class Life extends Component {
 
                 for (let y = 0; y < this.props.size; y++) {
                     switch (this.getAliveNeighbourCount(prevState.grid, x, y)) {
-                        case 0: {
-                            nextGrid[x][y] = CELL_EMPTY;
-                            break;
-                        }
-                        case 1: {
-                            nextGrid[x][y] = CELL_EMPTY;
-                            break;
-                        }
-                        case 2: {
+                        case 2:
                             if (prevState.grid[x][y] === CELL_ALIVE) {
                                 nextGrid[x][y] = CELL_ALIVE;
+                            } else {
+                                nextGrid[x][y] = CELL_EMPTY;
                             }
                             break;
-                        }
-                        case 3: {
+                        case 3:
                             nextGrid[x][y] = CELL_ALIVE;
                             break;
-                        }
-                        case 4: {
+                        case 0:
+                        case 1:
+                        case 4:
+                        default:
                             nextGrid[x][y] = CELL_EMPTY;
                             break;
-                        }
-                        default: {
-                            break;
-                        }
                     }
                 }
             }
@@ -189,14 +167,15 @@ class Life extends Component {
                 <Controls
                     handlePauseClick={this.handlePauseClick}
                     handlePlayClick={this.handlePlayClick}
+                    handleClearClick={this.handleClearClick}
                     paused={this.state.paused}
                 />
                 <div>
                     <h2>Info</h2>
                     <ul>
                         <li>Tick:{this.state.tick}</li>
-                        <li>Last Change at Tick: ?</li>
                         <li>Speed:{this.state.speed}ms</li>
+                        <li><input type="range" /></li>
                     </ul>
                 </div>
             </div>
