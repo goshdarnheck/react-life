@@ -1,12 +1,21 @@
 html {
     background-color: black;
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+
+*,
+*:before, 
+:after {
+    box-sizing: inherit;
 }
 
 body {
     color: white;
+    font-size: 1.6rem;
+    font-family: Consolas, monaco, "Andale Mono", AndaleMono, "Lucida Console", "Courier New", monospace;
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
 }
 
 html,
@@ -17,11 +26,11 @@ body,
 }
 
 .life {
-    height: 100%;
-    width: 100%;
+    margin-bottom: 8rem;
 }
 
 .grid {
+    margin: 0 auto;
     position: relative;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -29,15 +38,17 @@ body,
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-
-    margin: 0 auto;
 }
 
 .grid i {
     display: block;
-    outline: 1px solid black;
+    box-shadow: inset 0 0 0 4px #222, inset 0 0 0 6px #333;
     position: absolute;
     text-align: center;
+}
+
+.grid i.alive {
+    box-shadow: none;
 }
 
 .grid i:hover {
@@ -46,22 +57,37 @@ body,
     z-index: 1;
 }
 
-.info,
 .controls {
-    background-color: rgba(32, 0, 0, 0.3);
+    background-color: rgba(32, 0, 0, 0.4);
+    border-bottom: 3px solid rgba(255, 255, 255, 0.6);
+    border-top: 3px solid rgba(255, 255, 255, 0.6);
+    bottom: 0;
+    height: 8rem;
+    line-height: 3.4rem;
     position: fixed;
+    padding: 2rem;
     width: 100%;
 }
 
-.controls {
-    bottom: 0;
-}
-
+.controls h2,
+.controls ul,
 .controls li {
     float: left;
+    margin: 0;
+}
+
+.controls h2 {
+
+}
+
+.controls ul {
     list-style: none;
 }
 
-.info {
-    top: 0;
+.controls .stats {
+    float: right;
+}
+
+.controls li {
+    margin: 0 1rem;
 }

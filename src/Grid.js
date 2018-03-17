@@ -10,7 +10,16 @@ class Grid extends Component {
 
         for (let x = 0; x < grid.length; x++) {
             for (let y = 0; y < grid[x].length; y++) {
-                cellArray.push(<Cell handleCellClick={this.props.handleCellClick} x={x} y={y} key={x + '-' + y} state={grid[x][y]} zoom={this.props.zoom} />);
+                cellArray.push(
+                    <Cell
+                        handleCellClick={this.props.handleCellClick}
+                        x={x} y={y}
+                        key={x + '-' + y}
+                        hue={grid[x][y].hue}
+                        alive={grid[x][y].alive}
+                        zoom={this.props.zoom}
+                    />
+                );
             }
         }
 
