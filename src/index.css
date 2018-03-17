@@ -29,20 +29,20 @@ body,
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-    cursor: crosshair;
 
     margin: 0 auto;
 }
 
-.cell {
+.grid i {
     display: block;
-    outline: 1px dashed black;
+    outline: 1px solid black;
     position: absolute;
     text-align: center;
 }
 
-.cell:hover {
-    outline: 3px dotted white;
+.grid i:hover {
+    cursor: none;
+    outline: 2px dotted white;
     z-index: 1;
 }
 

@@ -22,6 +22,7 @@ class Life extends Component {
         this.handlePauseClick = this.handlePauseClick.bind(this);
         this.handlePlayClick = this.handlePlayClick.bind(this);
         this.handleClearClick = this.handleClearClick.bind(this);
+        this.handleImportClick = this.handleImportClick.bind(this);
     }
 
     componentDidMount() {
@@ -55,6 +56,10 @@ class Life extends Component {
         this.setState({
             grid: this.buildGrid()
         });
+    }
+
+    handleImportClick() {
+        console.log('import!');
     }
 
     handleCellClick(x, y) {
@@ -167,6 +172,7 @@ class Life extends Component {
                     handlePauseClick={this.handlePauseClick}
                     handlePlayClick={this.handlePlayClick}
                     handleClearClick={this.handleClearClick}
+                    handleImportClick={this.handleImportClick}
                     paused={this.state.paused}
                 />
                 <div className="info">
@@ -174,7 +180,7 @@ class Life extends Component {
                     <ul>
                         <li>Tick:{this.state.tick}</li>
                         <li>Speed:{this.state.speed}ms</li>
-                        <li><input type="range" /></li>
+                        
                     </ul>
                 </div>
             </div>
