@@ -33,6 +33,7 @@ body,
 }
 
 .grid {
+    background-color: #222;
     margin: 0 auto;
     position: relative;
     -webkit-touch-callout: none; /* iOS Safari */
