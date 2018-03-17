@@ -3,7 +3,6 @@ import React from 'react';
 function Controls(props) {
     return (
         <div className="controls">
-            <h2>Game Of Life</h2>
             <ul className="buttons">
                 <li><button onClick={props.handlePauseClick} disabled={props.paused}>❚❚ Pause</button></li>
                 <li><button onClick={props.handlePlayClick} disabled={!props.paused}>► Play</button></li>

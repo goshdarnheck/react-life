@@ -7,7 +7,6 @@ import {
 } from './constants';
 
 function Cell(props) {
-    let hue = Math.floor(Math.random() * (360 + 1));
     let style = {
         backgroundColor: props.alive === CELL_ALIVE ? 'hsl(' + props.hue + ', 100%, 50%)' : '#222',
         borderRadius: props.alive === CELL_ALIVE ? '50%' : '',

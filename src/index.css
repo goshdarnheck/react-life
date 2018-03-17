@@ -20,13 +20,15 @@ body {
 
 html,
 body,
-#life {
+#life,
+.life {
     height: 100%;
     width: 100%;
 }
 
 .life {
-    margin-bottom: 8rem;
+    margin-bottom: 14rem;
+    overflow: auto;
 }
 
 .grid {
@@ -62,10 +64,10 @@ body,
     border-bottom: 3px solid rgba(255, 255, 255, 0.6);
     border-top: 3px solid rgba(255, 255, 255, 0.6);
     bottom: 0;
-    height: 8rem;
+    height: 14rem;
     line-height: 3.4rem;
     position: fixed;
-    padding: 2rem;
+    padding: 1rem;
     width: 100%;
 }
 
@@ -76,12 +78,9 @@ body,
     margin: 0;
 }
 
-.controls h2 {
-
-}
-
 .controls ul {
     list-style: none;
+    padding: 0;
 }
 
 .controls .stats {
@@ -90,4 +89,15 @@ body,
 
 .controls li {
     margin: 0 1rem;
+}
+
+@media (min-width: 700px) {
+    
+    .life {
+        margin-bottom: 10rem;
+    }
+
+    .controls {
+        height: 10rem
+    }
 }
