@@ -30,11 +30,16 @@ function Import(props) {
 
     return (
         <div className="import">
-            <button onClick={props.handleImportCloseClick}>Close</button>
-            <ul className="library">
-                {libraryEntriesJsx}
-            </ul>
-            <textarea></textarea>
+            <div className="import-content">
+                <button onClick={props.handleImportCloseClick}>Close</button>
+                <ul className="library">
+                    {libraryEntriesJsx}
+                </ul>
+                <ul>
+                    <li><textarea></textarea></li>
+                    <li><button>Import</button></li>
+                </ul>
+            </div>
         </div>
     );
 }
