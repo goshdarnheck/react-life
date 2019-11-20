@@ -1,129 +1,25 @@
 html {
-    background-color: black;
-    box-sizing: border-box;
-    font-size: 62.5%;
+  background-color: black;
+  box-sizing: border-box;
+  font-size: 62.5%;
 }
 
 *,
-*:before, 
+*:before,
 :after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 body {
-    color: white;
-    font-size: 1.6rem;
-    font-family: Consolas, monaco, "Andale Mono", AndaleMono, "Lucida Console", "Courier New", monospace;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
+  color: white;
+  font-size: 1.6rem;
+  font-family: Consolas, monaco, "Andale Mono", AndaleMono, "Lucida Console",
+    "Courier New", monospace;
+  margin: 0;
+  padding: 0;
 }
 
-html,
-body,
-#life,
-.life {
-    height: 100%;
-    width: 100%;
-}
-
-.life {
-    margin-bottom: 14rem;
-    overflow: auto;
-}
-
-.grid {
-    background-color: #222;
-    margin: 0 auto;
-    position: relative;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-}
-
-.grid i {
-    display: block;
-    box-shadow: inset 0 0 0 4px #222, inset 0 0 0 6px #333;
-    position: absolute;
-    text-align: center;
-}
-
-.grid i.alive {
-    box-shadow: none;
-    box-shadow: inset 0 0 0 2px white, inset 0 0 0 3px black;
-}
-
-.grid i:hover {
-    cursor: none;
-    outline: 2px dotted white;
-    z-index: 1;
-}
-
-.controls {
-    background-color: rgba(32, 0, 0, 0.4);
-    border-bottom: 3px solid rgba(255, 255, 255, 0.6);
-    border-top: 3px solid rgba(255, 255, 255, 0.6);
-    bottom: 0;
-    height: 14rem;
-    line-height: 3.4rem;
-    position: fixed;
-    padding: 1rem;
-    width: 100%;
-}
-
-.controls h2,
-.controls ul,
-.controls li {
-    float: left;
-    margin: 0;
-}
-
-.controls ul {
-    list-style: none;
-    padding: 0;
-}
-
-.controls .stats {
-    float: right;
-}
-
-.controls li {
-    margin: 0 1rem;
-}
-
-.import,
-.export {
-    background-color: rgba(0, 0, 0, 0.5);
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
-}
-
-.import-content,
-.export-content {
-    border: 3px solid white;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: inline-block;
-
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-}
-
-@media (min-width: 700px) {
-    
-    .life {
-        margin-bottom: 10rem;
-    }
-
-    .controls {
-        height: 10rem
-    }
+.Life {
+  display: flex;
+  height: 100vh;
 }
