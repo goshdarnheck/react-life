@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Sidebar from "./components/sidebar";
 import Grid from "./components/grid";
+import Cell from "./components/cell";
 import Controls from "./components/controls";
 import Info from "./components/info";
 import Examples from "./components/examples";
 import { CELL_EMPTY, CELL_ALIVE } from "./lib/constants";
+import examples from "./lib/examples";
 
 class Life extends Component {
   constructor(props) {
@@ -13,15 +15,14 @@ class Life extends Component {
 
     this.state = {
       grid: this.buildGrid(),
-      generation: 0,
       speed: this.props.speed,
       paused: this.props.paused,
-      hue: 0,
-      exportData: []
     };
   }
 
   componentDidMount() {
+    this.importData(examples[0].data)
+
     this.timerID = setInterval(() => {
       if (this.state.paused === false) {
         this.updateGrid();
@@ -50,15 +51,9 @@ class Life extends Component {
       grid: this.buildGrid(),
       paused: true,
       generation: 0,
-      hue: 0
-    });
-  };
-
-  handleImportClick = () => {
-    this.setState(prevState => {
-      return {
-        showImport: !prevState.showImport
-      };
+      hue: 0,
+      births: 0,
+      deaths: 0
     });
   };
 
@@ -75,11 +70,12 @@ class Life extends Component {
     }
 
     this.setState({
-      showImport: false,
       grid: newGrid,
       hue: 0,
       generation: 0,
-      paused: true
+      paused: true,
+      births: 0,
+      deaths: 0
     });
   };
 
@@ -165,6 +161,8 @@ class Life extends Component {
     this.setState(prevState => {
       let nextGrid = [];
       let nextHue = prevState.hue < 360 ? prevState.hue + 3 : 0;
+      let births = prevState.births;
+      let deaths = prevState.deaths;
 
       for (let x = 0; x < this.props.size; x++) {
         nextGrid[x] = [];
@@ -195,12 +193,16 @@ class Life extends Component {
                   alive: CELL_ALIVE,
                   hue: nextHue
                 };
+                births++;
               }
               break;
             case 0:
             case 1:
             case 4:
             default:
+              if (prevState.grid[x][y].alive === CELL_ALIVE) {
+                deaths++;
+              }
               nextGrid[x][y] = {
                 alive: CELL_EMPTY,
                 hue: nextHue
@@ -213,22 +215,52 @@ class Life extends Component {
       return {
         grid: nextGrid,
         generation: prevState.generation + 1,
-        hue: nextHue
+        hue: nextHue,
+        births: births,
+        deaths: deaths
       };
     });
   }
 
   render() {
+    let cells = [];
+
+    for (let y = 0; y < this.state.grid.length; y++) {
+      for (let x = 0; x < this.state.grid[y].length; x++) {
+        let hue = 0;
+        let alive = CELL_EMPTY;
+
+        if (this.state.grid[x][y]) {
+          hue = this.state.grid[x][y].hue;
+          alive = this.state.grid[x][y].alive;
+        }
+
+        cells.push(
+          <Cell
+            handleCellClick={this.handleCellClick}
+            key={`${x}-${y}`}
+            hue={hue}
+            x={x}
+            y={y}
+            alive={alive}
+            zoom={this.props.zoom}
+          />
+        );
+      }
+    }
+
     return (
       <div className="Life">
-        <Grid
-          grid={this.state.grid}
-          size={this.props.size}
-          zoom={this.props.zoom}
-          handleCellClick={this.handleCellClick}
-        />
+        <Grid size={this.props.size} zoom={this.props.zoom}>
+          {cells}
+        </Grid>
         <Sidebar>
-          <Info generation={this.state.generation} speed={this.state.speed} />
+          <Info
+            generation={this.state.generation}
+            speed={this.state.speed}
+            births={this.state.births}
+            deaths={this.state.deaths}
+          />
           <Controls
             handlePauseClick={this.handlePauseClick}
             handlePlayClick={this.handlePlayClick}
@@ -239,9 +271,7 @@ class Life extends Component {
             generation={this.state.generation}
             speed={this.state.speed}
           />
-          <Examples
-            handleSelectExample={this.handleSelectExample}
-          />
+          <Examples handleSelectExample={this.handleSelectExample} />
         </Sidebar>
       </div>
     );
@@ -249,10 +279,10 @@ class Life extends Component {
 }
 
 Life.propTypes = {
-  size: PropTypes.number.isRequired, // todo - default value
-  zoom: PropTypes.number.isRequired, // todo - default value
-  speed: PropTypes.number, // todo - default value
-  paused: PropTypes.bool // todo - default value
+  size: PropTypes.number.isRequired,
+  zoom: PropTypes.number.isRequired,
+  speed: PropTypes.number,
+  paused: PropTypes.bool
 };
 
 export default Life;

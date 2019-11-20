@@ -1,17 +1,15 @@
 - refactor getAliveNeighbourCount to a function that just calculates whether a cell should be alive or dead.
 - add test for the new function described above
 - grid data shouldn't include dead cells, and if we try to render a cell, if there is no data, it should just be assumed dead
-- style controls
-- style info
-- style examples
-- add controls to adjust speed
-- add controls to adjust grid size?
-- refactor grid/cells components to cut down on cell rerenders
+- track births and deaths?
 - add more examples
 - make examples always drawn in the middle
 - make the middle of the data always 0x0?
 - when all cells are dead, it should auto-pause
-- it would be cool if you could "paint" different examples
 - add info on the rules of CGoL
 - add link to hamburgersandwich.com
 - make responsize (mobile)
+- it would be cool if you could "paint" different examples
+- add controls to adjust speed
+- add controls to adjust grid size?
+- create a default "reset" state
