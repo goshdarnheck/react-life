@@ -10,6 +10,7 @@ const Info = ({ generation, speed }) => (
       }
     `}
   >
+    <h2>Game of Life</h2>
     <ul>
       <li>Generation: {generation}</li>
       <li>Speed: {speed}ms</li>

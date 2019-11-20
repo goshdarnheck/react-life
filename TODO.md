@@ -12,3 +12,6 @@
 - make the middle of the data always 0x0?
 - when all cells are dead, it should auto-pause
 - it would be cool if you could "paint" different examples
+- add info on the rules of CGoL
+- add link to hamburgersandwich.com
+- make responsize (mobile)

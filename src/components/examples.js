@@ -3,7 +3,18 @@ import { jsx, css } from "@emotion/core";
 import examples from "../lib/examples";
 
 const Examples = ({ handleSelectExample }) => (
-  <div css={css``}>
+  <div
+    css={css`
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      button {
+        width: 100%;
+      }
+    `}
+  >
     <h2>Examples</h2>
     <ul>
       {examples.map((example, i) => {

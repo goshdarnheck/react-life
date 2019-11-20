@@ -7,8 +7,8 @@ import Cell from "./cell";
 const Grid = ({ grid, handleCellClick, size, zoom }) => {
   let cellArray = [];
 
-  for (let x = 0; x < grid.length; x++) {
-    for (let y = 0; y < grid[x].length; y++) {
+  for (let y = 0; y < grid.length; y++) {
+    for (let x = 0; x < grid[y].length; x++) {
       cellArray.push(
         <Cell
           handleCellClick={handleCellClick}

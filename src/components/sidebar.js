@@ -4,10 +4,10 @@ import { jsx, css } from "@emotion/core";
 const Sidebar = ({ children }) => (
   <div
     css={css`
-      background-color: #f90;
+      background-color: #f40;
       flex-shrink: 0;
       height: 100%;
-      padding: 2rem;
+      padding: 0 2rem;
       width: 20rem;
     `}
   >

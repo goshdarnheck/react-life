@@ -228,6 +228,7 @@ class Life extends Component {
           handleCellClick={this.handleCellClick}
         />
         <Sidebar>
+          <Info generation={this.state.generation} speed={this.state.speed} />
           <Controls
             handlePauseClick={this.handlePauseClick}
             handlePlayClick={this.handlePlayClick}
@@ -238,7 +239,6 @@ class Life extends Component {
             generation={this.state.generation}
             speed={this.state.speed}
           />
-          <Info generation={this.state.generation} speed={this.state.speed} />
           <Examples
             handleSelectExample={this.handleSelectExample}
           />

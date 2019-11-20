@@ -40,7 +40,7 @@ class Cell extends PureComponent {
         onClick={() => props.handleCellClick(props.x, props.y)}
         className={props.alive ? "alive" : "dead"}
         style={style}
-      ></i>
+      />
     );
   }
 }

@@ -9,8 +9,13 @@ const Controls = props => (
         padding: 0;
         margin: 0;
       }
+
+      button {
+        width: 100%;
+      }
     `}
   >
+    <h2>Controls</h2>
     <ul>
       <li>
         <button onClick={props.handlePlayClick} disabled={!props.paused}>
