@@ -10,22 +10,18 @@ import { CELL_EMPTY, CELL_ALIVE } from "./lib/constants";
 import examples from "./lib/examples";
 
 class Life extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      grid: this.buildGrid(),
-      speed: this.props.speed,
-      paused: this.props.paused,
-    };
-  }
+  state = {
+    cells: {},
+    speed: this.props.speed,
+    paused: this.props.paused
+  };
 
   componentDidMount() {
-    this.importData(examples[0].data)
+    this.importData(examples[0].data);
 
     this.timerID = setInterval(() => {
       if (this.state.paused === false) {
-        this.updateGrid();
+        this.runNextGeneration();
       }
     }, this.state.speed);
   }
@@ -48,7 +44,7 @@ class Life extends Component {
 
   handleClearClick = () => {
     this.setState({
-      grid: this.buildGrid(),
+      cells: {},
       paused: true,
       generation: 0,
       hue: 0,
@@ -62,15 +58,14 @@ class Life extends Component {
   };
 
   importData = data => {
-    let newGrid = this.buildGrid();
+    let newCells = {};
 
     for (let i = 0, len = data.length; i < len; i++) {
-      newGrid[data[i].x][data[i].y].alive = CELL_ALIVE;
-      newGrid[data[i].x][data[i].y].hue = 0;
+      newCells[`${data[i].x}|${data[i].y}`] = { hue: 0 };
     }
 
     this.setState({
-      grid: newGrid,
+      cells: newCells,
       hue: 0,
       generation: 0,
       paused: true,
@@ -81,158 +76,121 @@ class Life extends Component {
 
   handleCellClick = (x, y) => {
     this.setState(prevState => {
-      prevState.grid[x][y].alive =
-        prevState.grid[x][y].alive === CELL_ALIVE ? CELL_EMPTY : CELL_ALIVE;
+      let newCells = { ...prevState.cells };
+      const cellKey = `${x}|${y}`;
+
+      if (prevState.cells[cellKey]) {
+        delete newCells[cellKey];
+      } else {
+        newCells[cellKey] = { hue: 0 };
+      }
 
       return {
-        grid: prevState.grid
+        cells: newCells
       };
     });
   };
 
-  getAliveNeighbourCount(grid, x, y) {
-    let count = 0;
-
-    if (x - 1 >= 0 && grid[x - 1][y].alive === CELL_ALIVE) {
-      count++;
-    }
-
-    if (x + 1 < this.props.size && grid[x + 1][y].alive === CELL_ALIVE) {
-      count++;
-    }
-
-    if (y - 1 >= 0 && grid[x][y - 1].alive === CELL_ALIVE) {
-      count++;
-    }
-
-    if (y + 1 < this.props.size && grid[x][y + 1].alive === CELL_ALIVE) {
-      count++;
-    }
-
-    if (x - 1 >= 0 && y - 1 >= 0 && grid[x - 1][y - 1].alive === CELL_ALIVE) {
-      count++;
-    }
-
-    if (
-      x + 1 < this.props.size &&
-      y - 1 >= 0 &&
-      grid[x + 1][y - 1].alive === CELL_ALIVE
-    ) {
-      count++;
-    }
-
-    if (
-      x - 1 >= 0 &&
-      y + 1 < this.props.size &&
-      grid[x - 1][y + 1].alive === CELL_ALIVE
-    ) {
-      count++;
-    }
-
-    if (
-      x + 1 < this.props.size &&
-      y + 1 < this.props.size &&
-      grid[x + 1][y + 1].alive === CELL_ALIVE
-    ) {
-      count++;
-    }
-
-    return count;
-  }
-
-  buildGrid() {
-    let grid = [];
-
-    for (let x = 0; x < this.props.size; x++) {
-      grid[x] = [];
-
-      for (let y = 0; y < this.props.size; y++) {
-        grid[x][y] = {
-          alive: CELL_EMPTY,
-          hue: 0
-        };
-      }
-    }
-
-    return grid;
-  }
-
-  updateGrid() {
+  runNextGeneration() {
     this.setState(prevState => {
-      let nextGrid = [];
-      let nextHue = prevState.hue < 360 ? prevState.hue + 3 : 0;
+      const hue = prevState.hue < 360 ? prevState.hue + 3 : 0;
+      let cells = {};
       let births = prevState.births;
       let deaths = prevState.deaths;
 
-      for (let x = 0; x < this.props.size; x++) {
-        nextGrid[x] = [];
+      for (let y = 0 - this.props.size / 2; y < this.props.size / 2; y++) {
+        for (let x = 0 - this.props.size / 2; x < this.props.size / 2; x++) {
+          const cellKey = `${x}|${y}`;
+          const wasAlive = prevState.cells[cellKey] ? true : false;
+          const neighbours = this.calculateNeighbours(prevState.cells, x, y);
 
-        for (let y = 0; y < this.props.size; y++) {
-          switch (this.getAliveNeighbourCount(prevState.grid, x, y)) {
+          switch (neighbours) {
             case 2:
-              if (prevState.grid[x][y].alive === CELL_ALIVE) {
-                nextGrid[x][y] = {
-                  alive: CELL_ALIVE,
-                  hue: prevState.grid[x][y].hue
-                };
-              } else {
-                nextGrid[x][y] = {
-                  alive: CELL_EMPTY,
-                  hue: nextHue
-                };
+              if (wasAlive) {
+                cells[cellKey] = prevState.cells[cellKey];
               }
               break;
             case 3:
-              if (prevState.grid[x][y].alive === CELL_ALIVE) {
-                nextGrid[x][y] = {
-                  alive: CELL_ALIVE,
-                  hue: prevState.grid[x][y].hue
-                };
-              } else {
-                nextGrid[x][y] = {
-                  alive: CELL_ALIVE,
-                  hue: nextHue
-                };
+              if (!wasAlive) {
+                cells[cellKey] = { hue };
                 births++;
+              } else {
+                cells[cellKey] = prevState.cells[cellKey];
               }
               break;
             case 0:
             case 1:
             case 4:
             default:
-              if (prevState.grid[x][y].alive === CELL_ALIVE) {
+              if (wasAlive) {
                 deaths++;
               }
-              nextGrid[x][y] = {
-                alive: CELL_EMPTY,
-                hue: nextHue
-              };
               break;
           }
         }
       }
 
       return {
-        grid: nextGrid,
         generation: prevState.generation + 1,
-        hue: nextHue,
-        births: births,
-        deaths: deaths
+        cells,
+        hue,
+        births,
+        deaths,
+        paused: Object.entries(cells).length === 0 && cells.constructor === Object
       };
     });
   }
 
+  calculateNeighbours = (cells, x, y) => {
+    let count = 0;
+
+    if (cells[`${x - 1}|${y}`]) {
+      count++;
+    }
+
+    if (cells[`${x + 1}|${y}`]) {
+      count++;
+    }
+
+    if (cells[`${x}|${y - 1}`]) {
+      count++;
+    }
+
+    if (cells[`${x}|${y + 1}`]) {
+      count++;
+    }
+
+    if (cells[`${x - 1}|${y - 1}`]) {
+      count++;
+    }
+
+    if (cells[`${x + 1}|${y + 1}`]) {
+      count++;
+    }
+
+    if (cells[`${x + 1}|${y - 1}`]) {
+      count++;
+    }
+
+    if (cells[`${x - 1}|${y + 1}`]) {
+      count++;
+    }
+
+    return count;
+  };
+
   render() {
     let cells = [];
 
-    for (let y = 0; y < this.state.grid.length; y++) {
-      for (let x = 0; x < this.state.grid[y].length; x++) {
+    for (let y = 0 - this.props.size / 2; y < this.props.size / 2; y++) {
+      for (let x = 0 - this.props.size / 2; x < this.props.size / 2; x++) {
+        const cellKey = `${x}|${y}`;
         let hue = 0;
         let alive = CELL_EMPTY;
 
-        if (this.state.grid[x][y]) {
-          hue = this.state.grid[x][y].hue;
-          alive = this.state.grid[x][y].alive;
+        if (this.state.cells[cellKey]) {
+          hue = this.state.cells[cellKey].hue;
+          alive = CELL_ALIVE;
         }
 
         cells.push(
@@ -248,7 +206,6 @@ class Life extends Component {
         );
       }
     }
-
     return (
       <div className="Life">
         <Grid size={this.props.size} zoom={this.props.zoom}>
