@@ -1,21 +1,22 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import React from "react";
+import { memo } from "react";
 import PropTypes from "prop-types";
 
 import { CELL_ALIVE } from "../lib/constants";
 
-const Cell = React.memo(props => {
+const Cell = memo(props => {
   const style = {
     backgroundColor:
       props.alive === CELL_ALIVE ? "hsl(" + props.hue + ", 100%, 50%)" : "#222",
-    height: 1 * props.zoom,
-    width: 1 * props.zoom
+    height: 1 * props.cellSize,
+    width: 1 * props.cellSize
   };
 
   return (
-    <i
+    <button
       css={css`
+        border: 0;
         display: block;
         text-align: center;
 
@@ -45,7 +46,7 @@ Cell.propTypes = {
   hue: PropTypes.number.isRequired,
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
-  zoom: PropTypes.number.isRequired,
+  cellSize: PropTypes.number.isRequired,
   handleCellClick: PropTypes.func.isRequired
 };
 

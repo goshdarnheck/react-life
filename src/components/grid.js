@@ -2,12 +2,12 @@
 import { jsx, css } from "@emotion/core";
 import PropTypes from "prop-types";
 
-const Grid = ({ size, zoom, children }) => {
+const Grid = ({ size, cellSize, children }) => {
   let style = {
-    width: size * zoom,
-    height: size * zoom,
-    gridTemplateColumns: `repeat(${size}, ${zoom}px)`,
-    gridTemplateRows: `repeat(${size}, ${zoom}px)`
+    width: size * cellSize,
+    height: size * cellSize,
+    gridTemplateColumns: `repeat(${size}, ${cellSize}px)`,
+    gridTemplateRows: `repeat(${size}, ${cellSize}px)`
   };
 
   return (
@@ -39,7 +39,7 @@ const Grid = ({ size, zoom, children }) => {
 
 Grid.propTypes = {
   size: PropTypes.number.isRequired,
-  zoom: PropTypes.number.isRequired
+  cellSize: PropTypes.number.isRequired
 };
 
 export default Grid;

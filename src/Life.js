@@ -1,10 +1,13 @@
-import React, { Component } from "react";
+/** @jsx jsx */
+import { jsx, css, Global as GlobalEmotion } from "@emotion/core";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import Sidebar from "./components/sidebar";
 import Grid from "./components/grid";
 import Cell from "./components/cell";
 import Controls from "./components/controls";
 import Info from "./components/info";
+import Footer from "./components/footer";
 import Examples from "./components/examples";
 import { CELL_EMPTY, CELL_ALIVE } from "./lib/constants";
 import examples from "./lib/examples";
@@ -13,7 +16,11 @@ class Life extends Component {
   state = {
     cells: {},
     speed: this.props.speed,
-    paused: this.props.paused
+    paused: this.props.paused,
+    generation: 0,
+    hue: 0,
+    births: 0,
+    deaths: 0
   };
 
   componentDidMount() {
@@ -61,7 +68,7 @@ class Life extends Component {
     let newCells = {};
 
     for (let i = 0, len = data.length; i < len; i++) {
-      newCells[`${data[i].x}|${data[i].y}`] = { hue: 0 };
+      newCells[`${data[i][0]}|${data[i][1]}`] = { hue: 0 };
     }
 
     this.setState({
@@ -136,7 +143,8 @@ class Life extends Component {
         hue,
         births,
         deaths,
-        paused: Object.entries(cells).length === 0 && cells.constructor === Object
+        paused:
+          Object.entries(cells).length === 0 && cells.constructor === Object
       };
     });
   }
@@ -179,10 +187,10 @@ class Life extends Component {
     return count;
   };
 
-  render() {
+  getCellList = () => {
     let cells = [];
 
-    for (let y = 0 - this.props.size / 2; y < this.props.size / 2; y++) {
+    for (let y = this.props.size / 2; y > 0 - this.props.size / 2; y--) {
       for (let x = 0 - this.props.size / 2; x < this.props.size / 2; x++) {
         const cellKey = `${x}|${y}`;
         let hue = 0;
@@ -201,35 +209,72 @@ class Life extends Component {
             x={x}
             y={y}
             alive={alive}
-            zoom={this.props.zoom}
+            cellSize={this.props.cellSize}
           />
         );
       }
     }
+
+    return cells;
+  };
+
+  render() {
     return (
-      <div className="Life">
-        <Grid size={this.props.size} zoom={this.props.zoom}>
-          {cells}
-        </Grid>
-        <Sidebar>
-          <Info
-            generation={this.state.generation}
-            speed={this.state.speed}
-            births={this.state.births}
-            deaths={this.state.deaths}
-          />
-          <Controls
-            handlePauseClick={this.handlePauseClick}
-            handlePlayClick={this.handlePlayClick}
-            handleClearClick={this.handleClearClick}
-            handleImportClick={this.handleImportClick}
-            handleExportClick={this.handleExportClick}
-            paused={this.state.paused}
-            generation={this.state.generation}
-            speed={this.state.speed}
-          />
-          <Examples handleSelectExample={this.handleSelectExample} />
-        </Sidebar>
+      <div>
+        <GlobalEmotion
+          styles={css`
+            html {
+              background-color: black;
+              box-sizing: border-box;
+              font-size: 62.5%;
+            }
+
+            *,
+            *:before,
+            :after {
+              box-sizing: inherit;
+            }
+
+            body {
+              color: white;
+              font-size: 1.6rem;
+              font-family: Consolas, monaco, "Andale Mono", AndaleMono,
+                "Lucida Console", "Courier New", monospace;
+              margin: 0;
+              padding: 0;
+            }
+          `}
+        />
+        <div
+          css={css`
+            display: flex;
+            height: 100vh;
+          `}
+        >
+          <Grid size={this.props.size} cellSize={this.props.cellSize}>
+            {this.getCellList()}
+          </Grid>
+          <Sidebar>
+            <Info
+              generation={this.state.generation}
+              speed={this.state.speed}
+              births={this.state.births}
+              deaths={this.state.deaths}
+            />
+            <Controls
+              handlePauseClick={this.handlePauseClick}
+              handlePlayClick={this.handlePlayClick}
+              handleClearClick={this.handleClearClick}
+              handleImportClick={this.handleImportClick}
+              handleExportClick={this.handleExportClick}
+              paused={this.state.paused}
+              generation={this.state.generation}
+              speed={this.state.speed}
+            />
+            <Examples handleSelectExample={this.handleSelectExample} />
+          </Sidebar>
+          <Footer />
+        </div>
       </div>
     );
   }
@@ -237,7 +282,7 @@ class Life extends Component {
 
 Life.propTypes = {
   size: PropTypes.number.isRequired,
-  zoom: PropTypes.number.isRequired,
+  cellSize: PropTypes.number.isRequired,
   speed: PropTypes.number,
   paused: PropTypes.bool
 };
