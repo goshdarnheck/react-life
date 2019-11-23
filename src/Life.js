@@ -187,6 +187,20 @@ class Life extends Component {
     return count;
   };
 
+  handleExport = () => {
+    let exportString = "[";
+
+    Object.keys(this.state.cells).forEach(cell => {
+      const cellArr = cell.split("|");
+      exportString += `[${cellArr[0]},${cellArr[1]}],`;
+    });
+
+    exportString = exportString.substring(0, exportString.length - 1);
+    exportString += "]";
+
+    console.log(exportString);
+  };
+
   getCellList = () => {
     let cells = [];
 
@@ -272,6 +286,7 @@ class Life extends Component {
               speed={this.state.speed}
             />
             <Examples handleSelectExample={this.handleSelectExample} />
+            {/* <button onClick={this.handleExport}>Export</button> */}
           </Sidebar>
           <Footer />
         </div>
