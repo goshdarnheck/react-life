@@ -286,7 +286,20 @@ class Life extends Component {
               speed={this.state.speed}
             />
             <Examples handleSelectExample={this.handleSelectExample} />
-            {/* <button onClick={this.handleExport}>Export</button> */}
+            <button
+              css={css`
+                opacity: 0.5;
+                transition: opacity 0.3s;
+                width: 100%;
+
+                &:hover {
+                  opacity: 1;
+                }
+              `}
+              onClick={this.handleExport}
+            >
+              Export to Console
+            </button>
           </Sidebar>
           <Footer />
         </div>

@@ -1,5 +1,3 @@
-- add more examples
-- make examples always drawn in the middle or just make'em better
 - make odd grid sizes possible
 - add test for calculateNeighbours()
 - add info on the rules of CGoL

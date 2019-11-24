@@ -6,6 +6,8 @@ const Sidebar = ({ children }) => (
     css={css`
       background-color: #f40;
       flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
       height: 100%;
       padding: 0 2rem;
       width: 20rem;
