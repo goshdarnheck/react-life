@@ -11,6 +11,7 @@ import Footer from "./components/footer";
 import Examples from "./components/examples";
 import { CELL_EMPTY, CELL_ALIVE } from "./lib/constants";
 import examples from "./lib/examples";
+import { calculateNeighbours } from "./lib/utils";
 
 class Life extends Component {
   state = {
@@ -109,7 +110,7 @@ class Life extends Component {
         for (let x = 0 - this.props.size / 2; x < this.props.size / 2; x++) {
           const cellKey = `${x}|${y}`;
           const wasAlive = prevState.cells[cellKey] ? true : false;
-          const neighbours = this.calculateNeighbours(prevState.cells, x, y);
+          const neighbours = calculateNeighbours(prevState.cells, x, y);
 
           switch (neighbours) {
             case 2:
@@ -148,44 +149,6 @@ class Life extends Component {
       };
     });
   }
-
-  calculateNeighbours = (cells, x, y) => {
-    let count = 0;
-
-    if (cells[`${x - 1}|${y}`]) {
-      count++;
-    }
-
-    if (cells[`${x + 1}|${y}`]) {
-      count++;
-    }
-
-    if (cells[`${x}|${y - 1}`]) {
-      count++;
-    }
-
-    if (cells[`${x}|${y + 1}`]) {
-      count++;
-    }
-
-    if (cells[`${x - 1}|${y - 1}`]) {
-      count++;
-    }
-
-    if (cells[`${x + 1}|${y + 1}`]) {
-      count++;
-    }
-
-    if (cells[`${x + 1}|${y - 1}`]) {
-      count++;
-    }
-
-    if (cells[`${x - 1}|${y + 1}`]) {
-      count++;
-    }
-
-    return count;
-  };
 
   handleExport = () => {
     let exportString = "[";
