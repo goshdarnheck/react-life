@@ -9,8 +9,8 @@ const Cell = memo(props => {
   const style = {
     backgroundColor:
       props.alive === CELL_ALIVE ? "hsl(" + props.hue + ", 100%, 50%)" : "#222",
-    height: 1 * props.cellSize,
-    width: 1 * props.cellSize
+    height: props.cellSize,
+    width: props.cellSize
   };
 
   return (
@@ -19,6 +19,7 @@ const Cell = memo(props => {
         border: 0;
         display: block;
         text-align: center;
+        padding: 0;
 
         &.dead {
           box-shadow: inset 0 0 0 1px #333;
