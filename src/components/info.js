@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 
-const Info = ({ generation, speed, births, deaths }) => (
+const Info = ({ generation, births, deaths }) => (
   <div
     css={css`
       ul {
@@ -30,9 +30,6 @@ const Info = ({ generation, speed, births, deaths }) => (
       </li>
       <li>
         <span>Deaths:</span> <span>{deaths}</span>
-      </li>
-      <li>
-        <span>Speed:</span> <span>{speed}ms</span>
       </li>
     </ul>
   </div>

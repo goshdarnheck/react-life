@@ -9,7 +9,7 @@ import Controls from "./components/controls";
 import Info from "./components/info";
 import Footer from "./components/footer";
 import Examples from "./components/examples";
-import { CELL_EMPTY, CELL_ALIVE } from "./lib/constants";
+import { SPEEDS } from "./lib/constants";
 import examples from "./lib/examples";
 import { calculateNeighbours } from "./lib/utils";
 
@@ -26,13 +26,16 @@ class Life extends Component {
 
   componentDidMount() {
     this.importData(examples[0].data);
+    this.setGenerationInterval();
+  }
 
+  setGenerationInterval = () => {
     this.timerID = setInterval(() => {
       if (this.state.paused === false) {
         this.runNextGeneration();
       }
     }, this.state.speed);
-  }
+  };
 
   componentWillUnmount() {
     clearInterval(this.timerID);
@@ -59,6 +62,18 @@ class Life extends Component {
       births: 0,
       deaths: 0
     });
+  };
+
+  changeSpeed = speed => {
+    if (SPEEDS.includes(speed)) {
+      clearInterval(this.timerID);
+      this.setState(
+        {
+          speed: speed
+        },
+        this.setGenerationInterval
+      );
+    }
   };
 
   handleSelectExample = example => {
@@ -171,11 +186,11 @@ class Life extends Component {
       for (let x = 0 - this.props.size / 2; x < this.props.size / 2; x++) {
         const cellKey = `${x}|${y}`;
         let hue = 0;
-        let alive = CELL_EMPTY;
+        let alive = false;
 
         if (this.state.cells[cellKey]) {
           hue = this.state.cells[cellKey].hue;
-          alive = CELL_ALIVE;
+          alive = true;
         }
 
         cells.push(
@@ -234,7 +249,6 @@ class Life extends Component {
           <Sidebar>
             <Info
               generation={this.state.generation}
-              speed={this.state.speed}
               births={this.state.births}
               deaths={this.state.deaths}
             />
@@ -247,6 +261,7 @@ class Life extends Component {
               paused={this.state.paused}
               generation={this.state.generation}
               speed={this.state.speed}
+              handleChangeSpeed={this.changeSpeed}
             />
             <Examples handleSelectExample={this.handleSelectExample} />
             <button

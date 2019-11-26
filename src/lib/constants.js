@@ -1,2 +1,1 @@
-export const CELL_EMPTY = 0;
-export const CELL_ALIVE = 1;
+export const SPEEDS = [100, 200, 300, 400, 500, 600, 700, 800, 1000];

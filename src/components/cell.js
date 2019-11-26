@@ -3,12 +3,10 @@ import { jsx, css } from "@emotion/core";
 import { memo } from "react";
 import PropTypes from "prop-types";
 
-import { CELL_ALIVE } from "../lib/constants";
-
 const Cell = memo(props => {
   const style = {
     backgroundColor:
-      props.alive === CELL_ALIVE ? "hsl(" + props.hue + ", 100%, 50%)" : "#222",
+      props.alive === true ? "hsl(" + props.hue + ", 100%, 50%)" : "#222",
     height: props.cellSize,
     width: props.cellSize
   };
@@ -43,7 +41,7 @@ const Cell = memo(props => {
 });
 
 Cell.propTypes = {
-  alive: PropTypes.number.isRequired,
+  alive: PropTypes.bool.isRequired,
   hue: PropTypes.number.isRequired,
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
