@@ -117,13 +117,18 @@ class Life extends Component {
   runNextGeneration() {
     this.setState(prevState => {
       const hue = prevState.hue < 360 ? prevState.hue + 3 : 0;
+      const yStart = Math.ceil(this.props.size / 2);
+      const yEnd = Math.ceil(0 - this.props.size / 2);
+      const xStart = Math.ceil(0 - this.props.size / 2);
+      const xEnd = Math.ceil(this.props.size / 2);
       let cells = {};
       let births = prevState.births;
       let deaths = prevState.deaths;
 
-      for (let y = 0 - this.props.size / 2; y < this.props.size / 2; y++) {
-        for (let x = 0 - this.props.size / 2; x < this.props.size / 2; x++) {
+      for (let y = yStart; y > yEnd; y--) {
+        for (let x = xStart; x < xEnd; x++) {
           const cellKey = `${x}|${y}`;
+
           const wasAlive = prevState.cells[cellKey] ? true : false;
           const neighbours = calculateNeighbours(prevState.cells, x, y);
 
@@ -180,10 +185,14 @@ class Life extends Component {
   };
 
   getCellList = () => {
+    const yStart = Math.ceil(this.props.size / 2);
+    const yEnd = Math.ceil(0 - this.props.size / 2);
+    const xStart = Math.ceil(0 - this.props.size / 2);
+    const xEnd = Math.ceil(this.props.size / 2);
     let cells = [];
 
-    for (let y = this.props.size / 2; y > 0 - this.props.size / 2; y--) {
-      for (let x = 0 - this.props.size / 2; x < this.props.size / 2; x++) {
+    for (let y = yStart; y > yEnd; y--) {
+      for (let x = xStart; x < xEnd; x++) {
         const cellKey = `${x}|${y}`;
         let hue = 0;
         let alive = false;
