@@ -1,4 +1,3 @@
-- add controls to adjust cell size
 - add controls to adjust grid size
 - create a default "reset" state
 - remove hue limit magic numbers

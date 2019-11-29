@@ -9,7 +9,7 @@ import Controls from "./components/controls";
 import Info from "./components/info";
 import Footer from "./components/footer";
 import Examples from "./components/examples";
-import { SPEEDS } from "./lib/constants";
+import { SPEEDS, CELL_SIZES } from "./lib/constants";
 import examples from "./lib/examples";
 import { calculateNeighbours } from "./lib/utils";
 
@@ -21,7 +21,8 @@ class Life extends Component {
     generation: 0,
     hue: 0,
     births: 0,
-    deaths: 0
+    deaths: 0,
+    cellSize: this.props.cellSize
   };
 
   componentDidMount() {
@@ -76,6 +77,14 @@ class Life extends Component {
     }
   };
 
+  changeCellSize = cellSize => {
+    if (CELL_SIZES.includes(cellSize)) {
+      this.setState({
+        cellSize: cellSize
+      });
+    }
+  };
+
   handleSelectExample = example => {
     this.importData(example);
   };
@@ -97,10 +106,9 @@ class Life extends Component {
     });
   };
 
-  handleCellClick = (x, y) => {
+  handleCellClick = (cellKey) => {
     this.setState(prevState => {
       let newCells = { ...prevState.cells };
-      const cellKey = `${x}|${y}`;
 
       if (prevState.cells[cellKey]) {
         delete newCells[cellKey];
@@ -205,12 +213,12 @@ class Life extends Component {
         cells.push(
           <Cell
             handleCellClick={this.handleCellClick}
-            key={`${x}-${y}`}
-            hue={hue}
+            key={cellKey}
+            cellKey={cellKey}
             x={x}
             y={y}
+            hue={hue}
             alive={alive}
-            cellSize={this.props.cellSize}
           />
         );
       }
@@ -252,7 +260,7 @@ class Life extends Component {
             height: 100vh;
           `}
         >
-          <Grid size={this.props.size} cellSize={this.props.cellSize}>
+          <Grid size={this.props.size} cellSize={this.state.cellSize}>
             {this.getCellList()}
           </Grid>
           <Sidebar>
@@ -271,6 +279,8 @@ class Life extends Component {
               generation={this.state.generation}
               speed={this.state.speed}
               handleChangeSpeed={this.changeSpeed}
+              handleChangeCellSize={this.changeCellSize}
+              cellSize={this.state.cellSize}
             />
             <Examples handleSelectExample={this.handleSelectExample} />
             <button

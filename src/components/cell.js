@@ -6,9 +6,7 @@ import PropTypes from "prop-types";
 const Cell = memo(props => {
   const style = {
     backgroundColor:
-      props.alive === true ? "hsl(" + props.hue + ", 100%, 50%)" : "#222",
-    height: props.cellSize,
-    width: props.cellSize
+      props.alive === true ? "hsl(" + props.hue + ", 100%, 50%)" : "#222"
   };
 
   return (
@@ -27,13 +25,20 @@ const Cell = memo(props => {
           box-shadow: none;
         }
 
+        &:focus {
+          outline: 1px dotted white;
+          z-index: 1;
+        }
+
         &:hover {
           cursor: none;
           outline: 2px dotted white;
           z-index: 1;
         }
       `}
-      onClick={() => props.handleCellClick(props.x, props.y)}
+      aria-label={`${props.x}, ${props.y}: ${props.alive ? "alive" : "dead"}`}
+      title={`${props.x}, ${props.y}`}
+      onClick={() => props.handleCellClick(props.cellKey)}
       className={props.alive ? "alive" : "dead"}
       style={style}
     />
@@ -43,9 +48,9 @@ const Cell = memo(props => {
 Cell.propTypes = {
   alive: PropTypes.bool.isRequired,
   hue: PropTypes.number.isRequired,
+  cellKey: PropTypes.string.isRequired,
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
-  cellSize: PropTypes.number.isRequired,
   handleCellClick: PropTypes.func.isRequired
 };
 
