@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { SPEEDS, CELL_SIZES } from "../lib/constants";
+import { SPEEDS, CELL_SIZES, GRID_SIZES } from "../lib/constants";
 
 const Controls = props => {
   const speedIndex = SPEEDS.indexOf(props.speed);
@@ -13,6 +13,12 @@ const Controls = props => {
     cellSizeIndex !== 0 ? CELL_SIZES[cellSizeIndex - 1] : null;
   const increaseCellSize =
     cellSizeIndex !== CELL_SIZES.length ? CELL_SIZES[cellSizeIndex + 1] : null;
+
+  const gridSizeIndex = GRID_SIZES.indexOf(props.gridSize);
+  const decreaseGridSize =
+    gridSizeIndex !== 0 ? GRID_SIZES[gridSizeIndex - 1] : null;
+  const increaseGridSize =
+    gridSizeIndex !== GRID_SIZES.length ? GRID_SIZES[gridSizeIndex + 1] : null;
 
   return (
     <div
@@ -80,6 +86,26 @@ const Controls = props => {
               aria-label="Increase Cell Size"
               disabled={!increaseCellSize}
               onClick={() => props.handleChangeCellSize(increaseCellSize)}
+            >
+              &gt;
+            </button>
+          </div>
+        </li>
+        <li>
+          <div>Grid Size</div>
+          <div className="spinner">
+            <button
+              aria-label="Decrease Grid Size"
+              disabled={!decreaseGridSize}
+              onClick={() => props.handleChangeGridSize(decreaseGridSize)}
+            >
+              &lt;
+            </button>
+            <span>{props.gridSize}⨯{props.gridSize}</span>
+            <button
+              aria-label="Increase Grid Size"
+              disabled={!increaseGridSize}
+              onClick={() => props.handleChangeGridSize(increaseGridSize)}
             >
               &gt;
             </button>

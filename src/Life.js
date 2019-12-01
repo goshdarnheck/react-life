@@ -9,7 +9,7 @@ import Controls from "./components/controls";
 import Info from "./components/info";
 import Footer from "./components/footer";
 import Examples from "./components/examples";
-import { SPEEDS, CELL_SIZES } from "./lib/constants";
+import { SPEEDS, CELL_SIZES, GRID_SIZES } from "./lib/constants";
 import examples from "./lib/examples";
 import { calculateNeighbours } from "./lib/utils";
 
@@ -22,7 +22,8 @@ class Life extends Component {
     hue: 0,
     births: 0,
     deaths: 0,
-    cellSize: this.props.cellSize
+    cellSize: this.props.cellSize,
+    gridSize: this.props.gridSize
   };
 
   componentDidMount() {
@@ -70,7 +71,7 @@ class Life extends Component {
       clearInterval(this.timerID);
       this.setState(
         {
-          speed: speed
+          speed
         },
         this.setGenerationInterval
       );
@@ -80,7 +81,15 @@ class Life extends Component {
   changeCellSize = cellSize => {
     if (CELL_SIZES.includes(cellSize)) {
       this.setState({
-        cellSize: cellSize
+        cellSize
+      });
+    }
+  };
+
+  changeGridSize = gridSize => {
+    if (GRID_SIZES.includes(gridSize)) {
+      this.setState({
+        gridSize
       });
     }
   };
@@ -106,7 +115,7 @@ class Life extends Component {
     });
   };
 
-  handleCellClick = (cellKey) => {
+  handleCellClick = cellKey => {
     this.setState(prevState => {
       let newCells = { ...prevState.cells };
 
@@ -125,10 +134,10 @@ class Life extends Component {
   runNextGeneration() {
     this.setState(prevState => {
       const hue = prevState.hue < 360 ? prevState.hue + 3 : 0;
-      const yStart = Math.ceil(this.props.size / 2);
-      const yEnd = Math.ceil(0 - this.props.size / 2);
-      const xStart = Math.ceil(0 - this.props.size / 2);
-      const xEnd = Math.ceil(this.props.size / 2);
+      const yStart = Math.ceil(this.state.gridSize / 2);
+      const yEnd = Math.ceil(0 - this.state.gridSize / 2);
+      const xStart = Math.ceil(0 - this.state.gridSize / 2);
+      const xEnd = Math.ceil(this.state.gridSize / 2);
       let cells = {};
       let births = prevState.births;
       let deaths = prevState.deaths;
@@ -193,10 +202,10 @@ class Life extends Component {
   };
 
   getCellList = () => {
-    const yStart = Math.ceil(this.props.size / 2);
-    const yEnd = Math.ceil(0 - this.props.size / 2);
-    const xStart = Math.ceil(0 - this.props.size / 2);
-    const xEnd = Math.ceil(this.props.size / 2);
+    const yStart = Math.ceil(this.state.gridSize / 2);
+    const yEnd = Math.ceil(0 - this.state.gridSize / 2);
+    const xStart = Math.ceil(0 - this.state.gridSize / 2);
+    const xEnd = Math.ceil(this.state.gridSize / 2);
     let cells = [];
 
     for (let y = yStart; y > yEnd; y--) {
@@ -260,7 +269,7 @@ class Life extends Component {
             height: 100vh;
           `}
         >
-          <Grid size={this.props.size} cellSize={this.state.cellSize}>
+          <Grid size={this.state.gridSize} cellSize={this.state.cellSize}>
             {this.getCellList()}
           </Grid>
           <Sidebar>
@@ -280,7 +289,9 @@ class Life extends Component {
               speed={this.state.speed}
               handleChangeSpeed={this.changeSpeed}
               handleChangeCellSize={this.changeCellSize}
+              handleChangeGridSize={this.changeGridSize}
               cellSize={this.state.cellSize}
+              gridSize={this.state.gridSize}
             />
             <Examples handleSelectExample={this.handleSelectExample} />
             <button
@@ -306,7 +317,7 @@ class Life extends Component {
 }
 
 Life.propTypes = {
-  size: PropTypes.number.isRequired,
+  gridSize: PropTypes.number.isRequired,
   cellSize: PropTypes.number.isRequired,
   speed: PropTypes.number,
   paused: PropTypes.bool
