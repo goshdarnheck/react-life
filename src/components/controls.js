@@ -17,7 +17,6 @@ const Controls = props => (
       }
     `}
   >
-    <h2>Controls</h2>
     <ul>
       <li
         css={css`
@@ -38,7 +37,32 @@ const Controls = props => (
             ❚❚ Pause
           </button>
         )}
-        <button disabled={!props.clearable} onClick={props.handleClearClick}>⨯ Clear</button>
+        <button disabled={!props.clearable} onClick={props.handleClearClick}>
+          ⨯ Clear
+        </button>
+      </li>
+      <li>
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+
+            button {
+              width: 48%;
+            }
+          `}
+        >
+          <button onClick={props.saveCells}>Save</button>
+          <button
+            onClick={props.loadCells}
+            disabled={
+              props.savedCells === null ||
+              Object.keys(props.savedCells).length === 0
+            }
+          >
+            Load
+          </button>
+        </div>
       </li>
       <li>
         <Stepper

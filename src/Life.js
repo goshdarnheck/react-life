@@ -29,7 +29,8 @@ class Life extends Component {
     births: 0,
     deaths: 0,
     cellSize: this.props.cellSize,
-    gridSize: this.props.gridSize
+    gridSize: this.props.gridSize,
+    savedCells: null
   };
 
   componentDidMount() {
@@ -242,6 +243,14 @@ class Life extends Component {
     return cells;
   };
 
+  saveCells = () => {
+    this.setState(prevState => ({ savedCells: prevState.cells }));
+  };
+
+  loadCells = () => {
+    this.setState(prevState => ({ cells: prevState.savedCells }));
+  };
+
   render() {
     return (
       <div>
@@ -301,6 +310,9 @@ class Life extends Component {
               clearable={
                 Object.keys(this.state.cells).length > 0 ? true : false
               }
+              savedCells={this.state.savedCells}
+              saveCells={this.saveCells}
+              loadCells={this.loadCells}
             />
             <Examples handleSelectExample={this.handleSelectExample} />
             <button

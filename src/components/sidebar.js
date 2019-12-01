@@ -33,12 +33,18 @@ const Sidebar = ({ children }) => (
 
       button:hover,
       button:focus {
-        outline: 1px dashed #999;
+        outline: 1px dotted #bbb;
         outline-offset: -1px;
       }
 
       button[disabled] {
+        cursor: default;
         opacity: 0.5;
+      }
+
+      button[disabled]:hover,
+      button[disabled]:focus {
+        outline: none;
       }
     `}
   >
