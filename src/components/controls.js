@@ -52,9 +52,18 @@ const Controls = props => (
             }
           `}
         >
-          <button onClick={props.saveCells}>Save</button>
+          <button
+            onClick={props.saveCells}
+            title="Save Cell State"
+            disabled={
+              props.cells === null || Object.keys(props.cells).length === 0
+            }
+          >
+            Save
+          </button>
           <button
             onClick={props.loadCells}
+            title="Load Cell State"
             disabled={
               props.savedCells === null ||
               Object.keys(props.savedCells).length === 0

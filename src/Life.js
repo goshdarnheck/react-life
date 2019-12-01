@@ -310,6 +310,7 @@ class Life extends Component {
               clearable={
                 Object.keys(this.state.cells).length > 0 ? true : false
               }
+              cells={this.state.cells}
               savedCells={this.state.savedCells}
               saveCells={this.saveCells}
               loadCells={this.loadCells}
