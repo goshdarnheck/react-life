@@ -1,132 +1,74 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import { SPEEDS, CELL_SIZES, GRID_SIZES } from "../lib/constants";
+import Stepper from "./stepper";
 
-const Controls = props => {
-  const speedIndex = SPEEDS.indexOf(props.speed);
-  const decreaseSpeed = speedIndex !== 0 ? SPEEDS[speedIndex - 1] : null;
-  const increaseSpeed =
-    speedIndex !== SPEEDS.length ? SPEEDS[speedIndex + 1] : null;
+const Controls = props => (
+  <div
+    css={css`
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
 
-  const cellSizeIndex = CELL_SIZES.indexOf(props.cellSize);
-  const decreaseCellSize =
-    cellSizeIndex !== 0 ? CELL_SIZES[cellSizeIndex - 1] : null;
-  const increaseCellSize =
-    cellSizeIndex !== CELL_SIZES.length ? CELL_SIZES[cellSizeIndex + 1] : null;
-
-  const gridSizeIndex = GRID_SIZES.indexOf(props.gridSize);
-  const decreaseGridSize =
-    gridSizeIndex !== 0 ? GRID_SIZES[gridSizeIndex - 1] : null;
-  const increaseGridSize =
-    gridSizeIndex !== GRID_SIZES.length ? GRID_SIZES[gridSizeIndex + 1] : null;
-
-  return (
-    <div
-      css={css`
-        ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-
-        button {
-          height: 2.4rem;
-          width: 100%;
-        }
-
-        .spinner {
+      li {
+        margin-bottom: 0.8em;
+      }
+    `}
+  >
+    <h2>Controls</h2>
+    <ul>
+      <li
+        css={css`
           display: flex;
+          justify-content: space-between;
 
           button {
-            width: 2em;
+            width: 48%;
           }
-
-          span {
-            flex-grow: 1;
-            text-align: center;
-            vertical-align: center;
-          }
-        }
-      `}
-    >
-      <h2>Controls</h2>
-      <ul>
-        <li>
-          <div>Speed</div>
-          <div className="spinner">
-            <button
-              aria-label="Decrease Speed"
-              disabled={!decreaseSpeed}
-              onClick={() => props.handleChangeSpeed(decreaseSpeed)}
-            >
-              &lt;
-            </button>
-            <span> {props.speed}ms</span>
-            <button
-              aria-label="Increase Speed"
-              disabled={!increaseSpeed}
-              onClick={() => props.handleChangeSpeed(increaseSpeed)}
-            >
-              &gt;
-            </button>
-          </div>
-        </li>
-        <li>
-          <div>Cell Size</div>
-          <div className="spinner">
-            <button
-              aria-label="Decrease Cell Size"
-              disabled={!decreaseCellSize}
-              onClick={() => props.handleChangeCellSize(decreaseCellSize)}
-            >
-              &lt;
-            </button>
-            <span> {props.cellSize}px</span>
-            <button
-              aria-label="Increase Cell Size"
-              disabled={!increaseCellSize}
-              onClick={() => props.handleChangeCellSize(increaseCellSize)}
-            >
-              &gt;
-            </button>
-          </div>
-        </li>
-        <li>
-          <div>Grid Size</div>
-          <div className="spinner">
-            <button
-              aria-label="Decrease Grid Size"
-              disabled={!decreaseGridSize}
-              onClick={() => props.handleChangeGridSize(decreaseGridSize)}
-            >
-              &lt;
-            </button>
-            <span>{props.gridSize}⨯{props.gridSize}</span>
-            <button
-              aria-label="Increase Grid Size"
-              disabled={!increaseGridSize}
-              onClick={() => props.handleChangeGridSize(increaseGridSize)}
-            >
-              &gt;
-            </button>
-          </div>
-        </li>
-        <li>
+        `}
+      >
+        {props.paused ? (
           <button onClick={props.handlePlayClick} disabled={!props.paused}>
             ► Play
           </button>
-        </li>
-        <li>
+        ) : (
           <button onClick={props.handlePauseClick} disabled={props.paused}>
             ❚❚ Pause
           </button>
-        </li>
-        <li>
-          <button onClick={props.handleClearClick}>⨯ Clear</button>
-        </li>
-      </ul>
-    </div>
-  );
-};
+        )}
+        <button disabled={!props.clearable} onClick={props.handleClearClick}>⨯ Clear</button>
+      </li>
+      <li>
+        <Stepper
+          label="Speed"
+          value={props.speed}
+          values={SPEEDS}
+          unit="ms"
+          changeValue={props.handleChangeSpeed}
+        />
+      </li>
+      <li>
+        <Stepper
+          label="Cell Size"
+          value={props.cellSize}
+          values={CELL_SIZES}
+          unit="px"
+          changeValue={props.handleChangeCellSize}
+        />
+      </li>
+      <li>
+        <Stepper
+          label="Grid Size"
+          value={props.gridSize}
+          formattedValue={`${props.gridSize}⨯${props.gridSize}`}
+          values={GRID_SIZES}
+          changeValue={props.handleChangeGridSize}
+        />
+      </li>
+    </ul>
+  </div>
+);
 
 export default Controls;

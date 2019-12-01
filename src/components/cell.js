@@ -14,8 +14,8 @@ const Cell = memo(props => {
       css={css`
         border: 0;
         display: block;
-        text-align: center;
         padding: 0;
+        text-align: center;
 
         &.dead {
           box-shadow: inset 0 0 0 1px #333;

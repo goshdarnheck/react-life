@@ -9,7 +9,12 @@ const Examples = ({ handleSelectExample }) => (
         list-style-type: none;
         max-height: 10em;
         overflow: auto;
-        padding: 0;
+        padding: 0 0.3em 0 0;
+      }
+
+      li:not(:last-child) {
+        letter-spacing: 0.1em;
+        margin-bottom: 0.2em;
       }
 
       button {

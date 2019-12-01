@@ -9,7 +9,13 @@ import Controls from "./components/controls";
 import Info from "./components/info";
 import Footer from "./components/footer";
 import Examples from "./components/examples";
-import { SPEEDS, CELL_SIZES, GRID_SIZES } from "./lib/constants";
+import {
+  SPEEDS,
+  CELL_SIZES,
+  GRID_SIZES,
+  MAX_HUE,
+  HUE_STEP
+} from "./lib/constants";
 import examples from "./lib/examples";
 import { calculateNeighbours } from "./lib/utils";
 
@@ -133,7 +139,7 @@ class Life extends Component {
 
   runNextGeneration() {
     this.setState(prevState => {
-      const hue = prevState.hue < 360 ? prevState.hue + 3 : 0;
+      const hue = prevState.hue < MAX_HUE ? prevState.hue + HUE_STEP : 0;
       const yStart = Math.ceil(this.state.gridSize / 2);
       const yEnd = Math.ceil(0 - this.state.gridSize / 2);
       const xStart = Math.ceil(0 - this.state.gridSize / 2);
@@ -292,6 +298,9 @@ class Life extends Component {
               handleChangeGridSize={this.changeGridSize}
               cellSize={this.state.cellSize}
               gridSize={this.state.gridSize}
+              clearable={
+                Object.keys(this.state.cells).length > 0 ? true : false
+              }
             />
             <Examples handleSelectExample={this.handleSelectExample} />
             <button
