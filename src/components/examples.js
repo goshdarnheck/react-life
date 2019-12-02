@@ -7,7 +7,7 @@ const Examples = ({ handleSelectExample }) => (
     css={css`
       ul {
         list-style-type: none;
-        max-height: 10em;
+        max-height: 10.2em;
         overflow: auto;
         padding: 0 0.3em 0 0;
       }

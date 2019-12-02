@@ -4,7 +4,7 @@ import { jsx, css } from "@emotion/core";
 const Sidebar = ({ children }) => (
   <div
     css={css`
-      background-color: #f40;
+      background-color: #645b55;
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
@@ -19,11 +19,12 @@ const Sidebar = ({ children }) => (
 
       button {
         background: #333;
-        border: 0.2em #555 solid;
+        border: 3px #bbb0aa solid;
         color: #fff;
         cursor: pointer;
         display: inline-block;
         margin: 0;
+        padding: 0 0.5em 0.14em 0.5em;
         text-align: center;
         text-decoration: none;
         transition: background 250ms ease-in-out, transform 150ms ease;
@@ -33,8 +34,8 @@ const Sidebar = ({ children }) => (
 
       button:hover,
       button:focus {
-        outline: 1px dotted #bbb;
-        outline-offset: -1px;
+        outline: 1px solid #fff;
+        outline-offset: -2px;
       }
 
       button[disabled] {

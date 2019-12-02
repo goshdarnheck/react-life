@@ -8,13 +8,17 @@ const Info = ({ generation, births, deaths }) => (
         font-size: 1.4em;
         letter-spacing: 0.1em;
         text-align: center;
-        margin-bottom: 1.2em;
+        margin-bottom: 0.8em;
       }
-
+      
       ul {
-        list-style-type: none;
-        padding: 0;
+        background-color: #000;
+        color: #fff;
         display: table;
+        list-style-type: none;
+        margin-bottom: 1.2em;
+        padding: 0.5em 0;
+        width: 100%;
       }
 
       li {
@@ -26,6 +30,7 @@ const Info = ({ generation, births, deaths }) => (
       }
 
       li span:first-of-type {
+        min-width: 4em;
         padding-right: 1em;
         text-align: right;
       }
