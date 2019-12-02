@@ -14,6 +14,7 @@ const Sidebar = ({ children }) => (
       h2 {
         font-size: 1.2em;
         letter-spacing: 0.1em;
+        text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
       }
 
       button {

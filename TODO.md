@@ -1,7 +1,6 @@
 - export state to text
 - import state from text
 - check/fix/add: propTypes and default props
-- make responsize (mobile)
 
 ## FUTURE
 

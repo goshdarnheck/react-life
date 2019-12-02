@@ -141,7 +141,8 @@ class Life extends Component {
 
   runNextGeneration() {
     this.setState(prevState => {
-      const hue = prevState.hue < MAX_HUE ? prevState.hue + HUE_STEP : 0;
+      const newHue = prevState.hue + HUE_STEP;
+      const hue = newHue < MAX_HUE ? newHue : newHue - MAX_HUE;
       const yStart = Math.ceil(this.state.gridSize / 2);
       const yEnd = Math.ceil(0 - this.state.gridSize / 2);
       const xStart = Math.ceil(0 - this.state.gridSize / 2);
@@ -196,17 +197,21 @@ class Life extends Component {
   }
 
   handleExport = () => {
-    let exportString = "[";
+    const cellKeys = Object.keys(this.state.cells);
 
-    Object.keys(this.state.cells).forEach(cell => {
-      const cellArr = cell.split("|");
-      exportString += `[${cellArr[0]},${cellArr[1]}],`;
-    });
+    if (cellKeys.length > 0) {
+      let exportString = "[";
 
-    exportString = exportString.substring(0, exportString.length - 1);
-    exportString += "]";
+      cellKeys.forEach(cell => {
+        const cellArr = cell.split("|");
+        exportString += `[${cellArr[0]},${cellArr[1]}],`;
+      });
 
-    console.log(exportString);
+      exportString = exportString.substring(0, exportString.length - 1);
+      exportString += "]";
+
+      console.log(exportString);
+    }
   };
 
   getCellList = () => {

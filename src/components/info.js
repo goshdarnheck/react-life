@@ -7,10 +7,11 @@ const Info = ({ generation, births, deaths }) => (
       h1 {
         font-size: 1.4em;
         letter-spacing: 0.1em;
-        text-align: center;
         margin-bottom: 0.8em;
+        text-align: center;
+        text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
       }
-      
+
       ul {
         background-color: #000;
         color: #fff;
