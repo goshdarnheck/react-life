@@ -10,7 +10,6 @@ const Sidebar = ({ children }) => (
       flex-shrink: 0;
       height: 100%;
       padding: 0 1em;
-      width: 24rem;
 
       h2 {
         font-size: 1.2em;
@@ -46,6 +45,11 @@ const Sidebar = ({ children }) => (
       button[disabled]:hover,
       button[disabled]:focus {
         outline: none;
+      }
+
+      @media only screen and (min-width: 768px) {
+        min-height: 100vh;
+        width: 24rem;
       }
     `}
   >

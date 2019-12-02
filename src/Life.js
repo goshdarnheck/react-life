@@ -8,6 +8,7 @@ import Cell from "./components/cell";
 import Controls from "./components/controls";
 import Info from "./components/info";
 import Footer from "./components/footer";
+import ImportExport from "./components/importexport";
 import Examples from "./components/examples";
 import {
   SPEEDS,
@@ -248,7 +249,14 @@ class Life extends Component {
   };
 
   loadCells = () => {
-    this.setState(prevState => ({ cells: prevState.savedCells }));
+    this.setState(prevState => ({
+      cells: prevState.savedCells,
+      hue: 0,
+      generation: 0,
+      paused: true,
+      births: 0,
+      deaths: 0
+    }));
   };
 
   render() {
@@ -281,7 +289,12 @@ class Life extends Component {
         <div
           css={css`
             display: flex;
-            height: 100vh;
+            flex-direction: column;
+
+            @media only screen and (min-width: 768px) {
+              min-height: 100vh;
+              flex-direction: row;
+            }
           `}
         >
           <Grid size={this.state.gridSize} cellSize={this.state.cellSize}>
@@ -316,20 +329,7 @@ class Life extends Component {
               loadCells={this.loadCells}
             />
             <Examples handleSelectExample={this.handleSelectExample} />
-            <button
-              css={css`
-                opacity: 0.5;
-                transition: opacity 0.3s;
-                width: 100%;
-
-                &:hover {
-                  opacity: 1;
-                }
-              `}
-              onClick={this.handleExport}
-            >
-              Export to Console
-            </button>
+            <ImportExport handleExport={this.handleExport} />
           </Sidebar>
           <Footer />
         </div>

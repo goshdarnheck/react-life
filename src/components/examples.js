@@ -20,9 +20,13 @@ const Examples = ({ handleSelectExample }) => (
       button {
         width: 100%;
       }
+
+      small {
+        font-size: 0.4em;
+      }
     `}
   >
-    <h2>Examples</h2>
+    <h2>Examples <small>(Click to load)</small></h2>
     <ul>
       {examples.map((example, i) => {
         return (

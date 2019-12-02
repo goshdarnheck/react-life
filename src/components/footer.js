@@ -5,9 +5,7 @@ import { ReactComponent as BackArrow } from "../images/back-arrow.svg";
 const Footer = () => (
   <div
     css={css`
-      bottom: 0;
       padding: 0.5em;
-      position: absolute;
 
       a {
         color: #fff;
@@ -39,11 +37,25 @@ const Footer = () => (
         content: "|";
         padding: 0 0.5em;
       }
+
+      @media only screen and (min-width: 768px) {
+        bottom: 0;
+        position: absolute;
+      }
     `}
   >
     <ul>
-      <li><a href="https://eyehack.com"><BackArrow />Eyehack</a></li>
-      <li><a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Conway's Game of Life</a></li>
+      <li>
+        <a href="https://eyehack.com">
+          <BackArrow />
+          Eyehack
+        </a>
+      </li>
+      <li>
+        <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">
+          Conway's Game of Life
+        </a>
+      </li>
     </ul>
   </div>
 );

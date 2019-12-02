@@ -30,6 +30,10 @@ const Grid = ({ size, cellSize, children }) => {
           border: 1px solid #333;
           display: grid;
         }
+
+        @media only screen and (min-width: 768px) {
+          min-height: 100vh;
+        }
       `}
     >
       <div style={style}>{children}</div>
