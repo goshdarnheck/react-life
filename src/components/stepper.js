@@ -34,7 +34,7 @@ const Stepper = ({
           span {
             background-color: #333;
             flex-grow: 1;
-            line-height: 1.5em;
+            line-height: 1.6em;
             text-align: center;
             vertical-align: center;
           }

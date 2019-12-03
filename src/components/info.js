@@ -14,6 +14,7 @@ const Info = ({ generation, births, deaths }) => (
 
       ul {
         background-color: #000;
+        border-radius: 0.2em;
         color: #fff;
         display: table;
         list-style-type: none;

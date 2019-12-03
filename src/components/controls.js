@@ -42,38 +42,6 @@ const Controls = props => (
         </button>
       </li>
       <li>
-        <div
-          css={css`
-            display: flex;
-            justify-content: space-between;
-
-            button {
-              width: 48%;
-            }
-          `}
-        >
-          <button
-            onClick={props.saveCells}
-            title="Save Cell State"
-            disabled={
-              props.cells === null || Object.keys(props.cells).length === 0
-            }
-          >
-            Save
-          </button>
-          <button
-            onClick={props.loadCells}
-            title="Load Cell State"
-            disabled={
-              props.savedCells === null ||
-              Object.keys(props.savedCells).length === 0
-            }
-          >
-            Load
-          </button>
-        </div>
-      </li>
-      <li>
         <Stepper
           label="Speed"
           value={props.speed}

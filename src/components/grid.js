@@ -14,7 +14,6 @@ const Grid = ({ size, cellSize, children }) => {
     <div
       css={css`
         align-items: center;
-        background-color: #222;
         display: flex;
         flex-grow: 1;
         height: 100%;

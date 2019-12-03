@@ -8,7 +8,7 @@ import Cell from "./components/cell";
 import Controls from "./components/controls";
 import Info from "./components/info";
 import Footer from "./components/footer";
-import ImportExport from "./components/importexport";
+import DataControls from "./components/data-controls";
 import Examples from "./components/examples";
 import {
   SPEEDS,
@@ -31,7 +31,8 @@ class Life extends Component {
     deaths: 0,
     cellSize: this.props.cellSize,
     gridSize: this.props.gridSize,
-    savedCells: null
+    savedCells: null,
+    exportData: ""
   };
 
   componentDidMount() {
@@ -200,19 +201,28 @@ class Life extends Component {
     const cellKeys = Object.keys(this.state.cells);
 
     if (cellKeys.length > 0) {
-      let exportString = "[";
+      let exportData = "[";
 
       cellKeys.forEach(cell => {
         const cellArr = cell.split("|");
-        exportString += `[${cellArr[0]},${cellArr[1]}],`;
+        exportData += `[${cellArr[0]},${cellArr[1]}],`;
       });
 
-      exportString = exportString.substring(0, exportString.length - 1);
-      exportString += "]";
+      exportData = exportData.substring(0, exportData.length - 1);
+      exportData += "]";
 
-      console.log(exportString);
+      this.setState({ exportData });
     }
   };
+
+  handleImport = data => {
+    // TODO: data is coming from user so it should be validated
+    this.importData(JSON.parse(data));
+  }
+
+  handleDataChange = (data) => {
+    this.setState({ exportData: data });
+  }
 
   getCellList = () => {
     const yStart = Math.ceil(this.state.gridSize / 2);
@@ -266,7 +276,11 @@ class Life extends Component {
 
   render() {
     return (
-      <div>
+      <div
+        css={css`
+          position: relative;
+        `}
+      >
         <GlobalEmotion
           styles={css`
             html {
@@ -283,6 +297,7 @@ class Life extends Component {
 
             body {
               color: white;
+              background-color: #222;
               font-size: 1.6rem;
               font-family: Consolas, monaco, "Andale Mono", AndaleMono,
                 "Lucida Console", "Courier New", monospace;
@@ -297,8 +312,8 @@ class Life extends Component {
             flex-direction: column;
 
             @media only screen and (min-width: 768px) {
-              min-height: 100vh;
               flex-direction: row;
+              min-height: 100vh;
             }
           `}
         >
@@ -334,7 +349,16 @@ class Life extends Component {
               loadCells={this.loadCells}
             />
             <Examples handleSelectExample={this.handleSelectExample} />
-            <ImportExport handleExport={this.handleExport} />
+            <DataControls
+              cells={this.state.cells}
+              savedCells={this.state.savedCells}
+              saveCells={this.saveCells}
+              loadCells={this.loadCells}
+              handleExport={this.handleExport}
+              handleImport={this.handleImport}
+              handleDataChange={this.handleDataChange}
+              exportData={this.state.exportData}
+            />
           </Sidebar>
           <Footer />
         </div>
