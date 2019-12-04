@@ -223,15 +223,16 @@ class Life extends Component {
 
     try {
       parsedData = JSON.parse(data);
+      
+      if (parsedData && Array.isArray(parsedData)) {
+        this.importData(parsedData);
+      } else {
+        alert(parseErrorMessage);
+      }
     } catch (e) {
       alert(parseErrorMessage);
     }
 
-    if (parsedData && Array.isArray(parsedData)) {
-      this.importData(parsedData);
-    } else {
-      alert(parseErrorMessage);
-    }
   };
 
   handleDataChange = data => {

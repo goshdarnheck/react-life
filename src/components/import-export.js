@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import PropTypes from "prop-types";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const ImportExport = ({
   handleExport,
@@ -46,9 +47,20 @@ const ImportExport = ({
       <li>
         <div>
           <button onClick={handleExport}>Export</button>
-          <button disabled={!exportData} onClick={() => handleImport(exportData)}>Import</button>
+          <button
+            disabled={!exportData}
+            onClick={() => handleImport(exportData)}
+          >
+            Import
+          </button>
         </div>
-        <textarea onChange={e => handleDataChange(e.target.value)} value={exportData} />
+        <textarea
+          onChange={e => handleDataChange(e.target.value)}
+          value={exportData}
+        />
+        <CopyToClipboard text={exportData}>
+          <button disabled={!exportData}>Copy to clipboard</button>
+        </CopyToClipboard>
       </li>
     </ul>
   </div>
