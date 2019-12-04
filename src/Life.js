@@ -59,9 +59,10 @@ class Life extends Component {
   };
 
   handlePlayClick = () => {
-    this.setState({
-      paused: false
-    });
+    this.setState(prevState => ({
+      paused: false,
+      savedCells: prevState.cells
+    }));
   };
 
   handleClearClick = () => {
@@ -216,13 +217,26 @@ class Life extends Component {
   };
 
   handleImport = data => {
-    // TODO: data is coming from user so it should be validated
-    this.importData(JSON.parse(data));
-  }
+    const parseErrorMessage =
+      "Can't parse import data. An example of the expected format: [[0,0],[0,1]]";
+    let parsedData = null;
 
-  handleDataChange = (data) => {
+    try {
+      parsedData = JSON.parse(data);
+    } catch (e) {
+      alert(parseErrorMessage);
+    }
+
+    if (parsedData && Array.isArray(parsedData)) {
+      this.importData(parsedData);
+    } else {
+      alert(parseErrorMessage);
+    }
+  };
+
+  handleDataChange = data => {
     this.setState({ exportData: data });
-  }
+  };
 
   getCellList = () => {
     const yStart = Math.ceil(this.state.gridSize / 2);
@@ -343,17 +357,11 @@ class Life extends Component {
               clearable={
                 Object.keys(this.state.cells).length > 0 ? true : false
               }
-              cells={this.state.cells}
               savedCells={this.state.savedCells}
-              saveCells={this.saveCells}
               loadCells={this.loadCells}
             />
             <Examples handleSelectExample={this.handleSelectExample} />
             <DataControls
-              cells={this.state.cells}
-              savedCells={this.state.savedCells}
-              saveCells={this.saveCells}
-              loadCells={this.loadCells}
               handleExport={this.handleExport}
               handleImport={this.handleImport}
               handleDataChange={this.handleDataChange}

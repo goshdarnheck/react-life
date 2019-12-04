@@ -2,10 +2,6 @@
 import { jsx, css } from "@emotion/core";
 
 const DataControls = ({
-  cells,
-  saveCells,
-  loadCells,
-  savedCells,
   handleExport,
   handleImport,
   handleDataChange,
@@ -24,7 +20,7 @@ const DataControls = ({
       li > div:first-of-type {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 0.8em;
+        margin-bottom: 0.5em;
 
         button {
           width: 48%;
@@ -36,6 +32,10 @@ const DataControls = ({
       }
 
       textarea {
+        border: 3px #bbb0aa solid;
+        font-size: 0.6em;
+        height: 7em;
+        margin-bottom: 0.5em;
         width: 100%;
       }
     `}
@@ -44,31 +44,10 @@ const DataControls = ({
     <ul>
       <li>
         <div>
-          <button
-            onClick={saveCells}
-            title="Save Cell State"
-            disabled={cells === null || Object.keys(cells).length === 0}
-          >
-            Save
-          </button>
-          <button
-            onClick={loadCells}
-            title="Load Cell State"
-            disabled={
-              savedCells === null || Object.keys(savedCells).length === 0
-            }
-          >
-            Load
-          </button>
-        </div>
-      </li>
-      <li>
-        <div>
           <button onClick={handleExport}>Export</button>
-          <button onClick={() => handleImport(exportData)}>Import</button>
+          <button disabled={!exportData} onClick={() => handleImport(exportData)}>Import</button>
         </div>
         <textarea onChange={e => handleDataChange(e.target.value)} value={exportData} />
-        <button>Clear</button>
       </li>
     </ul>
   </div>

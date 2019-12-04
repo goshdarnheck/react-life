@@ -24,10 +24,19 @@ const Controls = props => (
           justify-content: space-between;
 
           button {
-            width: 48%;
+            width: 32%;
           }
         `}
       >
+        <button
+            onClick={props.loadCells}
+            title="Reload last paused cell state"
+            disabled={
+              props.savedCells === null || Object.keys(props.savedCells).length === 0
+            }
+          >
+            ⟲ Back
+          </button>
         {props.paused ? (
           <button onClick={props.handlePlayClick} disabled={!props.paused}>
             ► Play
@@ -37,7 +46,7 @@ const Controls = props => (
             ❚❚ Pause
           </button>
         )}
-        <button disabled={!props.clearable} onClick={props.handleClearClick}>
+        <button title="Clear grid" disabled={!props.clearable} onClick={props.handleClearClick}>
           ⨯ Clear
         </button>
       </li>
