@@ -8,7 +8,7 @@ import Cell from "./components/cell";
 import Controls from "./components/controls";
 import Info from "./components/info";
 import Footer from "./components/footer";
-import DataControls from "./components/data-controls";
+import ImportExport from "./components/import-export";
 import Examples from "./components/examples";
 import {
   SPEEDS,
@@ -344,10 +344,8 @@ class Life extends Component {
               handlePauseClick={this.handlePauseClick}
               handlePlayClick={this.handlePlayClick}
               handleClearClick={this.handleClearClick}
-              handleImportClick={this.handleImportClick}
               handleExportClick={this.handleExportClick}
               paused={this.state.paused}
-              generation={this.state.generation}
               speed={this.state.speed}
               handleChangeSpeed={this.changeSpeed}
               handleChangeCellSize={this.changeCellSize}
@@ -358,10 +356,10 @@ class Life extends Component {
                 Object.keys(this.state.cells).length > 0 ? true : false
               }
               savedCells={this.state.savedCells}
-              loadCells={this.loadCells}
+              handleLoadCells={this.loadCells}
             />
             <Examples handleSelectExample={this.handleSelectExample} />
-            <DataControls
+            <ImportExport
               handleExport={this.handleExport}
               handleImport={this.handleImport}
               handleDataChange={this.handleDataChange}

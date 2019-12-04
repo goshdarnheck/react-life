@@ -1,3 +1,4 @@
+- https://www.npmjs.com/package/react-copy-to-clipboard
 - check/fix/add: propTypes and default props
 
 ## FUTURE

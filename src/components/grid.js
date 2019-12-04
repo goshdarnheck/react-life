@@ -42,6 +42,7 @@ const Grid = ({ size, cellSize, children }) => {
 };
 
 Grid.propTypes = {
+  children: PropTypes.node.isRequired,
   size: PropTypes.number.isRequired,
   cellSize: PropTypes.number.isRequired
 };

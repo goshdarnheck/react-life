@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
+import PropTypes from "prop-types";
 import { SPEEDS, CELL_SIZES, GRID_SIZES } from "../lib/constants";
 import Stepper from "./stepper";
 
@@ -29,7 +30,7 @@ const Controls = props => (
         `}
       >
         <button
-            onClick={props.loadCells}
+            onClick={props.handleLoadCells}
             title="Reload last paused cell state"
             disabled={
               props.savedCells === null || Object.keys(props.savedCells).length === 0
@@ -80,5 +81,22 @@ const Controls = props => (
     </ul>
   </div>
 );
+
+Controls.propTypes = {
+  handleLoadCells: PropTypes.func.isRequired,
+  handlePlayClick: PropTypes.func.isRequired,
+  handlePauseClick: PropTypes.func.isRequired,
+  handleClearClick: PropTypes.func.isRequired,
+  handleChangeSpeed: PropTypes.func.isRequired,
+  handleChangeCellSize: PropTypes.func.isRequired,
+  handleChangeGridSize: PropTypes.func.isRequired,
+  paused: PropTypes.bool.isRequired,
+  speed: PropTypes.number.isRequired,
+  cellSize: PropTypes.number.isRequired,
+  gridSize: PropTypes.number.isRequired,
+  clearable: PropTypes.bool.isRequired,
+  savedCells: PropTypes.object
+};
+
 
 export default Controls;

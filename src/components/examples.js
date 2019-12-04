@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import examples from "../lib/examples";
+import PropTypes from "prop-types";
 
 const Examples = ({ handleSelectExample }) => (
   <div
@@ -40,5 +41,9 @@ const Examples = ({ handleSelectExample }) => (
     </ul>
   </div>
 );
+
+Examples.propTypes = {
+  handleSelectExample: PropTypes.func.isRequired
+};
 
 export default Examples;

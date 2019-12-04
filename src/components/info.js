@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
+import PropTypes from "prop-types";
 
 const Info = ({ generation, births, deaths }) => (
   <div
@@ -59,5 +60,11 @@ const Info = ({ generation, births, deaths }) => (
     </ul>
   </div>
 );
+
+Info.propTypes = {
+  generation: PropTypes.number.isRequired,
+  births: PropTypes.number.isRequired,
+  deaths: PropTypes.number.isRequired
+};
 
 export default Info;

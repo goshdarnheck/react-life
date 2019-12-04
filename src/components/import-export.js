@@ -1,7 +1,8 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
+import PropTypes from "prop-types";
 
-const DataControls = ({
+const ImportExport = ({
   handleExport,
   handleImport,
   handleDataChange,
@@ -53,4 +54,11 @@ const DataControls = ({
   </div>
 );
 
-export default DataControls;
+ImportExport.propTypes = {
+  handleExport: PropTypes.func.isRequired,
+  handleImport: PropTypes.func.isRequired,
+  handleDataChange: PropTypes.func.isRequired,
+  exportData: PropTypes.string
+};
+
+export default ImportExport;

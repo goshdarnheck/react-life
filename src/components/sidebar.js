@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
+import PropTypes from "prop-types";
 
 const Sidebar = ({ children }) => (
   <div
@@ -57,5 +58,9 @@ const Sidebar = ({ children }) => (
     {children}
   </div>
 );
+
+Sidebar.propTypes = {
+  children: PropTypes.node.isRequired
+};
 
 export default Sidebar;

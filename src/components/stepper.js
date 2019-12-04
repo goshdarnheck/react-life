@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
+import PropTypes from "prop-types";
 
 const Stepper = ({
   label,
@@ -61,6 +62,15 @@ const Stepper = ({
       </div>
     </div>
   );
+};
+
+Stepper.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+  formattedValue: PropTypes.string,
+  values: PropTypes.array.isRequired,
+  unit: PropTypes.string,
+  changeValue: PropTypes.func.isRequired
 };
 
 export default Stepper;
