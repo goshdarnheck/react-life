@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cell renders correctly when alive 1`] = `
+<button
+  aria-label="0, 0: alive"
+  className="alive css-1uidj8q"
+  onClick={[Function]}
+  style={
+    Object {
+      "backgroundColor": "hsl(0, 100%, 50%)",
+    }
+  }
+  title="0, 0"
+/>
+`;
+
+exports[`Cell renders correctly when not alive 1`] = `
+<button
+  aria-label="0, 0: dead"
+  className="dead css-1uidj8q"
+  onClick={[Function]}
+  style={
+    Object {
+      "backgroundColor": "#222",
+    }
+  }
+  title="0, 0"
+/>
+`;
