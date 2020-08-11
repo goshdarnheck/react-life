@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx, css, Global as GlobalEmotion } from "@emotion/core";
 import { Component } from "react";
-import PropTypes from "prop-types";
 import Sidebar from "./components/sidebar";
 import Grid from "./components/grid";
 import Cell from "./components/cell";
@@ -15,13 +14,35 @@ import {
   CELL_SIZES,
   GRID_SIZES,
   MAX_HUE,
-  HUE_STEP
+  HUE_STEP,
 } from "./lib/constants";
 import examples from "./lib/examples";
 import { calculateNeighbours } from "./lib/utils";
 
-class Life extends Component {
-  state = {
+interface LifeProps {
+  speed: number;
+  paused: boolean;
+  cellSize: number;
+  gridSize: number;
+}
+
+interface LifeState {
+  cells: { [key: string]: { hue: number } };
+  speed: number;
+  paused: boolean;
+  generation: number;
+  hue: number;
+  births: number;
+  deaths: number;
+  cellSize: number;
+  gridSize: number;
+  savedCells: { [key: string]: { hue: number } };
+  exportData: string;
+}
+
+class Life extends Component<LifeProps, LifeState> {
+  timerID?: number = undefined;
+  state: Readonly<LifeState> = {
     cells: {},
     speed: this.props.speed,
     paused: this.props.paused,
@@ -31,8 +52,8 @@ class Life extends Component {
     deaths: 0,
     cellSize: this.props.cellSize,
     gridSize: this.props.gridSize,
-    savedCells: null,
-    exportData: ""
+    savedCells: {},
+    exportData: "",
   };
 
   componentDidMount() {
@@ -41,7 +62,7 @@ class Life extends Component {
   }
 
   setGenerationInterval = () => {
-    this.timerID = setInterval(() => {
+    this.timerID = window.setInterval(() => {
       if (this.state.paused === false) {
         this.runNextGeneration();
       }
@@ -49,19 +70,19 @@ class Life extends Component {
   };
 
   componentWillUnmount() {
-    clearInterval(this.timerID);
+    window.clearInterval(this.timerID);
   }
 
   handlePauseClick = () => {
     this.setState({
-      paused: true
+      paused: true,
     });
   };
 
   handlePlayClick = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       paused: false,
-      savedCells: prevState.cells
+      savedCells: prevState.cells,
     }));
   };
 
@@ -72,44 +93,44 @@ class Life extends Component {
       generation: 0,
       hue: 0,
       births: 0,
-      deaths: 0
+      deaths: 0,
     });
   };
 
-  changeSpeed = speed => {
+  changeSpeed = (speed: number) => {
     if (SPEEDS.includes(speed)) {
       clearInterval(this.timerID);
       this.setState(
         {
-          speed
+          speed,
         },
         this.setGenerationInterval
       );
     }
   };
 
-  changeCellSize = cellSize => {
+  changeCellSize = (cellSize: number) => {
     if (CELL_SIZES.includes(cellSize)) {
       this.setState({
-        cellSize
+        cellSize,
       });
     }
   };
 
-  changeGridSize = gridSize => {
+  changeGridSize = (gridSize: number) => {
     if (GRID_SIZES.includes(gridSize)) {
       this.setState({
-        gridSize
+        gridSize,
       });
     }
   };
 
-  handleSelectExample = example => {
+  handleSelectExample = (example: number[][]) => {
     this.importData(example);
   };
 
-  importData = data => {
-    let newCells = {};
+  importData = (data: number[][]) => {
+    let newCells: { [key: string]: { hue: number } } = {};
 
     for (let i = 0, len = data.length; i < len; i++) {
       newCells[`${data[i][0]}|${data[i][1]}`] = { hue: 0 };
@@ -121,35 +142,35 @@ class Life extends Component {
       generation: 0,
       paused: true,
       births: 0,
-      deaths: 0
+      deaths: 0,
     });
   };
 
-  handleCellClick = cellKey => {
-    this.setState(prevState => {
+  handleCellClick = (cellKey: string) => {
+    this.setState((prevState: LifeState) => {
       let newCells = { ...prevState.cells };
 
-      if (prevState.cells[cellKey]) {
+      if (prevState.cells && prevState.cells[cellKey]) {
         delete newCells[cellKey];
       } else {
         newCells[cellKey] = { hue: 0 };
       }
 
       return {
-        cells: newCells
+        cells: newCells,
       };
     });
   };
 
   runNextGeneration() {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       const newHue = prevState.hue + HUE_STEP;
       const hue = newHue < MAX_HUE ? newHue : newHue - MAX_HUE;
       const yStart = Math.ceil(this.state.gridSize / 2);
       const yEnd = Math.ceil(0 - this.state.gridSize / 2);
       const xStart = Math.ceil(0 - this.state.gridSize / 2);
       const xEnd = Math.ceil(this.state.gridSize / 2);
-      let cells = {};
+      let cells: { [key: string]: { hue: number } } = {};
       let births = prevState.births;
       let deaths = prevState.deaths;
 
@@ -193,7 +214,7 @@ class Life extends Component {
         births,
         deaths,
         paused:
-          Object.entries(cells).length === 0 && cells.constructor === Object
+          Object.entries(cells).length === 0 && cells.constructor === Object,
       };
     });
   }
@@ -204,7 +225,7 @@ class Life extends Component {
     if (cellKeys.length > 0) {
       let exportData = "[";
 
-      cellKeys.forEach(cell => {
+      cellKeys.forEach((cell) => {
         const cellArr = cell.split("|");
         exportData += `[${cellArr[0]},${cellArr[1]}],`;
       });
@@ -216,14 +237,14 @@ class Life extends Component {
     }
   };
 
-  handleImport = data => {
+  handleImport = (data: string) => {
     const parseErrorMessage =
       "Can't parse import data. An example of the expected format: [[0,0],[0,1]]";
     let parsedData = null;
 
     try {
       parsedData = JSON.parse(data);
-      
+
       if (parsedData && Array.isArray(parsedData)) {
         this.importData(parsedData);
       } else {
@@ -232,10 +253,9 @@ class Life extends Component {
     } catch (e) {
       alert(parseErrorMessage);
     }
-
   };
 
-  handleDataChange = data => {
+  handleDataChange = (data: string) => {
     this.setState({ exportData: data });
   };
 
@@ -275,18 +295,25 @@ class Life extends Component {
   };
 
   saveCells = () => {
-    this.setState(prevState => ({ savedCells: prevState.cells }));
+    this.setState((prevState: LifeState) => ({ savedCells: prevState.cells }));
   };
 
   loadCells = () => {
-    this.setState(prevState => ({
-      cells: prevState.savedCells,
-      hue: 0,
-      generation: 0,
-      paused: true,
-      births: 0,
-      deaths: 0
-    }));
+    this.setState((prevState: LifeState) => {
+      return {
+        cells: prevState.savedCells,
+        hue: 0,
+        generation: 0,
+        paused: true,
+        births: 0,
+        deaths: 0,
+        speed: prevState.speed,
+        cellSize: prevState.cellSize,
+        gridSize: prevState.gridSize,
+        savedCells: {},
+        exportData: "",
+      };
+    });
   };
 
   render() {
@@ -345,7 +372,6 @@ class Life extends Component {
               handlePauseClick={this.handlePauseClick}
               handlePlayClick={this.handlePlayClick}
               handleClearClick={this.handleClearClick}
-              handleExportClick={this.handleExportClick}
               paused={this.state.paused}
               speed={this.state.speed}
               handleChangeSpeed={this.changeSpeed}
@@ -373,12 +399,5 @@ class Life extends Component {
     );
   }
 }
-
-Life.propTypes = {
-  gridSize: PropTypes.number.isRequired,
-  cellSize: PropTypes.number.isRequired,
-  speed: PropTypes.number,
-  paused: PropTypes.bool
-};
 
 export default Life;

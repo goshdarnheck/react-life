@@ -9,7 +9,7 @@ interface controlsProps {
   handlePlayClick: () => void;
   handlePauseClick: () => void;
   handleClearClick: () => void;
-  handleChangeSpeed: () => void;
+  handleChangeSpeed: (speed: number) => void;
   handleChangeCellSize: (newSize: number) => void;
   handleChangeGridSize: (newSize: number) => void;
   paused: boolean;
@@ -17,7 +17,7 @@ interface controlsProps {
   cellSize: number;
   gridSize: number;
   clearable: boolean;
-  savedCells: object;
+  savedCells?: { [key: string]: { hue: number } };
 }
 
 const Controls: FunctionComponent<controlsProps> = (props) => (
@@ -50,7 +50,7 @@ const Controls: FunctionComponent<controlsProps> = (props) => (
           title="Reload last paused cell state"
           disabled={
             props.savedCells === null ||
-            Object.keys(props.savedCells).length === 0
+            (props.savedCells && Object.keys(props.savedCells).length === 0)
           }
         >
           ⟲ Back

@@ -1,6 +1,7 @@
 ## FUTURE
 
 - make App a functional component and refactor some functions out of the file
+- move examples out of lib folder
 - make it look a lot nicer :)
 - "settings" should be taken out of the controls component and moved to their own
 - add undo feature
