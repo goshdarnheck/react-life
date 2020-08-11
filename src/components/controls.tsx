@@ -1,10 +1,26 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import PropTypes from "prop-types";
+import { FunctionComponent } from "react";
 import { SPEEDS, CELL_SIZES, GRID_SIZES } from "../lib/constants";
 import Stepper from "./stepper";
 
-const Controls = props => (
+interface controlsProps {
+  handleLoadCells: () => void;
+  handlePlayClick: () => void;
+  handlePauseClick: () => void;
+  handleClearClick: () => void;
+  handleChangeSpeed: (speed: number) => void;
+  handleChangeCellSize: (newSize: number) => void;
+  handleChangeGridSize: (newSize: number) => void;
+  paused: boolean;
+  speed: number;
+  cellSize: number;
+  gridSize: number;
+  clearable: boolean;
+  savedCells?: { [key: string]: { hue: number } };
+}
+
+const Controls: FunctionComponent<controlsProps> = (props) => (
   <div
     css={css`
       ul {
@@ -30,14 +46,15 @@ const Controls = props => (
         `}
       >
         <button
-            onClick={props.handleLoadCells}
-            title="Reload last paused cell state"
-            disabled={
-              props.savedCells === null || Object.keys(props.savedCells).length === 0
-            }
-          >
-            ⟲ Back
-          </button>
+          onClick={props.handleLoadCells}
+          title="Reload last paused cell state"
+          disabled={
+            props.savedCells === null ||
+            (props.savedCells && Object.keys(props.savedCells).length === 0)
+          }
+        >
+          ⟲ Back
+        </button>
         {props.paused ? (
           <button onClick={props.handlePlayClick} disabled={!props.paused}>
             ► Play
@@ -47,7 +64,11 @@ const Controls = props => (
             ❚❚ Pause
           </button>
         )}
-        <button title="Clear grid" disabled={!props.clearable} onClick={props.handleClearClick}>
+        <button
+          title="Clear grid"
+          disabled={!props.clearable}
+          onClick={props.handleClearClick}
+        >
           ⨯ Clear
         </button>
       </li>
@@ -81,22 +102,5 @@ const Controls = props => (
     </ul>
   </div>
 );
-
-Controls.propTypes = {
-  handleLoadCells: PropTypes.func.isRequired,
-  handlePlayClick: PropTypes.func.isRequired,
-  handlePauseClick: PropTypes.func.isRequired,
-  handleClearClick: PropTypes.func.isRequired,
-  handleChangeSpeed: PropTypes.func.isRequired,
-  handleChangeCellSize: PropTypes.func.isRequired,
-  handleChangeGridSize: PropTypes.func.isRequired,
-  paused: PropTypes.bool.isRequired,
-  speed: PropTypes.number.isRequired,
-  cellSize: PropTypes.number.isRequired,
-  gridSize: PropTypes.number.isRequired,
-  clearable: PropTypes.bool.isRequired,
-  savedCells: PropTypes.object
-};
-
 
 export default Controls;

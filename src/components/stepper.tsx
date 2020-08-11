@@ -1,18 +1,27 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import PropTypes from "prop-types";
+import { FunctionComponent } from "react";
 
-const Stepper = ({
+interface stepperProps {
+  label: string;
+  value: number;
+  formattedValue?: string;
+  values: number[];
+  unit?: string;
+  changeValue: (newSize: number) => void;
+}
+
+const Stepper: FunctionComponent<stepperProps> = ({
   label,
   value,
   formattedValue,
   values,
   unit,
-  changeValue
+  changeValue,
 }) => {
   const index = values.indexOf(value);
-  const decrease = index !== 0 ? values[index - 1] : null;
-  const increase = index !== values.length ? values[index + 1] : null;
+  const decrease = index !== 0 ? values[index - 1] : values[index];
+  const increase = index !== values.length ? values[index + 1] : values[index];
 
   return (
     <div css={css``}>
@@ -62,15 +71,6 @@ const Stepper = ({
       </div>
     </div>
   );
-};
-
-Stepper.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
-  formattedValue: PropTypes.string,
-  values: PropTypes.array.isRequired,
-  unit: PropTypes.string,
-  changeValue: PropTypes.func.isRequired
 };
 
 export default Stepper;

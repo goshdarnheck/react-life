@@ -1,4 +1,16 @@
-export const calculateNeighbours = (cells, x, y) => {
+interface Cell {
+  hue: number;
+}
+
+interface Cells {
+  [key: string]: Cell;
+}
+
+export const calculateNeighbours = (
+  cells: Cells,
+  x: number,
+  y: number
+): number => {
   let count = 0;
 
   if (cells[`${x - 1}|${y}`]) {

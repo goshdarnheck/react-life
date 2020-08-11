@@ -1,13 +1,20 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import PropTypes from "prop-types";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import { FunctionComponent } from "react";
+import CopyToClipboard from "react-copy-to-clipboard";
 
-const ImportExport = ({
+interface importExportProps {
+  handleExport: () => void;
+  handleImport: (data: string) => void;
+  handleDataChange: (event: string) => void;
+  exportData: string;
+}
+
+const ImportExport: FunctionComponent<importExportProps> = ({
   handleExport,
   handleImport,
   handleDataChange,
-  exportData
+  exportData,
 }) => (
   <div
     css={css`
@@ -55,7 +62,7 @@ const ImportExport = ({
           </button>
         </div>
         <textarea
-          onChange={e => handleDataChange(e.target.value)}
+          onChange={(e) => handleDataChange(e.target.value)}
           value={exportData}
         />
         <CopyToClipboard text={exportData}>
@@ -65,12 +72,5 @@ const ImportExport = ({
     </ul>
   </div>
 );
-
-ImportExport.propTypes = {
-  handleExport: PropTypes.func.isRequired,
-  handleImport: PropTypes.func.isRequired,
-  handleDataChange: PropTypes.func.isRequired,
-  exportData: PropTypes.string
-};
 
 export default ImportExport;

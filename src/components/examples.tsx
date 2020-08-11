@@ -1,9 +1,13 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
+import { FunctionComponent } from "react";
 import examples from "../lib/examples";
-import PropTypes from "prop-types";
 
-const Examples = ({ handleSelectExample }) => (
+interface exampleProps {
+  handleSelectExample: (data: number[][]) => void;
+}
+
+const Examples: FunctionComponent<exampleProps> = ({ handleSelectExample }) => (
   <div
     css={css`
       ul {
@@ -27,7 +31,9 @@ const Examples = ({ handleSelectExample }) => (
       }
     `}
   >
-    <h2>Examples <small>(Click to load)</small></h2>
+    <h2>
+      Examples <small>(Click to load)</small>
+    </h2>
     <ul>
       {examples.map((example, i) => {
         return (
@@ -41,9 +47,5 @@ const Examples = ({ handleSelectExample }) => (
     </ul>
   </div>
 );
-
-Examples.propTypes = {
-  handleSelectExample: PropTypes.func.isRequired
-};
 
 export default Examples;
