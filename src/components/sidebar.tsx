@@ -1,8 +1,12 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import PropTypes from "prop-types";
+import { FunctionComponent } from "react";
 
-const Sidebar = ({ children }) => (
+interface SidebarProps {
+  children: React.ReactNode;
+}
+
+const Sidebar: FunctionComponent<SidebarProps> = ({ children }) => (
   <div
     css={css`
       background-color: #645b55;
@@ -58,9 +62,5 @@ const Sidebar = ({ children }) => (
     {children}
   </div>
 );
-
-Sidebar.propTypes = {
-  children: PropTypes.node.isRequired
-};
 
 export default Sidebar;

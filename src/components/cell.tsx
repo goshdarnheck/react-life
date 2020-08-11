@@ -1,12 +1,21 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import { memo } from "react";
-import PropTypes from "prop-types";
+import { FunctionComponent } from "react";
 
-const Cell = memo(props => {
+interface cellProps {
+  alive: boolean;
+  hue: number;
+  cellKey: string;
+  x: number;
+  y: number;
+  handleCellClick: (cellKey: string) => void;
+}
+
+const Cell: FunctionComponent<cellProps> = memo((props) => {
   const style = {
     backgroundColor:
-      props.alive === true ? "hsl(" + props.hue + ", 100%, 50%)" : "#222"
+      props.alive === true ? "hsl(" + props.hue + ", 100%, 50%)" : "#222",
   };
 
   return (
@@ -44,14 +53,5 @@ const Cell = memo(props => {
     />
   );
 });
-
-Cell.propTypes = {
-  alive: PropTypes.bool.isRequired,
-  hue: PropTypes.number.isRequired,
-  cellKey: PropTypes.string.isRequired,
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
-  handleCellClick: PropTypes.func.isRequired
-};
 
 export default Cell;

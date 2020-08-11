@@ -1,13 +1,19 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import PropTypes from "prop-types";
+import { FunctionComponent } from "react";
 
-const Grid = ({ size, cellSize, children }) => {
+interface gridProps {
+  children: React.ReactNode;
+  size: number;
+  cellSize: number;
+}
+
+const Grid: FunctionComponent<gridProps> = ({ size, cellSize, children }) => {
   let style = {
     width: size * cellSize,
     height: size * cellSize,
     gridTemplateColumns: `repeat(${size}, ${cellSize}px)`,
-    gridTemplateRows: `repeat(${size}, ${cellSize}px)`
+    gridTemplateRows: `repeat(${size}, ${cellSize}px)`,
   };
 
   return (
@@ -39,12 +45,6 @@ const Grid = ({ size, cellSize, children }) => {
       <div style={style}>{children}</div>
     </div>
   );
-};
-
-Grid.propTypes = {
-  children: PropTypes.node.isRequired,
-  size: PropTypes.number.isRequired,
-  cellSize: PropTypes.number.isRequired
 };
 
 export default Grid;

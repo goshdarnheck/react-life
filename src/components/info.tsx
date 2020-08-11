@@ -1,8 +1,14 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import PropTypes from "prop-types";
+import { FunctionComponent } from "react";
 
-const Info = ({ generation, births, deaths }) => (
+interface InfoProps {
+  generation: number;
+  births: number;
+  deaths: number;
+}
+
+const Info: FunctionComponent<InfoProps> = ({ generation, births, deaths }) => (
   <div
     css={css`
       h1 {
@@ -60,11 +66,5 @@ const Info = ({ generation, births, deaths }) => (
     </ul>
   </div>
 );
-
-Info.propTypes = {
-  generation: PropTypes.number.isRequired,
-  births: PropTypes.number.isRequired,
-  deaths: PropTypes.number.isRequired
-};
 
 export default Info;

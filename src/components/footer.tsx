@@ -1,8 +1,9 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
+import { FunctionComponent } from "react";
 import { ReactComponent as BackArrow } from "../images/back-arrow.svg";
 
-const Footer = () => (
+const Footer: FunctionComponent = () => (
   <div
     css={css`
       padding: 0.5em;
