@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 interface importExportProps {
@@ -16,39 +14,7 @@ const ImportExport: FunctionComponent<importExportProps> = ({
   handleDataChange,
   exportData,
 }) => (
-  <div
-    css={css`
-      margin-bottom: 1em;
-
-      ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      li > div:first-of-type {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 0.5em;
-
-        button {
-          width: 48%;
-        }
-      }
-
-      button {
-        width: 100%;
-      }
-
-      textarea {
-        border: 3px #bbb0aa solid;
-        font-size: 0.6em;
-        height: 7em;
-        margin-bottom: 0.5em;
-        width: 100%;
-      }
-    `}
-  >
+  <div className="import-export">
     <h2>Data Controls</h2>
     <ul>
       <li>

@@ -1,0 +1,300 @@
+html {
+  background-color: black;
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+*,
+*:before,
+:after {
+  box-sizing: inherit;
+}
+
+body {
+  color: white;
+  background-color: #222;
+  font-size: 1.6rem;
+  font-family: Consolas, monaco, "Andale Mono", AndaleMono,
+    "Lucida Console", "Courier New", monospace;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+
+  @media only screen and (min-width: 768px) {
+    flex-direction: row;
+    min-height: 100vh;
+  }
+}
+
+.grid {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  justify-content: center;
+  padding: 1em 0;
+  user-select: none;
+
+  > div {
+    border: 1px solid #333;
+    display: grid;
+  }
+
+  @media only screen and (min-width: 768px) {
+    min-height: 100vh;
+  }
+}
+
+.cell {
+  border: 0;
+  display: block;
+  padding: 0;
+  text-align: center;
+
+  &.dead {
+    box-shadow: inset 0 0 0 1px #333;
+  }
+
+  &.alive {
+    box-shadow: none;
+  }
+
+  &:focus {
+    outline: 1px dotted white;
+    z-index: 1;
+  }
+
+  &:hover {
+    cursor: none;
+    outline: 2px dotted white;
+    z-index: 1;
+  }
+}
+
+.sidebar {
+  background-color: #645b55;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 100%;
+  padding: 0 1em;
+
+  h1 {
+    font-size: 1.4em;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.8em;
+    text-align: center;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  h2 {
+    font-size: 1.2em;
+    letter-spacing: 0.1em;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  button {
+    background: #333;
+    border: 3px #bbb0aa solid;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0;
+    padding: 0 0.5em 0.14em 0.5em;
+    text-align: center;
+    text-decoration: none;
+    transition: background 250ms ease-in-out, transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+
+  button:hover,
+  button:focus {
+    outline: 1px solid #fff;
+    outline-offset: -2px;
+  }
+
+  button[disabled] {
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  button[disabled]:hover,
+  button[disabled]:focus {
+    outline: none;
+  }
+
+  @media only screen and (min-width: 768px) {
+    min-height: 100vh;
+    width: 24rem;
+  }
+}
+
+.info {
+  ul {
+    background-color: #000;
+    border-radius: 0.2em;
+    color: #fff;
+    display: table;
+    list-style-type: none;
+    margin-bottom: 1.2em;
+    padding: 0.5em 0;
+    width: 100%;
+  }
+
+  li {
+    display: table-row;
+  }
+
+  li span {
+    display: table-cell;
+  }
+
+  li span:first-of-type {
+    min-width: 4em;
+    padding-right: 1em;
+    text-align: right;
+  }
+}
+
+.controls {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin-bottom: 0.8em;
+
+    &:first-child {
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        width: 32%;
+      }
+    }
+  }
+}
+
+.stepper {
+  &__label {
+    margin-bottom: 0.2em;
+    text-align: center;
+  }
+
+  &__controls {
+    display: flex;
+
+    button {
+      width: 2em;
+    }
+
+    span {
+      background-color: #333;
+      flex-grow: 1;
+      line-height: 1.6em;
+      text-align: center;
+      vertical-align: center;
+    }
+  }
+}
+
+.examples {
+  ul {
+    list-style-type: none;
+    max-height: 10.2em;
+    overflow: auto;
+    padding: 0 0.3em 0 0;
+  }
+
+  li:not(:last-child) {
+    letter-spacing: 0.1em;
+    margin-bottom: 0.2em;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  small {
+    font-size: 0.4em;
+  }
+}
+
+.import-export {
+  margin-bottom: 1em;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li > div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5em;
+
+    button {
+      width: 48%;
+    }
+  }
+
+  button {
+    width: 100%;
+  }
+
+  textarea {
+    border: 3px #bbb0aa solid;
+    font-size: 0.6em;
+    height: 7em;
+    margin-bottom: 0.5em;
+    width: 100%;
+  }
+}
+
+.footer {
+  padding: 0.5em;
+
+  a {
+    color: #fff;
+    opacity: 0.4;
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+
+  a:hover {
+    opacity: 1;
+  }
+
+  svg {
+    vertical-align: text-bottom;
+    margin-right: 0.5em;
+    width: 1em;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  li:not(:last-child):after {
+    content: "|";
+    padding: 0 0.5em;
+  }
+
+  @media only screen and (min-width: 768px) {
+    bottom: 0;
+    position: absolute;
+  }
+}

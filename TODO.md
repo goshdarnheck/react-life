@@ -10,3 +10,4 @@
 - ability to save cell states in localstorage?
 - it would be cool if you could "paint" different examples
 - give run speeds names
+- option to make the grid a torus

@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 interface stepperProps {
   label: string;
@@ -24,32 +22,11 @@ const Stepper: FunctionComponent<stepperProps> = ({
   const increase = index !== values.length ? values[index + 1] : values[index];
 
   return (
-    <div css={css``}>
-      <div
-        css={css`
-          margin-bottom: 0.2em;
-          text-align: center;
-        `}
-      >
+    <div className="stepper">
+      <div className="stepper__label">
         {label}
       </div>
-      <div
-        css={css`
-          display: flex;
-
-          button {
-            width: 2em;
-          }
-
-          span {
-            background-color: #333;
-            flex-grow: 1;
-            line-height: 1.6em;
-            text-align: center;
-            vertical-align: center;
-          }
-        `}
-      >
+      <div className="stepper__controls">
         <button
           aria-label={`Decrease ${label}`}
           disabled={!decrease}

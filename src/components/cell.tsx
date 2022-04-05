@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
-import { memo } from "react";
+import React, { memo } from "react";
 import { FunctionComponent } from "react";
 
 interface cellProps {
@@ -20,35 +18,10 @@ const Cell: FunctionComponent<cellProps> = memo((props) => {
 
   return (
     <button
-      css={css`
-        border: 0;
-        display: block;
-        padding: 0;
-        text-align: center;
-
-        &.dead {
-          box-shadow: inset 0 0 0 1px #333;
-        }
-
-        &.alive {
-          box-shadow: none;
-        }
-
-        &:focus {
-          outline: 1px dotted white;
-          z-index: 1;
-        }
-
-        &:hover {
-          cursor: none;
-          outline: 2px dotted white;
-          z-index: 1;
-        }
-      `}
       aria-label={`${props.x}, ${props.y}: ${props.alive ? "alive" : "dead"}`}
       title={`${props.x}, ${props.y}`}
       onClick={() => props.handleCellClick(props.cellKey)}
-      className={props.alive ? "alive" : "dead"}
+      className={`cell ${props.alive ? "alive" : "dead"}`}
       style={style}
     />
   );

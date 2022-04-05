@@ -1,7 +1,4 @@
-/** @jsx jsx */
-import { jsx, css, Global as GlobalEmotion } from "@emotion/core";
-import { Component } from "react";
-import Sidebar from "./components/sidebar";
+import React, { Component } from "react";
 import Grid from "./components/grid";
 import Cell from "./components/cell";
 import Controls from "./components/controls";
@@ -18,6 +15,7 @@ import {
 } from "./lib/constants";
 import examples from "./lib/examples";
 import { calculateNeighbours } from "./lib/utils";
+import "./css/styles.scss"
 
 interface LifeProps {
   speed: number;
@@ -318,83 +316,47 @@ class Life extends Component<LifeProps, LifeState> {
 
   render() {
     return (
-      <div
-        css={css`
-          position: relative;
-        `}
-      >
-        <GlobalEmotion
-          styles={css`
-            html {
-              background-color: black;
-              box-sizing: border-box;
-              font-size: 62.5%;
+      <div className="app">
+        <Grid size={this.state.gridSize} cellSize={this.state.cellSize}>
+          {this.getCellList()}
+        </Grid>
+        <div className="sidebar">
+          <h1>
+            React
+            <br />
+            Game of Life
+          </h1>
+          <Info
+            generation={this.state.generation}
+            births={this.state.births}
+            deaths={this.state.deaths}
+          />
+          <Controls
+            handlePauseClick={this.handlePauseClick}
+            handlePlayClick={this.handlePlayClick}
+            handleClearClick={this.handleClearClick}
+            paused={this.state.paused}
+            speed={this.state.speed}
+            handleChangeSpeed={this.changeSpeed}
+            handleChangeCellSize={this.changeCellSize}
+            handleChangeGridSize={this.changeGridSize}
+            cellSize={this.state.cellSize}
+            gridSize={this.state.gridSize}
+            clearable={
+              Object.keys(this.state.cells).length > 0 ? true : false
             }
-
-            *,
-            *:before,
-            :after {
-              box-sizing: inherit;
-            }
-
-            body {
-              color: white;
-              background-color: #222;
-              font-size: 1.6rem;
-              font-family: Consolas, monaco, "Andale Mono", AndaleMono,
-                "Lucida Console", "Courier New", monospace;
-              margin: 0;
-              padding: 0;
-            }
-          `}
-        />
-        <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-
-            @media only screen and (min-width: 768px) {
-              flex-direction: row;
-              min-height: 100vh;
-            }
-          `}
-        >
-          <Grid size={this.state.gridSize} cellSize={this.state.cellSize}>
-            {this.getCellList()}
-          </Grid>
-          <Sidebar>
-            <Info
-              generation={this.state.generation}
-              births={this.state.births}
-              deaths={this.state.deaths}
-            />
-            <Controls
-              handlePauseClick={this.handlePauseClick}
-              handlePlayClick={this.handlePlayClick}
-              handleClearClick={this.handleClearClick}
-              paused={this.state.paused}
-              speed={this.state.speed}
-              handleChangeSpeed={this.changeSpeed}
-              handleChangeCellSize={this.changeCellSize}
-              handleChangeGridSize={this.changeGridSize}
-              cellSize={this.state.cellSize}
-              gridSize={this.state.gridSize}
-              clearable={
-                Object.keys(this.state.cells).length > 0 ? true : false
-              }
-              savedCells={this.state.savedCells}
-              handleLoadCells={this.loadCells}
-            />
-            <Examples handleSelectExample={this.handleSelectExample} />
-            <ImportExport
-              handleExport={this.handleExport}
-              handleImport={this.handleImport}
-              handleDataChange={this.handleDataChange}
-              exportData={this.state.exportData}
-            />
-          </Sidebar>
-          <Footer />
+            savedCells={this.state.savedCells}
+            handleLoadCells={this.loadCells}
+          />
+          <Examples handleSelectExample={this.handleSelectExample} />
+          <ImportExport
+            handleExport={this.handleExport}
+            handleImport={this.handleImport}
+            handleDataChange={this.handleDataChange}
+            exportData={this.state.exportData}
+          />
         </div>
+        <Footer />
       </div>
     );
   }

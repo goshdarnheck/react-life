@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { SPEEDS, CELL_SIZES, GRID_SIZES } from "../lib/constants";
 import Stepper from "./stepper";
 
@@ -21,30 +19,9 @@ interface controlsProps {
 }
 
 const Controls: FunctionComponent<controlsProps> = (props) => (
-  <div
-    css={css`
-      ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      li {
-        margin-bottom: 0.8em;
-      }
-    `}
-  >
+  <div className="controls">
     <ul>
-      <li
-        css={css`
-          display: flex;
-          justify-content: space-between;
-
-          button {
-            width: 32%;
-          }
-        `}
-      >
+      <li>
         <button
           onClick={props.handleLoadCells}
           title="Reload last paused cell state"
