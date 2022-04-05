@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 interface gridProps {
   children: React.ReactNode;
@@ -17,31 +15,7 @@ const Grid: FunctionComponent<gridProps> = ({ size, cellSize, children }) => {
   };
 
   return (
-    <div
-      css={css`
-        align-items: center;
-        display: flex;
-        flex-grow: 1;
-        height: 100%;
-        justify-content: center;
-        padding: 1em 0;
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -khtml-user-select: none; /* Konqueror HTML */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-
-        > div {
-          border: 1px solid #333;
-          display: grid;
-        }
-
-        @media only screen and (min-width: 768px) {
-          min-height: 100vh;
-        }
-      `}
-    >
+    <div className="grid">
       <div style={style}>{children}</div>
     </div>
   );

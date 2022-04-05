@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import examples from "../lib/examples";
 
 interface exampleProps {
@@ -8,29 +6,7 @@ interface exampleProps {
 }
 
 const Examples: FunctionComponent<exampleProps> = ({ handleSelectExample }) => (
-  <div
-    css={css`
-      ul {
-        list-style-type: none;
-        max-height: 10.2em;
-        overflow: auto;
-        padding: 0 0.3em 0 0;
-      }
-
-      li:not(:last-child) {
-        letter-spacing: 0.1em;
-        margin-bottom: 0.2em;
-      }
-
-      button {
-        width: 100%;
-      }
-
-      small {
-        font-size: 0.4em;
-      }
-    `}
-  >
+  <div className="examples">
     <h2>
       Examples <small>(Click to load)</small>
     </h2>
