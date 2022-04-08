@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import Grid from "./components/grid";
 import Cell from "./components/cell";
 import Controls from "./components/controls";
-import Info from "./components/info";
-import Footer from "./components/footer";
-import ImportExport from "./components/import-export";
-import Examples from "./components/examples";
+import Stats from "./components/stats";
+// import Examples from "./components/examples";
 import {
   SPEEDS,
   CELL_SIZES,
@@ -51,12 +49,16 @@ class Life extends Component<LifeProps, LifeState> {
     cellSize: this.props.cellSize,
     gridSize: this.props.gridSize,
     savedCells: {},
-    exportData: "",
+    exportData: ""
   };
 
   componentDidMount() {
     this.importData(examples[0].data);
     this.setGenerationInterval();
+  }
+
+  componentWillUnmount() {
+    window.clearInterval(this.timerID);
   }
 
   setGenerationInterval = () => {
@@ -66,10 +68,6 @@ class Life extends Component<LifeProps, LifeState> {
       }
     }, this.state.speed);
   };
-
-  componentWillUnmount() {
-    window.clearInterval(this.timerID);
-  }
 
   handlePauseClick = () => {
     this.setState({
@@ -98,28 +96,19 @@ class Life extends Component<LifeProps, LifeState> {
   changeSpeed = (speed: number) => {
     if (SPEEDS.includes(speed)) {
       clearInterval(this.timerID);
-      this.setState(
-        {
-          speed,
-        },
-        this.setGenerationInterval
-      );
+      this.setState({ speed }, this.setGenerationInterval);
     }
   };
 
   changeCellSize = (cellSize: number) => {
     if (CELL_SIZES.includes(cellSize)) {
-      this.setState({
-        cellSize,
-      });
+      this.setState({ cellSize });
     }
   };
 
   changeGridSize = (gridSize: number) => {
     if (GRID_SIZES.includes(gridSize)) {
-      this.setState({
-        gridSize,
-      });
+      this.setState({ gridSize });
     }
   };
 
@@ -217,44 +206,22 @@ class Life extends Component<LifeProps, LifeState> {
     });
   }
 
-  handleExport = () => {
-    const cellKeys = Object.keys(this.state.cells);
-
-    if (cellKeys.length > 0) {
-      let exportData = "[";
-
-      cellKeys.forEach((cell) => {
-        const cellArr = cell.split("|");
-        exportData += `[${cellArr[0]},${cellArr[1]}],`;
-      });
-
-      exportData = exportData.substring(0, exportData.length - 1);
-      exportData += "]";
-
-      this.setState({ exportData });
-    }
-  };
-
-  handleImport = (data: string) => {
-    const parseErrorMessage =
-      "Can't parse import data. An example of the expected format: [[0,0],[0,1]]";
-    let parsedData = null;
-
-    try {
-      parsedData = JSON.parse(data);
-
-      if (parsedData && Array.isArray(parsedData)) {
-        this.importData(parsedData);
-      } else {
-        alert(parseErrorMessage);
-      }
-    } catch (e) {
-      alert(parseErrorMessage);
-    }
-  };
-
-  handleDataChange = (data: string) => {
-    this.setState({ exportData: data });
+  loadCells = () => {
+    this.setState((prevState: LifeState) => {
+      return {
+        cells: prevState.savedCells,
+        hue: 0,
+        generation: 0,
+        paused: true,
+        births: 0,
+        deaths: 0,
+        speed: prevState.speed,
+        cellSize: prevState.cellSize,
+        gridSize: prevState.gridSize,
+        savedCells: {},
+        exportData: "",
+      };
+    });
   };
 
   getCellList = () => {
@@ -292,41 +259,12 @@ class Life extends Component<LifeProps, LifeState> {
     return cells;
   };
 
-  saveCells = () => {
-    this.setState((prevState: LifeState) => ({ savedCells: prevState.cells }));
-  };
-
-  loadCells = () => {
-    this.setState((prevState: LifeState) => {
-      return {
-        cells: prevState.savedCells,
-        hue: 0,
-        generation: 0,
-        paused: true,
-        births: 0,
-        deaths: 0,
-        speed: prevState.speed,
-        cellSize: prevState.cellSize,
-        gridSize: prevState.gridSize,
-        savedCells: {},
-        exportData: "",
-      };
-    });
-  };
-
   render() {
     return (
       <div className="app">
-        <Grid size={this.state.gridSize} cellSize={this.state.cellSize}>
-          {this.getCellList()}
-        </Grid>
-        <div className="sidebar">
-          <h1>
-            React
-            <br />
-            Game of Life
-          </h1>
-          <Info
+        <div className="panel">
+          <h1>React Life</h1>
+          <Stats
             generation={this.state.generation}
             births={this.state.births}
             deaths={this.state.deaths}
@@ -348,15 +286,10 @@ class Life extends Component<LifeProps, LifeState> {
             savedCells={this.state.savedCells}
             handleLoadCells={this.loadCells}
           />
-          <Examples handleSelectExample={this.handleSelectExample} />
-          <ImportExport
-            handleExport={this.handleExport}
-            handleImport={this.handleImport}
-            handleDataChange={this.handleDataChange}
-            exportData={this.state.exportData}
-          />
         </div>
-        <Footer />
+        <Grid size={this.state.gridSize} cellSize={this.state.cellSize}>
+          {this.getCellList()}
+        </Grid>
       </div>
     );
   }

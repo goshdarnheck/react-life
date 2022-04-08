@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, memo } from "react";
 
 interface stepperProps {
   label: string;
@@ -50,4 +50,4 @@ const Stepper: FunctionComponent<stepperProps> = ({
   );
 };
 
-export default Stepper;
+export default memo(Stepper);
