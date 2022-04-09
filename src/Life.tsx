@@ -36,7 +36,7 @@ interface LifeState {
 }
 
 class Life extends Component<LifeProps, LifeState> {
-  timerID?: number = undefined;
+  timerID: number | undefined = undefined;
   state: Readonly<LifeState> = {
     cells: {},
     speed: this.props.speed,
