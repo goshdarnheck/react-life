@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent, ReactNode } from "react";
 
 interface gridProps {
-  children: React.ReactNode;
+  children: ReactNode;
   size: number;
   cellSize: number;
 }

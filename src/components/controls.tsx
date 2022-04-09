@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { SPEEDS, CELL_SIZES, GRID_SIZES } from "../lib/constants";
 import Stepper from "./stepper";
 

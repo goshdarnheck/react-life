@@ -1,5 +1,4 @@
-import React, { memo } from "react";
-import { FunctionComponent } from "react";
+import { memo, FunctionComponent } from "react";
 
 interface cellProps {
   alive: boolean;
