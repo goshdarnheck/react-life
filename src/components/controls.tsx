@@ -3,10 +3,11 @@ import { SPEEDS, CELL_SIZES, GRID_SIZES } from "../lib/constants";
 import Stepper from "./stepper";
 
 interface controlsProps {
-  handleLoadCells: () => void;
-  handlePlayClick: () => void;
-  handlePauseClick: () => void;
-  handleClearClick: () => void;
+  loadCells: () => void;
+  saveCells: () => void;
+  play: () => void;
+  pause: () => void;
+  clear: () => void;
   handleChangeSpeed: (speed: number) => void;
   handleChangeCellSize: (newSize: number) => void;
   handleChangeGridSize: (newSize: number) => void;
@@ -22,29 +23,32 @@ const Controls: FunctionComponent<controlsProps> = (props) => (
   <div className="controls">
     <ul>
       <li>
+        <button onClick={props.saveCells}>Save</button>
         <button
-          onClick={props.handleLoadCells}
-          title="Reload last paused cell state"
+          onClick={props.loadCells}
+          title="Load saved state"
           disabled={
             props.savedCells === null ||
             (props.savedCells && Object.keys(props.savedCells).length === 0)
           }
         >
-          ⟲ Back
+          Load
         </button>
+      </li>
+      <li>
         {props.paused ? (
-          <button onClick={props.handlePlayClick} disabled={!props.paused}>
+          <button onClick={props.play} disabled={!props.paused}>
             ► Play
           </button>
         ) : (
-          <button onClick={props.handlePauseClick} disabled={props.paused}>
+          <button onClick={props.pause} disabled={props.paused}>
             ❚❚ Pause
           </button>
         )}
         <button
           title="Clear grid"
           disabled={!props.clearable}
-          onClick={props.handleClearClick}
+          onClick={props.clear}
         >
           ⨯ Clear
         </button>

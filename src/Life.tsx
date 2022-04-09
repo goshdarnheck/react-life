@@ -33,7 +33,6 @@ interface LifeState {
   cellSize: number;
   gridSize: number;
   savedCells: { [key: string]: { hue: number } };
-  exportData: string;
 }
 
 class Life extends Component<LifeProps, LifeState> {
@@ -48,8 +47,7 @@ class Life extends Component<LifeProps, LifeState> {
     deaths: 0,
     cellSize: this.props.cellSize,
     gridSize: this.props.gridSize,
-    savedCells: {},
-    exportData: ""
+    savedCells: {}
   };
 
   componentDidMount() {
@@ -69,27 +67,22 @@ class Life extends Component<LifeProps, LifeState> {
     }, this.state.speed);
   };
 
-  handlePauseClick = () => {
-    this.setState({
-      paused: true,
-    });
+  pause = () => {
+    this.setState({ paused: true });
   };
 
-  handlePlayClick = () => {
-    this.setState((prevState) => ({
-      paused: false,
-      savedCells: prevState.cells,
-    }));
+  play = () => {
+    this.setState({ paused: false});
   };
 
-  handleClearClick = () => {
+  clear = () => {
     this.setState({
       cells: {},
       paused: true,
       generation: 0,
       hue: 0,
       births: 0,
-      deaths: 0,
+      deaths: 0
     });
   };
 
@@ -129,7 +122,7 @@ class Life extends Component<LifeProps, LifeState> {
       generation: 0,
       paused: true,
       births: 0,
-      deaths: 0,
+      deaths: 0
     });
   };
 
@@ -218,11 +211,14 @@ class Life extends Component<LifeProps, LifeState> {
         speed: prevState.speed,
         cellSize: prevState.cellSize,
         gridSize: prevState.gridSize,
-        savedCells: {},
-        exportData: "",
+        savedCells: prevState.savedCells
       };
     });
   };
+
+  saveCells = () => {
+    this.setState(prevState => ({ savedCells: prevState.cells }));
+  }
 
   getCellList = () => {
     const yStart = Math.ceil(this.state.gridSize / 2);
@@ -270,9 +266,9 @@ class Life extends Component<LifeProps, LifeState> {
             deaths={this.state.deaths}
           />
           <Controls
-            handlePauseClick={this.handlePauseClick}
-            handlePlayClick={this.handlePlayClick}
-            handleClearClick={this.handleClearClick}
+            pause={this.pause}
+            play={this.play}
+            clear={this.clear}
             paused={this.state.paused}
             speed={this.state.speed}
             handleChangeSpeed={this.changeSpeed}
@@ -284,7 +280,8 @@ class Life extends Component<LifeProps, LifeState> {
               Object.keys(this.state.cells).length > 0 ? true : false
             }
             savedCells={this.state.savedCells}
-            handleLoadCells={this.loadCells}
+            loadCells={this.loadCells}
+            saveCells={this.saveCells}
           />
         </div>
         <Grid size={this.state.gridSize} cellSize={this.state.cellSize}>

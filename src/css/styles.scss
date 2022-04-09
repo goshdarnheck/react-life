@@ -11,11 +11,10 @@ html {
 }
 
 body {
-  color: #333;
   background-color: #222;
+  color: #333;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 1.6rem;
-  font-family: Consolas, monaco, "Andale Mono", AndaleMono,
-    "Lucida Console", "Courier New", monospace;
   margin: 0;
   padding: 0;
 }
@@ -80,7 +79,6 @@ body {
   
   h1 {
     font-size: 3em;
-    font-family: 'Rubik Microbe', Arial, Helvetica, sans-serif;
     margin: 0;
   }
 
@@ -131,16 +129,10 @@ body {
   button[disabled]:focus {
     outline: none;
   }
-
-  @media only screen and (min-width: 768px) {
-    // min-height: 100vh;
-    // width: 24rem;
-  }
 }
 
 .stats {
   background-color: #000;
-  border-radius: 0.4em;
   color: #fff;
   list-style-type: none;
   line-height: 1.5;
@@ -160,19 +152,6 @@ body {
     margin: 0;
     display: flex;
     justify-content: space-between;
-  }
-
-  li {
-    margin-bottom: 0.8em;
-
-    &:first-child {
-      display: flex;
-      justify-content: space-between;
-
-      button {
-        width: 30%;
-      }
-    }
   }
 }
 
@@ -217,38 +196,6 @@ body {
 
   small {
     font-size: 0.4em;
-  }
-}
-
-.import-export {
-  margin-bottom: 1em;
-
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  li > div:first-of-type {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5em;
-
-    button {
-      width: 48%;
-    }
-  }
-
-  button {
-    width: 100%;
-  }
-
-  textarea {
-    border: 3px #bbb0aa solid;
-    font-size: 0.6em;
-    height: 7em;
-    margin-bottom: 0.5em;
-    width: 100%;
   }
 }
 

@@ -1,13 +1,10 @@
 ## FUTURE
 
-- make App a functional component and refactor some functions out of the file
-- move examples out of lib folder
-- make it look a lot nicer :)
-- "settings" should be taken out of the controls component and moved to their own
-- add undo feature
-- if the neighbour count for life/death/births were variables they could be changed to show rule variants of GoL
-- sharable cell states
-- ability to save cell states in localstorage?
+- move examples out of lib folder, each example should be a separate file for maintainability
+- click and drag to toggle cells
 - it would be cool if you could "paint" different examples
-- give run speeds names
-- option to make the grid a torus
+- change settings to reachui sliders
+- option to make the grid a "torus"
+- button to run next generation (when paused?)
+- "about" modal w/ reachui dialog
+- add back examples library
