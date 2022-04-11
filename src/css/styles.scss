@@ -22,11 +22,7 @@ body {
 .app {
   display: flex;
   flex-direction: column;
-
-  @media only screen and (min-width: 768px) {
-    flex-direction: column;
-    min-height: 100vh;
-  }
+  height: 100vh;
 }
 
 .grid {
@@ -34,6 +30,7 @@ body {
   display: flex;
   flex-grow: 1;
   justify-content: center;
+  overflow-y: auto;
   user-select: none;
 
   > div {
@@ -156,6 +153,8 @@ body {
 }
 
 .stepper {
+  min-width: 10em;
+
   &__label {
     margin-bottom: 0.2em;
     text-align: center;

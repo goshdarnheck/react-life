@@ -1,26 +1,28 @@
 import { FunctionComponent, memo } from "react";
+import { Slider } from "@reach/slider"
+import "@reach/slider/styles.css";
 
 interface stepperProps {
   label: string;
   value: number;
   formattedValue?: string;
-  values: number[];
   unit?: string;
   changeValue: (newSize: number) => void;
+  step: number;
+  min: number;
+  max: number;
 }
 
 const Stepper: FunctionComponent<stepperProps> = ({
   label,
   value,
   formattedValue,
-  values,
   unit,
   changeValue,
+  step,
+  min,
+  max
 }) => {
-  const index = values.indexOf(value);
-  const decrease = index !== 0 ? values[index - 1] : values[index];
-  const increase = index !== values.length ? values[index + 1] : values[index];
-
   return (
     <div className="stepper">
       <div className="stepper__label">
@@ -29,19 +31,26 @@ const Stepper: FunctionComponent<stepperProps> = ({
       <div className="stepper__controls">
         <button
           aria-label={`Decrease ${label}`}
-          disabled={!decrease}
-          onClick={() => changeValue(decrease)}
+          disabled={!(value - step >= min)}
+          onClick={() => changeValue(value - step)}
         >
           &lt;
         </button>
         <span>
           {formattedValue ? formattedValue : value}
           {unit}
+          <Slider
+            min={min}
+            max={max}
+            step={step}
+            onChange={newValue => changeValue(newValue)}
+            value={value}
+          />
         </span>
         <button
           aria-label={`Increase ${label}`}
-          disabled={!increase}
-          onClick={() => changeValue(increase)}
+          disabled={!(value + step <= max)}
+          onClick={() => changeValue(value + step)}
         >
           &gt;
         </button>

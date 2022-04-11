@@ -3,7 +3,7 @@
 exports[`Cell renders correctly when alive 1`] = `
 <button
   aria-label="0, 0: alive"
-  className="alive css-1uidj8q"
+  className="cell alive"
   onClick={[Function]}
   style={
     Object {
@@ -17,7 +17,7 @@ exports[`Cell renders correctly when alive 1`] = `
 exports[`Cell renders correctly when not alive 1`] = `
 <button
   aria-label="0, 0: dead"
-  className="dead css-1uidj8q"
+  className="cell dead"
   onClick={[Function]}
   style={
     Object {

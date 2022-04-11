@@ -5,14 +5,12 @@ import Controls from "./components/controls";
 import Stats from "./components/stats";
 // import Examples from "./components/examples";
 import {
-  SPEEDS,
-  CELL_SIZES,
-  GRID_SIZES,
   MAX_HUE,
   HUE_STEP,
 } from "./lib/constants";
 import examples from "./lib/examples";
 import { calculateNeighbours } from "./lib/utils";
+import { ReactComponent as LogoSvg } from './svg/reacty-life1-test.svg'
 import "./css/styles.scss"
 
 interface LifeProps {
@@ -87,22 +85,16 @@ class Life extends Component<LifeProps, LifeState> {
   };
 
   changeSpeed = (speed: number) => {
-    if (SPEEDS.includes(speed)) {
-      clearInterval(this.timerID);
-      this.setState({ speed }, this.setGenerationInterval);
-    }
+    clearInterval(this.timerID);
+    this.setState({ speed }, this.setGenerationInterval);
   };
 
   changeCellSize = (cellSize: number) => {
-    if (CELL_SIZES.includes(cellSize)) {
-      this.setState({ cellSize });
-    }
+    this.setState({ cellSize });
   };
 
   changeGridSize = (gridSize: number) => {
-    if (GRID_SIZES.includes(gridSize)) {
-      this.setState({ gridSize });
-    }
+    this.setState({ gridSize });
   };
 
   handleSelectExample = (example: number[][]) => {
@@ -259,7 +251,7 @@ class Life extends Component<LifeProps, LifeState> {
     return (
       <div className="app">
         <div className="panel">
-          <h1>React Life</h1>
+          <h1><LogoSvg /></h1>
           <Stats
             generation={this.state.generation}
             births={this.state.births}

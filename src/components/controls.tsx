@@ -1,5 +1,4 @@
 import { FunctionComponent } from "react";
-import { SPEEDS, CELL_SIZES, GRID_SIZES } from "../lib/constants";
 import Stepper from "./stepper";
 
 interface controlsProps {
@@ -57,18 +56,21 @@ const Controls: FunctionComponent<controlsProps> = (props) => (
         <Stepper
           label="Speed"
           value={props.speed}
-          values={SPEEDS}
           unit="ms"
           changeValue={props.handleChangeSpeed}
+          step={100}
+          min={100}
+          max={1000}
         />
       </li>
       <li>
         <Stepper
-          label="Cell Size"
+          label="Zoom"
           value={props.cellSize}
-          values={CELL_SIZES}
-          unit="px"
           changeValue={props.handleChangeCellSize}
+          step={1}
+          min={1}
+          max={20}
         />
       </li>
       <li>
@@ -76,8 +78,10 @@ const Controls: FunctionComponent<controlsProps> = (props) => (
           label="Grid Size"
           value={props.gridSize}
           formattedValue={`${props.gridSize}⨯${props.gridSize}`}
-          values={GRID_SIZES}
           changeValue={props.handleChangeGridSize}
+          step={10}
+          min={10}
+          max={80}
         />
       </li>
     </ul>
