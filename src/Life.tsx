@@ -2,6 +2,7 @@ import { Component } from "react";
 import Grid from "./components/grid";
 import Cell from "./components/cell";
 import Controls from "./components/controls";
+import Settings from "./components/settings";
 import Stats from "./components/stats";
 // import Examples from "./components/examples";
 import {
@@ -281,18 +282,17 @@ class Life extends Component<LifeProps, LifeState> {
             play={this.play}
             clear={this.clear}
             paused={this.state.paused}
-            speed={this.state.speed}
-            handleChangeSpeed={this.changeSpeed}
-            handleChangeCellSize={this.changeCellSize}
-            handleChangeGridSize={this.changeGridSize}
-            cellSize={this.state.cellSize}
-            gridSize={this.state.gridSize}
-            clearable={
-              Object.keys(this.state.cells).length > 0 ? true : false
-            }
             savedCells={this.state.savedCells}
             loadCells={this.loadCells}
             saveCells={this.saveCells}
+          />
+          <Settings
+            handleChangeSpeed={this.changeSpeed}
+            handleChangeCellSize={this.changeCellSize}
+            handleChangeGridSize={this.changeGridSize}
+            speed={this.state.speed}
+            cellSize={this.state.cellSize}
+            gridSize={this.state.gridSize}
           />
         </div>
         <Grid size={this.state.gridSize} cellSize={this.state.cellSize}>

@@ -9,6 +9,7 @@ interface stepperProps {
   step: number;
   min: number;
   max: number;
+  getAriaValueText: () => string;
 }
 
 const Stepper: FunctionComponent<stepperProps> = ({
@@ -17,7 +18,8 @@ const Stepper: FunctionComponent<stepperProps> = ({
   changeValue,
   step,
   min,
-  max
+  max,
+  getAriaValueText
 }) => {
   return (
     <div className="stepper">
@@ -25,29 +27,15 @@ const Stepper: FunctionComponent<stepperProps> = ({
         {label}
       </div>
       <div className="stepper__controls">
-        <button
-          aria-label={`Decrease ${label}`}
-          disabled={!(value - step >= min)}
-          onClick={() => changeValue(value - step)}
-        >
-          &lt;
-        </button>
-        <span>
-          <Slider
-            min={min}
-            max={max}
-            step={step}
-            onChange={newValue => changeValue(newValue)}
-            value={value}
-          />
-        </span>
-        <button
-          aria-label={`Increase ${label}`}
-          disabled={!(value + step <= max)}
-          onClick={() => changeValue(value + step)}
-        >
-          &gt;
-        </button>
+        <Slider
+          getAriaLabel={() => label}
+          getAriaValueText={getAriaValueText}
+          min={min}
+          max={max}
+          step={step}
+          onChange={newValue => changeValue(newValue)}
+          value={value}
+        />
       </div>
     </div>
   );

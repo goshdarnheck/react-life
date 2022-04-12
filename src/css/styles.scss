@@ -65,7 +65,7 @@ body {
 }
 
 .panel {
-  background-color: #87b5d0;
+  background: linear-gradient(336deg, rgba(35,139,203,1) 0%, rgba(0,212,255,1) 100%);
   box-shadow: 0 0 10px #000;
   display: flex;
   flex-direction: row;
@@ -87,7 +87,6 @@ body {
     appearance: none;
     background: #fdf2c6;
     border: 0.2em solid #2e2e2e;
-    border-radius: 0.8em;
     box-shadow: 0 0.2em 0 #000;
     font-weight: 700;
     font-size: 1.2rem;
@@ -164,22 +163,7 @@ body {
   min-width: 10em;
 
   &__label {
-    margin-bottom: 0.2em;
     text-align: center;
-  }
-
-  &__controls {
-    display: flex;
-    align-items: center;
-
-    button {
-      width: 2em;
-    }
-
-    > span {
-      flex-grow: 1;
-      padding: 0 0.6em;
-    }
   }
 }
 
