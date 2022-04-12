@@ -33,6 +33,8 @@ interface LifeState {
   savedCells: { [key: string]: { hue: number } };
 }
 
+const mutantMode = false;
+
 class Life extends Component<LifeProps, LifeState> {
   timerID: number | undefined = undefined;
   state: Readonly<LifeState> = {
@@ -62,7 +64,7 @@ class Life extends Component<LifeProps, LifeState> {
       if (this.state.paused === false) {
         this.runNextGeneration();
       }
-    }, this.state.speed);
+    }, 1000 - this.state.speed);
   };
 
   pause = () => {
@@ -164,11 +166,30 @@ class Life extends Component<LifeProps, LifeState> {
                 cells[cellKey] = { hue };
                 births++;
               } else {
-                cells[cellKey] = prevState.cells[cellKey];
+                if (mutantMode) {
+                  const random = Math.random();
+                  if (random > 0.999) {
+                    deaths++;
+                  } else {
+                    cells[cellKey] = prevState.cells[cellKey];
+                  }
+                } else {
+                  cells[cellKey] = prevState.cells[cellKey];
+                }
+              }
+              break;
+            case 1:
+              if (mutantMode) {
+                const random = Math.random();
+                if (random > 0.999) {
+                  cells[cellKey] = { hue };
+                  births++;
+                }
+              } else if (wasAlive) {
+                deaths++;
               }
               break;
             case 0:
-            case 1:
             case 4:
             default:
               if (wasAlive) {
@@ -184,9 +205,7 @@ class Life extends Component<LifeProps, LifeState> {
         cells,
         hue,
         births,
-        deaths,
-        paused:
-          Object.entries(cells).length === 0 && cells.constructor === Object,
+        deaths
       };
     });
   }

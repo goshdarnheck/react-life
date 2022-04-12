@@ -26,16 +26,15 @@ body {
 }
 
 .grid {
-  align-items: center;
   display: flex;
   flex-grow: 1;
-  justify-content: center;
   overflow-y: auto;
   user-select: none;
 
   > div {
     border: 1px solid #333;
     display: grid;
+    margin: auto;
   }
 }
 
@@ -150,6 +149,15 @@ body {
     display: flex;
     justify-content: space-between;
   }
+
+  &__state {
+    display: flex;
+    flex-direction: column;
+
+    button:not(:last-child) {
+      margin-bottom: 0.4em;
+    }
+  }
 }
 
 .stepper {
@@ -162,16 +170,15 @@ body {
 
   &__controls {
     display: flex;
+    align-items: center;
 
     button {
       width: 2em;
     }
 
-    span {
+    > span {
       flex-grow: 1;
-      line-height: 1.6em;
-      text-align: center;
-      vertical-align: center;
+      padding: 0 0.6em;
     }
   }
 }

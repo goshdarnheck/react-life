@@ -3,6 +3,6 @@ import "normalize.css/normalize.css";
 import Life from "./Life";
 
 ReactDOM.render(
-  <Life gridSize={50} cellSize={10} speed={200} paused={true} />,
+  <Life gridSize={50} cellSize={10} speed={500} paused={true} />,
   document.getElementById("root")
 );

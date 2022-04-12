@@ -9,7 +9,7 @@ interface StatsProps {
 const Stats: FunctionComponent<StatsProps> = ({ generation, births, deaths }) => (
   <dl className="stats">
     <div>
-      <dt>Generations</dt>
+      <dt>Generation</dt>
       <dd>{generation}</dd>
     </div>
     <div>

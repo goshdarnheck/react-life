@@ -21,8 +21,7 @@ interface controlsProps {
 const Controls: FunctionComponent<controlsProps> = (props) => (
   <div className="controls">
     <ul>
-      <li>
-        <button onClick={props.saveCells}>Save</button>
+      <li className="controls__state">
         <button
           onClick={props.loadCells}
           title="Load saved state"
@@ -32,6 +31,14 @@ const Controls: FunctionComponent<controlsProps> = (props) => (
           }
         >
           Load
+        </button>
+        <button onClick={props.saveCells}>Save</button>
+        <button
+          title="Clear grid"
+          disabled={!props.clearable}
+          onClick={props.clear}
+        >
+          Clear
         </button>
       </li>
       <li>
@@ -44,23 +51,15 @@ const Controls: FunctionComponent<controlsProps> = (props) => (
             ❚❚ Pause
           </button>
         )}
-        <button
-          title="Clear grid"
-          disabled={!props.clearable}
-          onClick={props.clear}
-        >
-          ⨯ Clear
-        </button>
       </li>
       <li>
         <Stepper
           label="Speed"
           value={props.speed}
-          unit="ms"
           changeValue={props.handleChangeSpeed}
-          step={100}
-          min={100}
-          max={1000}
+          step={50}
+          min={0}
+          max={950}
         />
       </li>
       <li>
@@ -77,7 +76,6 @@ const Controls: FunctionComponent<controlsProps> = (props) => (
         <Stepper
           label="Grid Size"
           value={props.gridSize}
-          formattedValue={`${props.gridSize}⨯${props.gridSize}`}
           changeValue={props.handleChangeGridSize}
           step={10}
           min={10}

@@ -5,8 +5,6 @@ import "@reach/slider/styles.css";
 interface stepperProps {
   label: string;
   value: number;
-  formattedValue?: string;
-  unit?: string;
   changeValue: (newSize: number) => void;
   step: number;
   min: number;
@@ -16,8 +14,6 @@ interface stepperProps {
 const Stepper: FunctionComponent<stepperProps> = ({
   label,
   value,
-  formattedValue,
-  unit,
   changeValue,
   step,
   min,
@@ -37,8 +33,6 @@ const Stepper: FunctionComponent<stepperProps> = ({
           &lt;
         </button>
         <span>
-          {formattedValue ? formattedValue : value}
-          {unit}
           <Slider
             min={min}
             max={max}
