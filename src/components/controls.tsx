@@ -1,29 +1,19 @@
 import { FunctionComponent } from "react";
 
 interface controlsProps {
-  loadCells: () => void;
   saveCells: () => void;
   play: () => void;
   pause: () => void;
   clear: () => void;
   paused: boolean;
-  savedCells?: { [key: string]: { hue: number } };
+  openLoadModal: () => void;
 }
 
 const Controls: FunctionComponent<controlsProps> = (props) => (
   <div className="controls">
     <ul>
       <li className="controls__state">
-        <button
-          onClick={props.loadCells}
-          title="Load saved state"
-          disabled={
-            props.savedCells === null ||
-            (props.savedCells && Object.keys(props.savedCells).length === 0)
-          }
-        >
-          Load
-        </button>
+        <button onClick={props.openLoadModal} title="Load a saved state">Load</button>
         <button onClick={props.saveCells}>Save</button>
         <button
           title="Clear grid and reset stats"

@@ -4,7 +4,7 @@ import Cell from "./components/cell";
 import Controls from "./components/controls";
 import Settings from "./components/settings";
 import Stats from "./components/stats";
-// import Examples from "./components/examples";
+import Load from "./components/load";
 import {
   MAX_HUE,
   HUE_STEP,
@@ -32,6 +32,7 @@ interface LifeState {
   cellSize: number;
   gridSize: number;
   savedCells: { [key: string]: { hue: number } };
+  loadModalIsOpen: boolean;
 }
 
 const mutantMode = false;
@@ -48,11 +49,12 @@ class Life extends Component<LifeProps, LifeState> {
     deaths: 0,
     cellSize: this.props.cellSize,
     gridSize: this.props.gridSize,
-    savedCells: {}
+    savedCells: {},
+    loadModalIsOpen: false
   };
 
   componentDidMount() {
-    this.importData(examples[0].data);
+    this.loadData(examples[0].data);
     this.setGenerationInterval();
   }
 
@@ -100,11 +102,7 @@ class Life extends Component<LifeProps, LifeState> {
     this.setState({ gridSize });
   };
 
-  handleSelectExample = (example: number[][]) => {
-    this.importData(example);
-  };
-
-  importData = (data: number[][]) => {
+  loadData = (data: number[][]) => {
     let newCells: { [key: string]: { hue: number } } = {};
 
     for (let i = 0, len = data.length; i < len; i++) {
@@ -117,7 +115,8 @@ class Life extends Component<LifeProps, LifeState> {
       generation: 0,
       paused: true,
       births: 0,
-      deaths: 0
+      deaths: 0,
+      loadModalIsOpen: false
     });
   };
 
@@ -211,28 +210,19 @@ class Life extends Component<LifeProps, LifeState> {
     });
   }
 
-  loadCells = () => {
-    this.setState((prevState: LifeState) => {
-      return {
-        cells: prevState.savedCells,
-        hue: 0,
-        generation: 0,
-        paused: true,
-        births: 0,
-        deaths: 0,
-        speed: prevState.speed,
-        cellSize: prevState.cellSize,
-        gridSize: prevState.gridSize,
-        savedCells: prevState.savedCells
-      };
-    });
-  };
+  openLoadModal = () => {
+    this.setState({ loadModalIsOpen: true});
+  }
+
+  closeLoadModal = () => {
+    this.setState({ loadModalIsOpen: false});
+  }
 
   saveCells = () => {
     this.setState(prevState => ({ savedCells: prevState.cells }));
   }
 
-  getCellList = () => {
+  renderCellList = () => {
     const yStart = Math.ceil(this.state.gridSize / 2);
     const yEnd = Math.ceil(0 - this.state.gridSize / 2);
     const xStart = Math.ceil(0 - this.state.gridSize / 2);
@@ -277,9 +267,8 @@ class Life extends Component<LifeProps, LifeState> {
             play={this.play}
             clear={this.clear}
             paused={this.state.paused}
-            savedCells={this.state.savedCells}
-            loadCells={this.loadCells}
             saveCells={this.saveCells}
+            openLoadModal={this.openLoadModal}
           />
           <Settings
             handleChangeSpeed={this.changeSpeed}
@@ -296,8 +285,14 @@ class Life extends Component<LifeProps, LifeState> {
           />
         </div>
         <Grid size={this.state.gridSize} cellSize={this.state.cellSize}>
-          {this.getCellList()}
+          {this.renderCellList()}
         </Grid>
+        <Load
+          isOpen={this.state.loadModalIsOpen}
+          close={this.closeLoadModal}
+          loadData={this.loadData}
+          examples={examples}
+        />
       </div>
     );
   }
