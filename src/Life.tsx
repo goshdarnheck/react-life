@@ -272,11 +272,6 @@ class Life extends Component<LifeProps, LifeState> {
       <div className="app">
         <div className="panel">
           <h1><LogoSvg /></h1>
-          <Stats
-            generation={this.state.generation}
-            births={this.state.births}
-            deaths={this.state.deaths}
-          />
           <Controls
             pause={this.pause}
             play={this.play}
@@ -293,6 +288,11 @@ class Life extends Component<LifeProps, LifeState> {
             speed={this.state.speed}
             cellSize={this.state.cellSize}
             gridSize={this.state.gridSize}
+          />
+          <Stats
+            generation={this.state.generation}
+            births={this.state.births}
+            deaths={this.state.deaths}
           />
         </div>
         <Grid size={this.state.gridSize} cellSize={this.state.cellSize}>

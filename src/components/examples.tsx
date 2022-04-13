@@ -7,9 +7,6 @@ interface exampleProps {
 
 const Examples: FunctionComponent<exampleProps> = ({ handleSelectExample }) => (
   <div className="examples">
-    <h2>
-      Examples <small>(Click to load)</small>
-    </h2>
     <ul>
       {examples.map((example, i) => {
         return (
