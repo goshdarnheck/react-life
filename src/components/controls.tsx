@@ -1,39 +1,38 @@
 import { FunctionComponent } from "react";
 
 interface controlsProps {
-  saveCells: () => void;
   play: () => void;
   pause: () => void;
   clear: () => void;
   paused: boolean;
   openLoadModal: () => void;
+  openSaveModal: () => void;
 }
 
 const Controls: FunctionComponent<controlsProps> = (props) => (
   <div className="controls">
-    <ul>
-      <li className="controls__state">
-        <button onClick={props.openLoadModal} title="Load a saved state">Load</button>
-        <button onClick={props.saveCells}>Save</button>
-        <button
-          title="Clear grid and reset stats"
-          onClick={props.clear}
-        >
-          Reset
-        </button>
+    <ul className="controls__state">
+      <li>
+        <button className="button" title="Load a saved state" onClick={props.openLoadModal} >Load</button>
       </li>
       <li>
-        {props.paused ? (
-          <button onClick={props.play} disabled={!props.paused}>
-            ► Play
-          </button>
-        ) : (
-          <button onClick={props.pause} disabled={props.paused}>
-            ❚❚ Pause
-          </button>
-        )}
+        <button className="button" onClick={props.openSaveModal}>Save</button>
+      </li>
+      <li>
+        <button className="button" title="Clear grid and reset stats" onClick={props.clear}>Reset</button>
       </li>
     </ul>
+    <div className="controls__life">
+      {props.paused ? (
+        <button className="button" onClick={props.play} disabled={!props.paused}>
+          <span>►</span><span>Play</span>
+        </button>
+      ) : (
+        <button className="button button-on" onClick={props.pause} disabled={props.paused}>
+          <span>❚❚</span><span>Pause</span>
+        </button>
+      )}
+    </div>
   </div>
 );
 

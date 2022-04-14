@@ -1,16 +1,18 @@
-import { Component } from "react";
+import { Component, ChangeEvent, FormEvent } from "react";
 import Grid from "./components/grid";
 import Cell from "./components/cell";
 import Controls from "./components/controls";
 import Settings from "./components/settings";
 import Stats from "./components/stats";
 import Load from "./components/load";
+import Save from "./components/save";
 import {
   MAX_HUE,
   HUE_STEP,
 } from "./lib/constants";
 import examples from "./lib/examples";
 import { calculateNeighbours } from "./lib/utils";
+import type { LoadableState } from "./lib/types";
 import { ReactComponent as LogoSvg } from './svg/reacty-life1-test.svg'
 import "./css/styles.scss"
 
@@ -31,8 +33,10 @@ interface LifeState {
   deaths: number;
   cellSize: number;
   gridSize: number;
-  savedCells: { [key: string]: { hue: number } };
   loadModalIsOpen: boolean;
+  saveModalIsOpen: boolean;
+  saveName: string;
+  savedStates: LoadableState[];
 }
 
 const mutantMode = false;
@@ -49,12 +53,15 @@ class Life extends Component<LifeProps, LifeState> {
     deaths: 0,
     cellSize: this.props.cellSize,
     gridSize: this.props.gridSize,
-    savedCells: {},
-    loadModalIsOpen: false
+    loadModalIsOpen: false,
+    saveModalIsOpen: false,
+    saveName: '',
+    savedStates: []
   };
 
   componentDidMount() {
     this.loadData(examples[0].data);
+    this.loadLocalStorage();
     this.setGenerationInterval();
   }
 
@@ -119,6 +126,26 @@ class Life extends Component<LifeProps, LifeState> {
       loadModalIsOpen: false
     });
   };
+
+  loadLocalStorage = () => {
+    const savedStates = localStorage.getItem("savedStates");
+
+    if (savedStates) {
+      this.setState({ savedStates: JSON.parse(savedStates) })
+    }
+  }
+
+  deleteSavedState = (index: number) => {
+    this.setState((prevState: LifeState) => {
+      let newSavedStates = [...prevState.savedStates];
+      newSavedStates.splice(index, 1);
+      localStorage.setItem("savedStates", JSON.stringify(newSavedStates));
+
+      return {
+        savedStates: newSavedStates
+      };
+    });
+  }
 
   handleCellClick = (cellKey: string) => {
     this.setState((prevState: LifeState) => {
@@ -211,15 +238,48 @@ class Life extends Component<LifeProps, LifeState> {
   }
 
   openLoadModal = () => {
-    this.setState({ loadModalIsOpen: true});
+    this.setState({ loadModalIsOpen: true });
   }
 
   closeLoadModal = () => {
-    this.setState({ loadModalIsOpen: false});
+    this.setState({ loadModalIsOpen: false });
   }
 
-  saveCells = () => {
-    this.setState(prevState => ({ savedCells: prevState.cells }));
+  openSaveModal = () => {
+    this.setState({ saveModalIsOpen: true, paused: true });
+  }
+
+  closeSaveModal = () => {
+    this.setState({ saveModalIsOpen: false});
+  }
+
+  onChangeSaveName = (event: ChangeEvent<HTMLInputElement>) => {
+    this.setState({ saveName: event.target.value});
+  }
+
+  saveData = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const cellKeys = Object.keys(this.state.cells);
+
+    if (cellKeys.length > 0) {
+      let data: number[][] = [];
+
+      cellKeys.forEach((cell) => {
+        const cellArr: string[] = cell.split("|");
+        data.push([parseInt(cellArr[0]), parseInt(cellArr[1])])
+      });
+
+      const savedStates = localStorage.getItem("savedStates");
+      let newSavedStates = savedStates ? JSON.parse(savedStates) : []
+      newSavedStates.push({ name: this.state.saveName, data: data });
+
+      localStorage.setItem("savedStates", JSON.stringify(newSavedStates));
+      this.setState({
+        saveModalIsOpen: false,
+        saveName: '',
+        savedStates: newSavedStates
+      });
+    }
   }
 
   renderCellList = () => {
@@ -267,8 +327,8 @@ class Life extends Component<LifeProps, LifeState> {
             play={this.play}
             clear={this.clear}
             paused={this.state.paused}
-            saveCells={this.saveCells}
             openLoadModal={this.openLoadModal}
+            openSaveModal={this.openSaveModal}
           />
           <Settings
             handleChangeSpeed={this.changeSpeed}
@@ -292,6 +352,15 @@ class Life extends Component<LifeProps, LifeState> {
           close={this.closeLoadModal}
           loadData={this.loadData}
           examples={examples}
+          savedStates={this.state.savedStates}
+          deleteSavedState={this.deleteSavedState}
+        />
+        <Save
+          isOpen={this.state.saveModalIsOpen}
+          close={this.closeSaveModal}
+          saveData={this.saveData}
+          saveName={this.state.saveName}
+          onChangeSaveName={this.onChangeSaveName}
         />
       </div>
     );

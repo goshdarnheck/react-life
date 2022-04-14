@@ -22,6 +22,45 @@ body {
   padding: 0;
 }
 
+.button {
+  appearance: none;
+  background: #ccc;
+  border: none;
+  border-radius: 0.4em;
+  box-shadow: 0 0.23em 0 #555;
+  color: #444;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin: 0;
+  padding: 0.5em 1em;
+  position: relative;
+  text-align: center;
+  top: 0;
+  transition: top 50ms ease-in-out, box-shadow 50ms ease;
+
+  &:hover,
+  &:focus {
+    outline: 1px solid #666;
+  }
+
+  &:active {
+    top: 0.2em;
+    box-shadow: 0 0 0 #000;
+  }
+
+  &[disabled] {
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  &[disabled]:hover,
+  &[disabled]:focus {
+    outline: none;
+  }
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -68,8 +107,7 @@ body {
 }
 
 .panel {
-  background: linear-gradient(336deg, rgba(35,139,203,1) 0%, rgba(0,212,255,1) 100%);
-  box-shadow: 0 0 10px #000;
+  background: white;
   display: flex;
   flex-direction: row;
   flex-shrink: 0;
@@ -79,56 +117,25 @@ body {
   h1 {
     margin: 0;
   }
+}
 
-  button {
-    appearance: none;
-    background: #fdf2c6;
-    border: none;
-    box-shadow: 0 0.2em 0 #000;
-    color: #333;
-    cursor: pointer;
-    display: inline-block;
-    font-weight: 700;
-    font-size: 1.2rem;
-    letter-spacing: 0.1em;
-    margin: 0;
-    padding: 0 0.5em 0.14em 0.5em;
-    position: relative;
-    text-align: center;
-    top: 0;
-    transition: top 50ms ease-in-out, box-shadow 50ms ease;
-
-    &:hover,
-    &:focus {
-      outline: 1px solid #fff;
-      outline-offset: -2px;
-    }
-  
-    &:active {
-      top: 0.2em;
-      box-shadow: 0 0 0 #000;
-    }
-  
-    &[disabled] {
-      cursor: default;
-      opacity: 0.5;
-    }
-  
-    &[disabled]:hover,
-    &[disabled]:focus {
-      outline: none;
-    }
-  }
-
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 
 .stats {
   background-color: #000;
   color: #fff;
   list-style-type: none;
-  line-height: 1.5;
   margin: 0;
   padding: 0.3em 0.5em;
+
+
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 
   > div {
     display: flex;
@@ -137,6 +144,9 @@ body {
 }
 
 .controls {
+  display: flex;
+  gap: 0.4em;
+
   ul {
     list-style: none;
     padding: 0;
@@ -149,8 +159,44 @@ body {
     display: flex;
     flex-direction: column;
 
-    button:not(:last-child) {
-      margin-bottom: 0.4em;
+    li {
+      &:not(:last-child) {
+        margin-bottom: 0.4em;
+      }
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+
+  &__life {
+    position: relative;
+
+    button {
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      width: 10rem;
+    }
+
+    .button {
+      justify-content: center;
+      background-color: green;
+      color: white;
+      display: flex;
+      flex-direction: column;
+
+      &.button-on {
+        background-color: lime;
+        box-shadow: 0 0.23em 0 #555,
+          0 0 1rem 0 lime;
+        text-shadow: 0 0 0.2em #131;
+      }
+
+      span:first-child {
+        font-size: 2em;
+      }
     }
   }
 }
@@ -223,4 +269,8 @@ body {
     bottom: 0;
     position: absolute;
   }
+}
+
+div[data-reach-dialog-overlay] {
+  z-index: 1;
 }
