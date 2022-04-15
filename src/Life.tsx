@@ -35,9 +35,8 @@ interface LifeState {
   saveName: string;
   savedStates: LoadableState[];
   torusMode: boolean;
+  mutantMode: boolean;
 }
-
-const mutantMode = false;
 
 class Life extends Component<LifeProps, LifeState> {
   timerID: number | undefined = undefined;
@@ -55,7 +54,8 @@ class Life extends Component<LifeProps, LifeState> {
     saveModalIsOpen: false,
     saveName: '',
     savedStates: [],
-    torusMode: false
+    torusMode: false,
+    mutantMode: false
   };
 
   componentDidMount() {
@@ -152,6 +152,12 @@ class Life extends Component<LifeProps, LifeState> {
     });
   }
 
+  toggleMutantMode = () => {
+    this.setState((prevState: LifeState) => {
+      return { mutantMode: !prevState.mutantMode }
+    });
+  }
+
   handleCellClick = (cellKey: string) => {
     this.setState((prevState: LifeState) => {
       let newCells = { ...prevState.cells };
@@ -178,7 +184,7 @@ class Life extends Component<LifeProps, LifeState> {
         prevState.gridSize,
         hue,
         prevState.torusMode,
-        mutantMode
+        prevState.mutantMode
       );
 
       return {
@@ -285,6 +291,8 @@ class Life extends Component<LifeProps, LifeState> {
             openSaveModal={this.openSaveModal}
             torusMode={this.state.torusMode}
             toggleTorusMode={this.toggleTorusMode}
+            mutantMode={this.state.mutantMode}
+            toggleMutantMode={this.toggleMutantMode}
           />
           <Settings
             handleChangeSpeed={this.changeSpeed}

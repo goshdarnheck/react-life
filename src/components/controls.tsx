@@ -9,6 +9,8 @@ interface controlsProps {
   openSaveModal: () => void;
   torusMode: boolean;
   toggleTorusMode: () => void;
+  mutantMode: boolean;
+  toggleMutantMode: () => void;
 }
 
 const Controls: FunctionComponent<controlsProps> = memo((props) => (
@@ -36,8 +38,14 @@ const Controls: FunctionComponent<controlsProps> = memo((props) => (
       )}
     </div>
     <div className="controls__modifiers">
-      <label htmlFor="torus">Torus</label>
-      <input id="torus" type="checkbox" checked={props.torusMode} onChange={props.toggleTorusMode} />
+      <div>
+        <label htmlFor="torus">Torus</label>
+        <input id="torus" type="checkbox" checked={props.torusMode} onChange={props.toggleTorusMode} />
+      </div>
+      <div>
+        <label htmlFor="mutant">Mutants</label>
+        <input id="mutant" type="checkbox" checked={props.mutantMode} onChange={props.toggleMutantMode} />
+      </div>
     </div>
   </div>
 ));
