@@ -5,9 +5,11 @@ interface SettingsProps {
   handleChangeSpeed: (speed: number) => void;
   handleChangeCellSize: (newSize: number) => void;
   handleChangeGridSize: (newSize: number) => void;
+  handleChangeHueStep: (hueStep: number) => void;
   speed: number;
   cellSize: number;
   gridSize: number;
+  hueStep: number;
 }
 
 const Settings: FunctionComponent<SettingsProps> = memo((props) => (
@@ -38,6 +40,15 @@ const Settings: FunctionComponent<SettingsProps> = memo((props) => (
       min={10}
       max={80}
       getAriaValueText={() => `${props.gridSize} × ${props.gridSize}`}
+    />
+    <Stepper
+      label="Hue"
+      value={props.hueStep}
+      changeValue={props.handleChangeHueStep}
+      step={0.1}
+      min={0}
+      max={180}
+      getAriaValueText={() => props.hueStep.toString()}
     />
   </div>
 ));

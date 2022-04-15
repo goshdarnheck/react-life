@@ -7,11 +7,12 @@ import Stats from "./components/stats";
 import Load from "./components/load";
 import Save from "./components/save";
 import Logo from "./components/logo";
-import { MAX_HUE, HUE_STEP } from "./lib/constants";
 import examples from "./lib/examples";
 import { runGeneration } from "./lib/utils";
 import type { LoadableState } from "./lib/types";
 import "./css/styles.scss"
+
+const MAX_HUE = 360;
 
 interface LifeProps {
   speed: number;
@@ -26,6 +27,7 @@ interface LifeState {
   paused: boolean;
   generation: number;
   hue: number;
+  hueStep: number;
   births: number;
   deaths: number;
   cellSize: number;
@@ -46,6 +48,7 @@ class Life extends Component<LifeProps, LifeState> {
     paused: this.props.paused,
     generation: 0,
     hue: 0,
+    hueStep: 29,
     births: 0,
     deaths: 0,
     cellSize: this.props.cellSize,
@@ -107,6 +110,10 @@ class Life extends Component<LifeProps, LifeState> {
   changeGridSize = (gridSize: number) => {
     this.setState({ gridSize });
   };
+
+  changeHueStep = (hueStep: number) => {
+    this.setState({ hueStep });
+  }
 
   loadData = (data: number[][]) => {
     let newCells: { [key: string]: { hue: number } } = {};
@@ -176,7 +183,7 @@ class Life extends Component<LifeProps, LifeState> {
 
   runNextGeneration() {
     this.setState((prevState) => {
-      const newHue = prevState.hue + HUE_STEP;
+      const newHue = prevState.hue + this.state.hueStep;
       const hue = newHue < MAX_HUE ? newHue : newHue - MAX_HUE;
 
       const response = runGeneration(
@@ -298,9 +305,11 @@ class Life extends Component<LifeProps, LifeState> {
             handleChangeSpeed={this.changeSpeed}
             handleChangeCellSize={this.changeCellSize}
             handleChangeGridSize={this.changeGridSize}
+            handleChangeHueStep={this.changeHueStep}
             speed={this.state.speed}
             cellSize={this.state.cellSize}
             gridSize={this.state.gridSize}
+            hueStep={this.state.hueStep}
           />
           <Stats
             generation={this.state.generation}
