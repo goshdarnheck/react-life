@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, memo } from "react";
 import Stepper from "./stepper";
 
 interface SettingsProps {
@@ -10,7 +10,7 @@ interface SettingsProps {
   gridSize: number;
 }
 
-const Settings: FunctionComponent<SettingsProps> = (props) => (
+const Settings: FunctionComponent<SettingsProps> = memo((props) => (
   <div className="settings">
     <Stepper
       label="Speed"
@@ -40,6 +40,6 @@ const Settings: FunctionComponent<SettingsProps> = (props) => (
       getAriaValueText={() => `${props.gridSize} × ${props.gridSize}`}
     />
   </div>
-)
+));
 
 export default Settings;

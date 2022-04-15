@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, memo } from "react";
 
 interface controlsProps {
   play: () => void;
@@ -11,7 +11,7 @@ interface controlsProps {
   toggleTorusMode: () => void;
 }
 
-const Controls: FunctionComponent<controlsProps> = (props) => (
+const Controls: FunctionComponent<controlsProps> = memo((props) => (
   <div className="controls">
     <ul className="controls__state">
       <li>
@@ -40,6 +40,6 @@ const Controls: FunctionComponent<controlsProps> = (props) => (
       <input id="torus" type="checkbox" checked={props.torusMode} onChange={props.toggleTorusMode} />
     </div>
   </div>
-);
+));
 
 export default Controls;

@@ -6,14 +6,11 @@ import Settings from "./components/settings";
 import Stats from "./components/stats";
 import Load from "./components/load";
 import Save from "./components/save";
-import {
-  MAX_HUE,
-  HUE_STEP,
-} from "./lib/constants";
+import Logo from "./components/logo";
+import { MAX_HUE, HUE_STEP } from "./lib/constants";
 import examples from "./lib/examples";
-import { calculateNeighbours } from "./lib/utils";
+import { runGeneration } from "./lib/utils";
 import type { LoadableState } from "./lib/types";
-import { ReactComponent as LogoSvg } from './svg/reacty-life1-test.svg'
 import "./css/styles.scss"
 
 interface LifeProps {
@@ -175,81 +172,21 @@ class Life extends Component<LifeProps, LifeState> {
     this.setState((prevState) => {
       const newHue = prevState.hue + HUE_STEP;
       const hue = newHue < MAX_HUE ? newHue : newHue - MAX_HUE;
-      const yStart = Math.ceil(this.state.gridSize / 2);
-      const yEnd = Math.ceil(0 - this.state.gridSize / 2);
-      const xStart = Math.ceil(0 - this.state.gridSize / 2);
-      const xEnd = Math.ceil(this.state.gridSize / 2);
-      let cells: { [key: string]: { hue: number } } = {};
-      let births = prevState.births;
-      let deaths = prevState.deaths;
 
-      for (let y = yStart; y > yEnd; y--) {
-        for (let x = xStart; x < xEnd; x++) {
-          const cellKey = `${x}|${y}`;
-
-          const wasAlive = prevState.cells[cellKey] ? true : false;
-          const neighbours = calculateNeighbours(
-            prevState.cells,
-            x,
-            y,
-            this.state.torusMode,
-            yStart,
-            yEnd + 1,
-            xStart,
-            xEnd - 1
-          );
-
-          switch (neighbours) {
-            case 2:
-              if (wasAlive) {
-                cells[cellKey] = prevState.cells[cellKey];
-              }
-              break;
-            case 3:
-              if (!wasAlive) {
-                cells[cellKey] = { hue };
-                births++;
-              } else {
-                if (mutantMode) {
-                  const random = Math.random();
-                  if (random > 0.999) {
-                    deaths++;
-                  } else {
-                    cells[cellKey] = prevState.cells[cellKey];
-                  }
-                } else {
-                  cells[cellKey] = prevState.cells[cellKey];
-                }
-              }
-              break;
-            case 1:
-              if (mutantMode) {
-                const random = Math.random();
-                if (random > 0.999) {
-                  cells[cellKey] = { hue };
-                  births++;
-                }
-              } else if (wasAlive) {
-                deaths++;
-              }
-              break;
-            case 0:
-            case 4:
-            default:
-              if (wasAlive) {
-                deaths++;
-              }
-              break;
-          }
-        }
-      }
+      const response = runGeneration(
+        prevState.cells,
+        prevState.gridSize,
+        hue,
+        prevState.torusMode,
+        mutantMode
+      );
 
       return {
         generation: prevState.generation + 1,
-        cells,
+        cells: response.cells,
         hue,
-        births,
-        deaths
+        births: response.births,
+        deaths: response.deaths
       };
     });
   }
@@ -338,7 +275,7 @@ class Life extends Component<LifeProps, LifeState> {
     return (
       <div className="app">
         <div className="panel">
-          <h1><LogoSvg /></h1>
+          <Logo />
           <Controls
             pause={this.pause}
             play={this.play}

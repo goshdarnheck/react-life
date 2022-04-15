@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, memo } from "react";
 
 interface StatsProps {
   generation: number;
@@ -6,7 +6,7 @@ interface StatsProps {
   deaths: number;
 }
 
-const Stats: FunctionComponent<StatsProps> = ({ generation, births, deaths }) => (
+const Stats: FunctionComponent<StatsProps> = memo(({ generation, births, deaths }) => (
   <dl className="stats">
     <div>
       <dt>Generation</dt>
@@ -21,6 +21,6 @@ const Stats: FunctionComponent<StatsProps> = ({ generation, births, deaths }) =>
       <dd>{deaths}</dd>
     </div>
   </dl>
-);
+));
 
 export default Stats;
