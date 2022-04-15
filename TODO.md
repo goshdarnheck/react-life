@@ -1,6 +1,5 @@
 ## FUTURE
 
-- delete saved states
 - "mutantation" mode
 - option to make the grid a "torus"
 - style save/load modals

@@ -37,6 +37,7 @@ interface LifeState {
   saveModalIsOpen: boolean;
   saveName: string;
   savedStates: LoadableState[];
+  torusMode: boolean;
 }
 
 const mutantMode = false;
@@ -56,7 +57,8 @@ class Life extends Component<LifeProps, LifeState> {
     loadModalIsOpen: false,
     saveModalIsOpen: false,
     saveName: '',
-    savedStates: []
+    savedStates: [],
+    torusMode: false
   };
 
   componentDidMount() {
@@ -147,6 +149,12 @@ class Life extends Component<LifeProps, LifeState> {
     });
   }
 
+  toggleTorusMode = () => {
+    this.setState((prevState: LifeState) => {
+      return { torusMode: !prevState.torusMode }
+    });
+  }
+
   handleCellClick = (cellKey: string) => {
     this.setState((prevState: LifeState) => {
       let newCells = { ...prevState.cells };
@@ -180,7 +188,16 @@ class Life extends Component<LifeProps, LifeState> {
           const cellKey = `${x}|${y}`;
 
           const wasAlive = prevState.cells[cellKey] ? true : false;
-          const neighbours = calculateNeighbours(prevState.cells, x, y);
+          const neighbours = calculateNeighbours(
+            prevState.cells,
+            x,
+            y,
+            this.state.torusMode,
+            yStart,
+            yEnd + 1,
+            xStart,
+            xEnd - 1
+          );
 
           switch (neighbours) {
             case 2:
@@ -329,6 +346,8 @@ class Life extends Component<LifeProps, LifeState> {
             paused={this.state.paused}
             openLoadModal={this.openLoadModal}
             openSaveModal={this.openSaveModal}
+            torusMode={this.state.torusMode}
+            toggleTorusMode={this.toggleTorusMode}
           />
           <Settings
             handleChangeSpeed={this.changeSpeed}

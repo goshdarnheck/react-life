@@ -52,13 +52,13 @@ it("Calculates neighbours correctly", () => {
     "1|-1": { hue: 0 },
   };
 
-  expect(calculateNeighbours(noCells, x, y)).toEqual(0);
-  expect(calculateNeighbours(oneCell, x, y)).toEqual(1);
-  expect(calculateNeighbours(twoCells, x, y)).toEqual(2);
-  expect(calculateNeighbours(threeCells, x, y)).toEqual(3);
-  expect(calculateNeighbours(fourCells, x, y)).toEqual(4);
-  expect(calculateNeighbours(fiveCells, x, y)).toEqual(5);
-  expect(calculateNeighbours(sixCells, x, y)).toEqual(6);
-  expect(calculateNeighbours(sevenCells, x, y)).toEqual(7);
-  expect(calculateNeighbours(eightCells, x, y)).toEqual(8);
+  expect(calculateNeighbours(noCells, x, y, false)).toEqual(0);
+  expect(calculateNeighbours(oneCell, x, y, false)).toEqual(1);
+  expect(calculateNeighbours(twoCells, x, y, false)).toEqual(2);
+  expect(calculateNeighbours(threeCells, x, y, false)).toEqual(3);
+  expect(calculateNeighbours(fourCells, x, y, false)).toEqual(4);
+  expect(calculateNeighbours(fiveCells, x, y, false)).toEqual(5);
+  expect(calculateNeighbours(sixCells, x, y, false)).toEqual(6);
+  expect(calculateNeighbours(sevenCells, x, y, false)).toEqual(7);
+  expect(calculateNeighbours(eightCells, x, y, false)).toEqual(8);
 });

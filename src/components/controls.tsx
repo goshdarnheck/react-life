@@ -7,6 +7,8 @@ interface controlsProps {
   paused: boolean;
   openLoadModal: () => void;
   openSaveModal: () => void;
+  torusMode: boolean;
+  toggleTorusMode: () => void;
 }
 
 const Controls: FunctionComponent<controlsProps> = (props) => (
@@ -32,6 +34,10 @@ const Controls: FunctionComponent<controlsProps> = (props) => (
           <span>❚❚</span><span>Pause</span>
         </button>
       )}
+    </div>
+    <div className="controls__modifiers">
+      <label htmlFor="torus">Torus</label>
+      <input id="torus" type="checkbox" checked={props.torusMode} onChange={props.toggleTorusMode} />
     </div>
   </div>
 );
