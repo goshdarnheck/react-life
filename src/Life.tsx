@@ -38,6 +38,7 @@ interface LifeState {
   savedStates: LoadableState[];
   torusMode: boolean;
   mutantMode: boolean;
+  isDrawingCells: boolean;
 }
 
 class Life extends Component<LifeProps, LifeState> {
@@ -58,7 +59,8 @@ class Life extends Component<LifeProps, LifeState> {
     saveName: '',
     savedStates: [],
     torusMode: false,
-    mutantMode: false
+    mutantMode: false,
+    isDrawingCells: false
   };
 
   componentDidMount() {
@@ -73,7 +75,7 @@ class Life extends Component<LifeProps, LifeState> {
 
   setGenerationInterval = () => {
     this.timerID = window.setInterval(() => {
-      if (this.state.paused === false) {
+      if (this.state.paused === false && this.state.isDrawingCells === false) {
         this.runNextGeneration();
       }
     }, 1000 - this.state.speed);
@@ -276,6 +278,7 @@ class Life extends Component<LifeProps, LifeState> {
             y={y}
             hue={hue}
             alive={alive}
+            onCellMouseEnter={this.onCellMouseEnter}
           />
         );
       }
@@ -284,9 +287,23 @@ class Life extends Component<LifeProps, LifeState> {
     return cells;
   };
 
+  onCellMouseEnter = (cellKey: string) => {
+    if (this.state.isDrawingCells) {
+      this.handleCellClick(cellKey);
+    }
+  } 
+
+  onGridMouseDown = () => {
+    this.setState({ isDrawingCells: true });
+  }
+
+  onGridMouseUp = () => {
+    this.setState({ isDrawingCells: false });
+  }
+
   render() {
     return (
-      <div className="app">
+      <div className="app" onMouseUp={this.onGridMouseUp}>
         <div className="panel">
           <Logo />
           <Controls
@@ -317,7 +334,12 @@ class Life extends Component<LifeProps, LifeState> {
             deaths={this.state.deaths}
           />
         </div>
-        <Grid size={this.state.gridSize} cellSize={this.state.cellSize}>
+        <Grid
+          size={this.state.gridSize}
+          cellSize={this.state.cellSize}
+          onGridMouseDown={this.onGridMouseDown}
+          onGridMouseUp={this.onGridMouseUp}
+        >
           {this.renderCellList()}
         </Grid>
         <Load
