@@ -1,6 +1,5 @@
 # TODO
 
-- click and drag to toggle cells
 - "about" modal w/ reachui dialog
 - reponsive styles
 - style save/load modals

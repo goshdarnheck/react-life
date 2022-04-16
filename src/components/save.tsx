@@ -10,7 +10,7 @@ interface SaveProps {
   onChangeSaveName: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
-const Save: FunctionComponent<SaveProps> = ({ isOpen, close, saveData, saveName, onChangeSaveName}) => (
+const Save: FunctionComponent<SaveProps> = ({ isOpen, close, saveData, saveName, onChangeSaveName }) => (
   <div>
     <Dialog isOpen={isOpen} onDismiss={close} aria-labelledby="save-title">
       <button className="close-button" onClick={close}>

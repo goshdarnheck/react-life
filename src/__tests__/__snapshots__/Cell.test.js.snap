@@ -5,6 +5,7 @@ exports[`Cell renders correctly when alive 1`] = `
   aria-label="0, 0: alive"
   className="cell alive"
   onClick={[Function]}
+  onMouseEnter={[Function]}
   style={
     Object {
       "backgroundColor": "hsl(0, 100%, 50%)",
@@ -19,6 +20,7 @@ exports[`Cell renders correctly when not alive 1`] = `
   aria-label="0, 0: dead"
   className="cell dead"
   onClick={[Function]}
+  onMouseEnter={[Function]}
   style={
     Object {
       "backgroundColor": "#222",

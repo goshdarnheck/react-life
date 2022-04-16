@@ -6,6 +6,7 @@ import Settings from "./components/settings";
 import Stats from "./components/stats";
 import Load from "./components/load";
 import Save from "./components/save";
+import About from "./components/about";
 import Logo from "./components/logo";
 import examples from "./lib/examples";
 import { runGeneration } from "./lib/utils";
@@ -34,6 +35,7 @@ interface LifeState {
   gridSize: number;
   loadModalIsOpen: boolean;
   saveModalIsOpen: boolean;
+  aboutModalIsOpen: boolean;
   saveName: string;
   savedStates: LoadableState[];
   torusMode: boolean;
@@ -56,6 +58,7 @@ class Life extends Component<LifeProps, LifeState> {
     gridSize: this.props.gridSize,
     loadModalIsOpen: false,
     saveModalIsOpen: false,
+    aboutModalIsOpen: false,
     saveName: '',
     savedStates: [],
     torusMode: false,
@@ -210,16 +213,20 @@ class Life extends Component<LifeProps, LifeState> {
     this.setState({ loadModalIsOpen: true });
   }
 
-  closeLoadModal = () => {
-    this.setState({ loadModalIsOpen: false });
-  }
-
   openSaveModal = () => {
     this.setState({ saveModalIsOpen: true, paused: true });
   }
 
-  closeSaveModal = () => {
-    this.setState({ saveModalIsOpen: false});
+  openAboutModal = () => {
+    this.setState({ aboutModalIsOpen: true });
+  }
+
+  closeModals = () => {
+    this.setState({
+      loadModalIsOpen: false,
+      saveModalIsOpen: false,
+      aboutModalIsOpen: false
+    });
   }
 
   onChangeSaveName = (event: ChangeEvent<HTMLInputElement>) => {
@@ -306,6 +313,7 @@ class Life extends Component<LifeProps, LifeState> {
       <div className="app" onMouseUp={this.onGridMouseUp}>
         <div className="panel">
           <Logo />
+          <button onClick={this.openAboutModal}>About</button>
           <Controls
             pause={this.pause}
             play={this.play}
@@ -344,7 +352,7 @@ class Life extends Component<LifeProps, LifeState> {
         </Grid>
         <Load
           isOpen={this.state.loadModalIsOpen}
-          close={this.closeLoadModal}
+          close={this.closeModals}
           loadData={this.loadData}
           examples={examples}
           savedStates={this.state.savedStates}
@@ -352,10 +360,14 @@ class Life extends Component<LifeProps, LifeState> {
         />
         <Save
           isOpen={this.state.saveModalIsOpen}
-          close={this.closeSaveModal}
+          close={this.closeModals}
           saveData={this.saveData}
           saveName={this.state.saveName}
           onChangeSaveName={this.onChangeSaveName}
+        />
+        <About
+          isOpen={this.state.aboutModalIsOpen}
+          close={this.closeModals}
         />
       </div>
     );
