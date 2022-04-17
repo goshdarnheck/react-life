@@ -203,8 +203,8 @@ class Life extends Component<LifeProps, LifeState> {
         generation: prevState.generation + 1,
         cells: response.cells,
         hue,
-        births: response.births,
-        deaths: response.deaths
+        births: prevState.births + response.births,
+        deaths: prevState.deaths + response.deaths
       };
     });
   }
