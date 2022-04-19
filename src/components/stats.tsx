@@ -7,20 +7,22 @@ interface StatsProps {
 }
 
 const Stats: FunctionComponent<StatsProps> = memo(({ generation, births, deaths }) => (
-  <dl className="stats">
-    <div>
-      <dt>Generation</dt>
-      <dd>{generation}</dd>
-    </div>
-    <div>
-      <dt>Births</dt>
-      <dd>{births}</dd>
-    </div>
-    <div>
-      <dt>Deaths</dt>
-      <dd>{deaths}</dd>
-    </div>
-  </dl>
+  <div className="stats">
+    <dl>
+      <div>
+        <dt>Generation</dt>
+        <dd>{generation}</dd>
+      </div>
+      <div>
+        <dt>Births</dt>
+        <dd>{births}</dd>
+      </div>
+      <div>
+        <dt>Deaths</dt>
+        <dd>{deaths}</dd>
+      </div>
+    </dl>
+  </div>
 ));
 
 export default Stats;

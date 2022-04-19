@@ -1,6 +1,5 @@
 # TODO
 
-- "about" modal w/ reachui dialog
 - reponsive styles
 - style save/load modals
 - style sliders

@@ -7,11 +7,12 @@ import Stats from "./components/stats";
 import Load from "./components/load";
 import Save from "./components/save";
 import About from "./components/about";
-import Logo from "./components/logo";
+import Header from "./components/header";
 import examples from "./lib/examples";
 import { runGeneration } from "./lib/utils";
 import type { LoadableState } from "./lib/types";
 import "./css/styles.scss"
+import "./css/reachui.scss"
 
 const MAX_HUE = 360;
 
@@ -312,8 +313,7 @@ class Life extends Component<LifeProps, LifeState> {
     return (
       <div className="app" onMouseUp={this.onGridMouseUp}>
         <div className="panel">
-          <Logo />
-          <button onClick={this.openAboutModal}>About</button>
+          <Header onClick={this.openAboutModal} />
           <Controls
             pause={this.pause}
             play={this.play}

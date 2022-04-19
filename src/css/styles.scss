@@ -51,7 +51,14 @@ body {
   &:hover,
   &:focus {
     outline: none;
-    color: rgb(187, 0, 0);
+    background-color: rgb(226, 238, 220);
+    box-shadow:
+      0 0.3em 0 rgb(123, 138, 121),
+      0 0.5em 0 #555,
+      0.1em 0.5em 0 #555,
+      -0.1em 0.5em 0 #555,
+      0.22em 0.5em 0 rgb(180, 180, 180),
+      -0.2em 0.5em 0 rgb(180, 180, 180);
   }
 
   &:active {
@@ -124,10 +131,32 @@ body {
   flex-direction: row;
   flex-shrink: 0;
   justify-content: space-between;
-  padding: 1rem;
-  
+  padding: 2rem;
+}
+
+.header {
   h1 {
+    font-size: 2em;
     margin: 0;
+  }
+
+  svg {
+    margin-bottom: 0.4em;
+  }
+
+  button {
+    appearance: none;
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+
+    span {
+      font-size: 0.5em;
+      text-decoration: underline;
+      text-transform: uppercase;
+    }
   }
 }
 
@@ -138,45 +167,40 @@ body {
 }
 
 .stats {
-  background-color: #000;
-  color: #fff;
-  list-style-type: none;
-  margin: 0;
-  padding: 0.3em 0.5em;
-
-
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-
-  > div {
+  dl {
+    background-color: #000;
+    color: #fff;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    font-family: 'Courier New', Courier, monospace;
+    gap: 0.4em;
+    list-style-type: none;
+    margin: 0;
+    padding: 0.3em 0.5em;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }
 
 .controls {
   display: flex;
-  gap: 2em;
+  gap: 1em;
 
   ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
-    justify-content: space-between;
+    gap: 0.7em;
   }
 
   &__state {
     display: flex;
     flex-direction: column;
-
-    li {
-      &:not(:last-child) {
-        margin-bottom: 0.4em;
-      }
-    }
-
+  
     button {
       width: 100%;
     }
@@ -246,6 +270,8 @@ body {
   min-width: 10em;
 
   &__label {
+    font-size: 1.4rem;
+    margin-bottom: 0.4em;
     text-align: center;
   }
 }
@@ -310,8 +336,4 @@ body {
     bottom: 0;
     position: absolute;
   }
-}
-
-div[data-reach-dialog-overlay] {
-  z-index: 1;
 }
