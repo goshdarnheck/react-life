@@ -26,25 +26,29 @@ const Controls: FunctionComponent<controlsProps> = memo((props) => (
         <button className="button" title="Clear grid and reset stats" onClick={props.clear}>Reset</button>
       </li>
     </ul>
-    <div className="controls__life">
-      {props.paused ? (
-        <button className="button" onClick={props.play} disabled={!props.paused}>
-          <span>►</span><span>Play</span>
+    <div className="controls__game">
+      <div className="controls__life">
+        <button className={`button ${props.paused ? 'paused' : 'playing'}`} onClick={props.paused ? props.play : props.pause}>
+          <span>
+            <span>►</span>
+            <span>Play</span>
+          </span>
+          <span>/</span>
+          <span>
+            <span>❚❚</span>
+            <span>Pause</span>
+          </span>
         </button>
-      ) : (
-        <button className="button button-on" onClick={props.pause} disabled={props.paused}>
-          <span>❚❚</span><span>Pause</span>
-        </button>
-      )}
-    </div>
-    <div className="controls__modifiers">
-      <div>
-        <label htmlFor="torus">Torus</label>
-        <input id="torus" type="checkbox" checked={props.torusMode} onChange={props.toggleTorusMode} />
       </div>
-      <div>
-        <label htmlFor="mutant">Mutants</label>
-        <input id="mutant" type="checkbox" checked={props.mutantMode} onChange={props.toggleMutantMode} />
+      <div className="controls__modifiers">
+        <div>
+          <label htmlFor="torus">Torus</label>
+          <input id="torus" type="checkbox" checked={props.torusMode} onChange={props.toggleTorusMode} />
+        </div>
+        <div>
+          <label htmlFor="mutant">Mutants</label>
+          <input id="mutant" type="checkbox" checked={props.mutantMode} onChange={props.toggleMutantMode} />
+        </div>
       </div>
     </div>
   </div>
