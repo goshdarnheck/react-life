@@ -24,3 +24,31 @@ div[data-reach-slider-handle] {
     top: calc(50% - 0.1em);
   }
 }
+
+div[data-reach-dialog-content] {
+  width: calc(100vw - 2em);
+  margin: 1em auto;
+  background: white;
+  padding: 2rem;
+  outline: none;
+  max-widtH: 40em;
+}
+
+.controls__modifiers {
+  label:focus-within {
+    outline: 1px dotted limegreen;
+  }
+}
+
+span[data-reach-custom-checkbox-container] {
+  border: 0.2em solid black;
+  margin-left: 0.3em;
+
+  &:focus-within {
+    box-shadow: none;
+  }
+
+  &[data-state="checked"] {
+    background-color: limegreen;
+  }
+}

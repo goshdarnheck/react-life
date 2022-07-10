@@ -7,9 +7,7 @@ interface Cells {
 }
 
 interface Generation {
-  cells: Cells,
-  births: number,
-  deaths: number
+  cells: Cells
 }
 
 export const calculateNeighbours = (
@@ -130,8 +128,6 @@ export const runGeneration = (
   const xEnd = Math.ceil(gridSize / 2);
 
   let cells: { [key: string]: { hue: number } } = {};
-  let births = 0;
-  let deaths = 0;
 
   for (let y = yStart; y > yEnd; y--) {
     for (let x = xStart; x < xEnd; x++) {
@@ -150,53 +146,53 @@ export const runGeneration = (
       );
 
       switch (neighbours) {
-        case 2:
+        case 2: {
           if (wasAlive) {
             cells[cellKey] = prevCells[cellKey];
           }
+
           break;
-        case 3:
+        }
+
+        case 3: {
           if (!wasAlive) {
             cells[cellKey] = { hue };
-            births++;
           } else {
             if (mutantMode) {
               const random = Math.random();
-              if (random > 0.999) {
-                deaths++;
-              } else {
+
+              if (random <= 0.999) {
                 cells[cellKey] = prevCells[cellKey];
               }
             } else {
               cells[cellKey] = prevCells[cellKey];
             }
           }
+          
           break;
-        case 1:
+        }
+
+        case 1: {
           if (mutantMode) {
             const random = Math.random();
+
             if (random > 0.999) {
               cells[cellKey] = { hue };
-              births++;
             }
-          } else if (wasAlive) {
-            deaths++;
           }
+
           break;
+        }
+
         case 0:
         case 4:
         default:
-          if (wasAlive) {
-            deaths++;
-          }
           break;
       }
     }
   }
 
   return {
-    cells,
-    births,
-    deaths
+    cells
   }
 }

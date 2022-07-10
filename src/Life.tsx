@@ -2,14 +2,13 @@ import { Component, ChangeEvent, FormEvent } from "react";
 import Grid from "./components/grid";
 import Cell from "./components/cell";
 import Controls from "./components/controls";
-import Settings from "./components/settings";
-import Stats from "./components/stats";
 import Load from "./components/load";
 import Save from "./components/save";
 import About from "./components/about";
 import Header from "./components/header";
+import Stepper from "./components/stepper";
 import examples from "./lib/examples";
-import { runGeneration } from "./lib/utils";
+import { runGeneration } from "./lib/core";
 import type { LoadableState } from "./lib/types";
 import "./css/styles.scss"
 import "./css/reachui.scss"
@@ -27,11 +26,8 @@ interface LifeState {
   cells: { [key: string]: { hue: number } };
   speed: number;
   paused: boolean;
-  generation: number;
   hue: number;
   hueStep: number;
-  births: number;
-  deaths: number;
   cellSize: number;
   gridSize: number;
   loadModalIsOpen: boolean;
@@ -50,11 +46,8 @@ class Life extends Component<LifeProps, LifeState> {
     cells: {},
     speed: this.props.speed,
     paused: this.props.paused,
-    generation: 0,
     hue: 0,
     hueStep: 29,
-    births: 0,
-    deaths: 0,
     cellSize: this.props.cellSize,
     gridSize: this.props.gridSize,
     loadModalIsOpen: false,
@@ -97,10 +90,7 @@ class Life extends Component<LifeProps, LifeState> {
     this.setState({
       cells: {},
       paused: true,
-      generation: 0,
-      hue: 0,
-      births: 0,
-      deaths: 0
+      hue: 0
     });
   };
 
@@ -131,10 +121,7 @@ class Life extends Component<LifeProps, LifeState> {
     this.setState({
       cells: newCells,
       hue: 0,
-      generation: 0,
       paused: true,
-      births: 0,
-      deaths: 0,
       loadModalIsOpen: false
     });
   };
@@ -189,23 +176,20 @@ class Life extends Component<LifeProps, LifeState> {
 
   runNextGeneration() {
     this.setState((prevState) => {
-      const newHue = prevState.hue + this.state.hueStep;
-      const hue = newHue < MAX_HUE ? newHue : newHue - MAX_HUE;
+      const nextHue = prevState.hue + this.state.hueStep;
+      const newHue = nextHue < MAX_HUE ? nextHue : nextHue - MAX_HUE;
 
       const response = runGeneration(
         prevState.cells,
         prevState.gridSize,
-        hue,
+        newHue,
         prevState.torusMode,
         prevState.mutantMode
       );
 
       return {
-        generation: prevState.generation + 1,
         cells: response.cells,
-        hue,
-        births: prevState.births + response.births,
-        deaths: prevState.deaths + response.deaths
+        hue: newHue
       };
     });
   }
@@ -325,21 +309,8 @@ class Life extends Component<LifeProps, LifeState> {
             toggleTorusMode={this.toggleTorusMode}
             mutantMode={this.state.mutantMode}
             toggleMutantMode={this.toggleMutantMode}
-          />
-          <Settings
             handleChangeSpeed={this.changeSpeed}
-            handleChangeCellSize={this.changeCellSize}
-            handleChangeGridSize={this.changeGridSize}
-            handleChangeHueStep={this.changeHueStep}
             speed={this.state.speed}
-            cellSize={this.state.cellSize}
-            gridSize={this.state.gridSize}
-            hueStep={this.state.hueStep}
-          />
-          <Stats
-            generation={this.state.generation}
-            births={this.state.births}
-            deaths={this.state.deaths}
           />
         </div>
         <Grid
@@ -350,6 +321,18 @@ class Life extends Component<LifeProps, LifeState> {
         >
           {this.renderCellList()}
         </Grid>
+        <div className="zoom-controls">
+          <Stepper
+            label="Zoom"
+            value={this.state.cellSize}
+            changeValue={this.changeCellSize}
+            step={1}
+            min={1}
+            max={20}
+            getAriaValueText={() => this.state.cellSize.toString()}
+          />
+        </div>
+        {/* Dialogs */}
         <Load
           isOpen={this.state.loadModalIsOpen}
           close={this.closeModals}

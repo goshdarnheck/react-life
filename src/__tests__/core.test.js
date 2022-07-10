@@ -1,4 +1,4 @@
-import { calculateNeighbours } from "../lib/utils";
+import { calculateNeighbours } from "../lib/core";
 
 it("Calculates neighbours correctly", () => {
   const x = 0;

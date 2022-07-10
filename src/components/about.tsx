@@ -9,11 +9,13 @@ interface AboutProps {
 
 const About: FunctionComponent<AboutProps> = ({ isOpen, close }) => (
   <div>
-    <Dialog isOpen={isOpen} onDismiss={close} aria-labelledby="about-title">
-      <button className="close-button" onClick={close}>
-        Close <span aria-hidden>×</span>
-      </button>
-      <h2 id="about-title">About React Life</h2>
+    <Dialog className="dialog about" isOpen={isOpen} onDismiss={close} aria-labelledby="about-title">
+      <div className="dialog__header">
+        <button className="close-button" onClick={close}>
+          Close <span aria-hidden>×</span>
+        </button>
+        <h2 id="about-title">About React Life</h2>
+      </div>
       <p>I made React Life it's great. It's Conway's Game of Life made in React, which is a bad idea.</p>
       <p>You shouldn't make Game of Life in React, but you can and it can handle it sort of.</p>
       <p>What is Game of Life???</p>

@@ -1,4 +1,7 @@
 import { FunctionComponent, memo } from "react";
+import { CustomCheckbox } from "@reach/checkbox";
+import Stepper from "./stepper";
+import "@reach/checkbox/styles.css";
 
 interface controlsProps {
   play: () => void;
@@ -11,6 +14,8 @@ interface controlsProps {
   toggleTorusMode: () => void;
   mutantMode: boolean;
   toggleMutantMode: () => void;
+  handleChangeSpeed: (speed: number) => void;
+  speed: number;
 }
 
 const Controls: FunctionComponent<controlsProps> = memo((props) => (
@@ -27,6 +32,17 @@ const Controls: FunctionComponent<controlsProps> = memo((props) => (
       </li>
     </ul>
     <div className="controls__game">
+      <div>
+        <Stepper
+          label="Speed"
+          value={props.speed}
+          changeValue={props.handleChangeSpeed}
+          step={50}
+          min={0}
+          max={950}
+          getAriaValueText={() => `${1000 - props.speed}ms`}
+        />
+      </div>
       <div className="controls__life">
         <button className={`button ${props.paused ? 'paused' : 'playing'}`} onClick={props.paused ? props.play : props.pause}>
           <span>
@@ -42,12 +58,16 @@ const Controls: FunctionComponent<controlsProps> = memo((props) => (
       </div>
       <div className="controls__modifiers">
         <div>
-          <label htmlFor="torus">Torus</label>
-          <input id="torus" type="checkbox" checked={props.torusMode} onChange={props.toggleTorusMode} />
+          <label>
+            Torus
+            <CustomCheckbox checked={props.torusMode} onChange={props.toggleTorusMode} />
+          </label>
         </div>
         <div>
-          <label htmlFor="mutant">Mutants</label>
-          <input id="mutant" type="checkbox" checked={props.mutantMode} onChange={props.toggleMutantMode} />
+          <label>
+            Mutants
+            <CustomCheckbox checked={props.mutantMode} onChange={props.toggleMutantMode} />
+          </label>
         </div>
       </div>
     </div>

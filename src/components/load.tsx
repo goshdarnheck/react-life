@@ -15,18 +15,20 @@ interface LoadProps {
 const Load: FunctionComponent<LoadProps> = (props) => {
   return (
     <div>
-      <Dialog isOpen={props.isOpen} onDismiss={props.close} aria-labelledby="load-title">
-        <button className="close-button" onClick={props.close}>
-          Close<span aria-hidden>×</span>
-        </button>
-        <h2 id="load-title">Load an Example or Saved State</h2>
+      <Dialog className="dialog load" isOpen={props.isOpen} onDismiss={props.close} aria-labelledby="load-title">
+        <div className="dialog__header">
+          <button onClick={props.close}>
+            Close<span aria-hidden>×</span>
+          </button>
+          <h2 id="load-title">Load an Example or Saved State</h2>
+        </div>
         <ul>
           {props.savedStates.map((state: LoadableState, i: number) => (
             <li key={i}>
               <button onClick={() => props.loadData(state.data)}>
                 {state.name}
               </button>
-              <button onClick={() => props.deleteSavedState(i)}>Delete</button>
+              <button className="delete" onClick={() => props.deleteSavedState(i)}>Delete</button>
             </li>
           ))}
         </ul>

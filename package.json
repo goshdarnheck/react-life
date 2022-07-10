@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reach/checkbox": "^0.17.0",
     "@reach/dialog": "^0.16.2",
     "@reach/slider": "^0.16.0",
     "@types/jest": "^27.4.1",

@@ -26,7 +26,7 @@ const Stepper: FunctionComponent<stepperProps> = ({
       <div className="stepper__label">
         {label}
       </div>
-      <div className="stepper__controls">
+      <div>
         <Slider
           getAriaLabel={() => label}
           getAriaValueText={getAriaValueText}

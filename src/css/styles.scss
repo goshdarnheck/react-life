@@ -22,6 +22,10 @@ body {
   padding: 0;
 }
 
+button {
+  cursor: pointer;
+}
+
 .button {
   appearance: none;
   background: #ccc;
@@ -35,7 +39,6 @@ body {
     0.22em 0.5em 0 rgb(180, 180, 180),
     -0.2em 0.5em 0 rgb(180, 180, 180);
   color: #444;
-  cursor: pointer;
   display: inline-block;
   font-weight: 700;
   font-size: 1.4rem;
@@ -52,7 +55,7 @@ body {
   &:focus {
     outline: none;
     box-shadow:
-      inset 0 0 0 0.11em #000,
+      inset 0 0 0 0.11em #444,
       0 0.3em 0 rgb(133, 133, 133),
       0 0.5em 0 #555,
       0.1em 0.5em 0 #555,
@@ -118,8 +121,8 @@ body {
   }
 
   &:hover {
-    cursor: none;
-    outline: 2px dotted white;
+    cursor: crosshair;
+    outline: 2px dashed white;
     z-index: 1;
   }
 }
@@ -170,13 +173,8 @@ body {
 
 .settings {
   display: flex;
+  flex-direction: column;
   gap: 1em;
-
-  > div {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-  }
 }
 
 .stats {
@@ -248,13 +246,24 @@ body {
 
       &.playing {
         > span:first-child {
-          color: lime;
+          color: #0a0;
+          text-shadow:
+            0 0 0.5em lime,
+            0 0.1em 0 lime,
+            0 -0.1em 0 lime,
+            0.1em 0 0 lime,
+            -0.1em 0 0 lime;
         }
       }
 
       &.paused {
         > span:last-child {
-          color: lime;
+          color: #0a0;
+          text-shadow:
+            0 0.1em 0 lime,
+            0 -0.1em 0 lime,
+            0.1em 0 0 lime,
+            -0.1em 0 0 lime;
         }
       }
     }
@@ -281,64 +290,64 @@ body {
   }
 }
 
-.examples {
-  ul {
-    list-style-type: none;
-    max-height: 10.2em;
-    overflow: auto;
-    padding: 0 0.3em 0 0;
-  }
+.zoom-controls {
+  background-color: #fff;
+  bottom: 1em;
+  padding: 1em;
+  position: absolute;
+  right: 2em;
+}
 
-  li:not(:last-child) {
-    letter-spacing: 0.1em;
-    margin-bottom: 0.2em;
-  }
+.dialog {
+  &__header {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    gap: 2em;
 
-  button {
-    width: 100%;
-  }
-
-  small {
-    font-size: 0.4em;
+    button {
+      text-align: center;
+      max-width: fit-content;
+    }
   }
 }
 
-.footer {
-  padding: 0.5em;
-
-  a {
-    color: #fff;
-    opacity: 0.4;
-    text-decoration: none;
-    transition: opacity 0.3s;
-  }
-
-  a:hover {
-    opacity: 1;
-  }
-
-  svg {
-    vertical-align: text-bottom;
-    margin-right: 0.5em;
-    width: 1em;
-  }
-
+.load {
   ul {
-    margin: 0;
+    list-style: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      gap: 2em;
+
+      &:hover {
+        background-color: #eee;
+      }
+    }
+
+    &:last-child {
+      max-height: 40vh;
+      overflow-y: auto;
+    }
   }
 
-  li {
-    display: inline-block;
+  button {
+    &:first-child {
+      flex-grow: 1;
+      text-align: left;
+    }
   }
+}
 
-  li:not(:last-child):after {
-    content: "|";
-    padding: 0 0.5em;
-  }
-
-  @media only screen and (min-width: 768px) {
-    bottom: 0;
-    position: absolute;
+.save {
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
   }
 }
