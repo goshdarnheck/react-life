@@ -28,7 +28,7 @@ const Controls: FunctionComponent<controlsProps> = memo((props) => (
         <button className="button" onClick={props.openSaveModal}>Save</button>
       </li>
       <li>
-        <button className="button" title="Clear grid and reset stats" onClick={props.clear}>Reset</button>
+        <button className="button" title="Clear grid" onClick={props.clear}>Reset</button>
       </li>
     </ul>
     <div className="controls__game">
