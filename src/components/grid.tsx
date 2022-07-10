@@ -1,12 +1,14 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent, ReactNode } from "react";
 
 interface gridProps {
-  children: React.ReactNode;
+  children: ReactNode;
   size: number;
   cellSize: number;
+  onGridMouseDown: () => void;
+  onGridMouseUp: () => void;
 }
 
-const Grid: FunctionComponent<gridProps> = ({ size, cellSize, children }) => {
+const Grid: FunctionComponent<gridProps> = ({ size, cellSize, onGridMouseDown, onGridMouseUp, children }) => {
   let style = {
     width: size * cellSize,
     height: size * cellSize,
@@ -16,7 +18,7 @@ const Grid: FunctionComponent<gridProps> = ({ size, cellSize, children }) => {
 
   return (
     <div className="grid">
-      <div style={style}>{children}</div>
+      <div onMouseDown={onGridMouseDown} onMouseUp={onGridMouseUp} style={style}>{children}</div>
     </div>
   );
 };

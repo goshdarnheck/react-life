@@ -1,83 +1,77 @@
-import React, { FunctionComponent } from "react";
-import { SPEEDS, CELL_SIZES, GRID_SIZES } from "../lib/constants";
+import { FunctionComponent, memo } from "react";
+import { CustomCheckbox } from "@reach/checkbox";
 import Stepper from "./stepper";
+import "@reach/checkbox/styles.css";
 
 interface controlsProps {
-  handleLoadCells: () => void;
-  handlePlayClick: () => void;
-  handlePauseClick: () => void;
-  handleClearClick: () => void;
-  handleChangeSpeed: (speed: number) => void;
-  handleChangeCellSize: (newSize: number) => void;
-  handleChangeGridSize: (newSize: number) => void;
+  play: () => void;
+  pause: () => void;
+  clear: () => void;
   paused: boolean;
+  openLoadModal: () => void;
+  openSaveModal: () => void;
+  torusMode: boolean;
+  toggleTorusMode: () => void;
+  mutantMode: boolean;
+  toggleMutantMode: () => void;
+  handleChangeSpeed: (speed: number) => void;
   speed: number;
-  cellSize: number;
-  gridSize: number;
-  clearable: boolean;
-  savedCells?: { [key: string]: { hue: number } };
 }
 
-const Controls: FunctionComponent<controlsProps> = (props) => (
+const Controls: FunctionComponent<controlsProps> = memo((props) => (
   <div className="controls">
-    <ul>
+    <ul className="controls__state">
       <li>
-        <button
-          onClick={props.handleLoadCells}
-          title="Reload last paused cell state"
-          disabled={
-            props.savedCells === null ||
-            (props.savedCells && Object.keys(props.savedCells).length === 0)
-          }
-        >
-          ⟲ Back
-        </button>
-        {props.paused ? (
-          <button onClick={props.handlePlayClick} disabled={!props.paused}>
-            ► Play
-          </button>
-        ) : (
-          <button onClick={props.handlePauseClick} disabled={props.paused}>
-            ❚❚ Pause
-          </button>
-        )}
-        <button
-          title="Clear grid"
-          disabled={!props.clearable}
-          onClick={props.handleClearClick}
-        >
-          ⨯ Clear
-        </button>
+        <button className="button" title="Load a saved state" onClick={props.openLoadModal} >Load</button>
       </li>
       <li>
+        <button className="button" onClick={props.openSaveModal}>Save</button>
+      </li>
+      <li>
+        <button className="button" title="Clear grid and reset stats" onClick={props.clear}>Reset</button>
+      </li>
+    </ul>
+    <div className="controls__game">
+      <div>
         <Stepper
           label="Speed"
           value={props.speed}
-          values={SPEEDS}
-          unit="ms"
           changeValue={props.handleChangeSpeed}
+          step={50}
+          min={0}
+          max={950}
+          getAriaValueText={() => `${1000 - props.speed}ms`}
         />
-      </li>
-      <li>
-        <Stepper
-          label="Cell Size"
-          value={props.cellSize}
-          values={CELL_SIZES}
-          unit="px"
-          changeValue={props.handleChangeCellSize}
-        />
-      </li>
-      <li>
-        <Stepper
-          label="Grid Size"
-          value={props.gridSize}
-          formattedValue={`${props.gridSize}⨯${props.gridSize}`}
-          values={GRID_SIZES}
-          changeValue={props.handleChangeGridSize}
-        />
-      </li>
-    </ul>
+      </div>
+      <div className="controls__life">
+        <button className={`button ${props.paused ? 'paused' : 'playing'}`} onClick={props.paused ? props.play : props.pause}>
+          <span>
+            <span>►</span>
+            <span>Play</span>
+          </span>
+          <span>/</span>
+          <span>
+            <span>❚❚</span>
+            <span>Pause</span>
+          </span>
+        </button>
+      </div>
+      <div className="controls__modifiers">
+        <div>
+          <label>
+            Torus
+            <CustomCheckbox checked={props.torusMode} onChange={props.toggleTorusMode} />
+          </label>
+        </div>
+        <div>
+          <label>
+            Mutants
+            <CustomCheckbox checked={props.mutantMode} onChange={props.toggleMutantMode} />
+          </label>
+        </div>
+      </div>
+    </div>
   </div>
-);
+));
 
 export default Controls;

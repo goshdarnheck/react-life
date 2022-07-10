@@ -1,21 +1,19 @@
-import React, { Component } from "react";
+import { Component, ChangeEvent, FormEvent } from "react";
 import Grid from "./components/grid";
 import Cell from "./components/cell";
 import Controls from "./components/controls";
-import Info from "./components/info";
-import Footer from "./components/footer";
-import ImportExport from "./components/import-export";
-import Examples from "./components/examples";
-import {
-  SPEEDS,
-  CELL_SIZES,
-  GRID_SIZES,
-  MAX_HUE,
-  HUE_STEP,
-} from "./lib/constants";
+import Load from "./components/load";
+import Save from "./components/save";
+import About from "./components/about";
+import Header from "./components/header";
+import Stepper from "./components/stepper";
 import examples from "./lib/examples";
-import { calculateNeighbours } from "./lib/utils";
+import { runGeneration } from "./lib/core";
+import type { LoadableState } from "./lib/types";
 import "./css/styles.scss"
+import "./css/reachui.scss"
+
+const MAX_HUE = 360;
 
 interface LifeProps {
   speed: number;
@@ -28,106 +26,92 @@ interface LifeState {
   cells: { [key: string]: { hue: number } };
   speed: number;
   paused: boolean;
-  generation: number;
   hue: number;
-  births: number;
-  deaths: number;
+  hueStep: number;
   cellSize: number;
   gridSize: number;
-  savedCells: { [key: string]: { hue: number } };
-  exportData: string;
+  loadModalIsOpen: boolean;
+  saveModalIsOpen: boolean;
+  aboutModalIsOpen: boolean;
+  saveName: string;
+  savedStates: LoadableState[];
+  torusMode: boolean;
+  mutantMode: boolean;
+  isDrawingCells: boolean;
 }
 
 class Life extends Component<LifeProps, LifeState> {
-  timerID?: number = undefined;
+  timerID: number | undefined = undefined;
   state: Readonly<LifeState> = {
     cells: {},
     speed: this.props.speed,
     paused: this.props.paused,
-    generation: 0,
     hue: 0,
-    births: 0,
-    deaths: 0,
+    hueStep: 29,
     cellSize: this.props.cellSize,
     gridSize: this.props.gridSize,
-    savedCells: {},
-    exportData: "",
+    loadModalIsOpen: false,
+    saveModalIsOpen: false,
+    aboutModalIsOpen: false,
+    saveName: '',
+    savedStates: [],
+    torusMode: false,
+    mutantMode: false,
+    isDrawingCells: false
   };
 
   componentDidMount() {
-    this.importData(examples[0].data);
+    this.loadData(examples[0].data);
+    this.loadLocalStorage();
     this.setGenerationInterval();
   }
-
-  setGenerationInterval = () => {
-    this.timerID = window.setInterval(() => {
-      if (this.state.paused === false) {
-        this.runNextGeneration();
-      }
-    }, this.state.speed);
-  };
 
   componentWillUnmount() {
     window.clearInterval(this.timerID);
   }
 
-  handlePauseClick = () => {
-    this.setState({
-      paused: true,
-    });
+  setGenerationInterval = () => {
+    this.timerID = window.setInterval(() => {
+      if (this.state.paused === false && this.state.isDrawingCells === false) {
+        this.runNextGeneration();
+      }
+    }, 1000 - this.state.speed);
   };
 
-  handlePlayClick = () => {
-    this.setState((prevState) => ({
-      paused: false,
-      savedCells: prevState.cells,
-    }));
+  pause = () => {
+    this.setState({ paused: true });
   };
 
-  handleClearClick = () => {
+  play = () => {
+    this.setState({ paused: false});
+  };
+
+  clear = () => {
     this.setState({
       cells: {},
       paused: true,
-      generation: 0,
-      hue: 0,
-      births: 0,
-      deaths: 0,
+      hue: 0
     });
   };
 
   changeSpeed = (speed: number) => {
-    if (SPEEDS.includes(speed)) {
-      clearInterval(this.timerID);
-      this.setState(
-        {
-          speed,
-        },
-        this.setGenerationInterval
-      );
-    }
+    clearInterval(this.timerID);
+    this.setState({ speed }, this.setGenerationInterval);
   };
 
   changeCellSize = (cellSize: number) => {
-    if (CELL_SIZES.includes(cellSize)) {
-      this.setState({
-        cellSize,
-      });
-    }
+    this.setState({ cellSize });
   };
 
   changeGridSize = (gridSize: number) => {
-    if (GRID_SIZES.includes(gridSize)) {
-      this.setState({
-        gridSize,
-      });
-    }
+    this.setState({ gridSize });
   };
 
-  handleSelectExample = (example: number[][]) => {
-    this.importData(example);
-  };
+  changeHueStep = (hueStep: number) => {
+    this.setState({ hueStep });
+  }
 
-  importData = (data: number[][]) => {
+  loadData = (data: number[][]) => {
     let newCells: { [key: string]: { hue: number } } = {};
 
     for (let i = 0, len = data.length; i < len; i++) {
@@ -137,12 +121,42 @@ class Life extends Component<LifeProps, LifeState> {
     this.setState({
       cells: newCells,
       hue: 0,
-      generation: 0,
       paused: true,
-      births: 0,
-      deaths: 0,
+      loadModalIsOpen: false
     });
   };
+
+  loadLocalStorage = () => {
+    const savedStates = localStorage.getItem("savedStates");
+
+    if (savedStates) {
+      this.setState({ savedStates: JSON.parse(savedStates) })
+    }
+  }
+
+  deleteSavedState = (index: number) => {
+    this.setState((prevState: LifeState) => {
+      let newSavedStates = [...prevState.savedStates];
+      newSavedStates.splice(index, 1);
+      localStorage.setItem("savedStates", JSON.stringify(newSavedStates));
+
+      return {
+        savedStates: newSavedStates
+      };
+    });
+  }
+
+  toggleTorusMode = () => {
+    this.setState((prevState: LifeState) => {
+      return { torusMode: !prevState.torusMode }
+    });
+  }
+
+  toggleMutantMode = () => {
+    this.setState((prevState: LifeState) => {
+      return { mutantMode: !prevState.mutantMode }
+    });
+  }
 
   handleCellClick = (cellKey: string) => {
     this.setState((prevState: LifeState) => {
@@ -162,102 +176,74 @@ class Life extends Component<LifeProps, LifeState> {
 
   runNextGeneration() {
     this.setState((prevState) => {
-      const newHue = prevState.hue + HUE_STEP;
-      const hue = newHue < MAX_HUE ? newHue : newHue - MAX_HUE;
-      const yStart = Math.ceil(this.state.gridSize / 2);
-      const yEnd = Math.ceil(0 - this.state.gridSize / 2);
-      const xStart = Math.ceil(0 - this.state.gridSize / 2);
-      const xEnd = Math.ceil(this.state.gridSize / 2);
-      let cells: { [key: string]: { hue: number } } = {};
-      let births = prevState.births;
-      let deaths = prevState.deaths;
+      const nextHue = prevState.hue + this.state.hueStep;
+      const newHue = nextHue < MAX_HUE ? nextHue : nextHue - MAX_HUE;
 
-      for (let y = yStart; y > yEnd; y--) {
-        for (let x = xStart; x < xEnd; x++) {
-          const cellKey = `${x}|${y}`;
-
-          const wasAlive = prevState.cells[cellKey] ? true : false;
-          const neighbours = calculateNeighbours(prevState.cells, x, y);
-
-          switch (neighbours) {
-            case 2:
-              if (wasAlive) {
-                cells[cellKey] = prevState.cells[cellKey];
-              }
-              break;
-            case 3:
-              if (!wasAlive) {
-                cells[cellKey] = { hue };
-                births++;
-              } else {
-                cells[cellKey] = prevState.cells[cellKey];
-              }
-              break;
-            case 0:
-            case 1:
-            case 4:
-            default:
-              if (wasAlive) {
-                deaths++;
-              }
-              break;
-          }
-        }
-      }
+      const response = runGeneration(
+        prevState.cells,
+        prevState.gridSize,
+        newHue,
+        prevState.torusMode,
+        prevState.mutantMode
+      );
 
       return {
-        generation: prevState.generation + 1,
-        cells,
-        hue,
-        births,
-        deaths,
-        paused:
-          Object.entries(cells).length === 0 && cells.constructor === Object,
+        cells: response.cells,
+        hue: newHue
       };
     });
   }
 
-  handleExport = () => {
+  openLoadModal = () => {
+    this.setState({ loadModalIsOpen: true });
+  }
+
+  openSaveModal = () => {
+    this.setState({ saveModalIsOpen: true, paused: true });
+  }
+
+  openAboutModal = () => {
+    this.setState({ aboutModalIsOpen: true });
+  }
+
+  closeModals = () => {
+    this.setState({
+      loadModalIsOpen: false,
+      saveModalIsOpen: false,
+      aboutModalIsOpen: false
+    });
+  }
+
+  onChangeSaveName = (event: ChangeEvent<HTMLInputElement>) => {
+    this.setState({ saveName: event.target.value});
+  }
+
+  saveData = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const cellKeys = Object.keys(this.state.cells);
 
     if (cellKeys.length > 0) {
-      let exportData = "[";
+      let data: number[][] = [];
 
       cellKeys.forEach((cell) => {
-        const cellArr = cell.split("|");
-        exportData += `[${cellArr[0]},${cellArr[1]}],`;
+        const cellArr: string[] = cell.split("|");
+        data.push([parseInt(cellArr[0]), parseInt(cellArr[1])])
       });
 
-      exportData = exportData.substring(0, exportData.length - 1);
-      exportData += "]";
+      const savedStates = localStorage.getItem("savedStates");
+      let newSavedStates = savedStates ? JSON.parse(savedStates) : []
+      newSavedStates.push({ name: this.state.saveName, data: data });
 
-      this.setState({ exportData });
+      localStorage.setItem("savedStates", JSON.stringify(newSavedStates));
+      this.setState({
+        saveModalIsOpen: false,
+        saveName: '',
+        savedStates: newSavedStates
+      });
     }
-  };
+  }
 
-  handleImport = (data: string) => {
-    const parseErrorMessage =
-      "Can't parse import data. An example of the expected format: [[0,0],[0,1]]";
-    let parsedData = null;
-
-    try {
-      parsedData = JSON.parse(data);
-
-      if (parsedData && Array.isArray(parsedData)) {
-        this.importData(parsedData);
-      } else {
-        alert(parseErrorMessage);
-      }
-    } catch (e) {
-      alert(parseErrorMessage);
-    }
-  };
-
-  handleDataChange = (data: string) => {
-    this.setState({ exportData: data });
-  };
-
-  getCellList = () => {
+  renderCellList = () => {
     const yStart = Math.ceil(this.state.gridSize / 2);
     const yEnd = Math.ceil(0 - this.state.gridSize / 2);
     const xStart = Math.ceil(0 - this.state.gridSize / 2);
@@ -284,6 +270,7 @@ class Life extends Component<LifeProps, LifeState> {
             y={y}
             hue={hue}
             alive={alive}
+            onCellMouseEnter={this.onCellMouseEnter}
           />
         );
       }
@@ -292,71 +279,79 @@ class Life extends Component<LifeProps, LifeState> {
     return cells;
   };
 
-  saveCells = () => {
-    this.setState((prevState: LifeState) => ({ savedCells: prevState.cells }));
-  };
+  onCellMouseEnter = (cellKey: string) => {
+    if (this.state.isDrawingCells) {
+      this.handleCellClick(cellKey);
+    }
+  } 
 
-  loadCells = () => {
-    this.setState((prevState: LifeState) => {
-      return {
-        cells: prevState.savedCells,
-        hue: 0,
-        generation: 0,
-        paused: true,
-        births: 0,
-        deaths: 0,
-        speed: prevState.speed,
-        cellSize: prevState.cellSize,
-        gridSize: prevState.gridSize,
-        savedCells: {},
-        exportData: "",
-      };
-    });
-  };
+  onGridMouseDown = () => {
+    this.setState({ isDrawingCells: true });
+  }
+
+  onGridMouseUp = () => {
+    this.setState({ isDrawingCells: false });
+  }
 
   render() {
     return (
-      <div className="app">
-        <Grid size={this.state.gridSize} cellSize={this.state.cellSize}>
-          {this.getCellList()}
-        </Grid>
-        <div className="sidebar">
-          <h1>
-            React
-            <br />
-            Game of Life
-          </h1>
-          <Info
-            generation={this.state.generation}
-            births={this.state.births}
-            deaths={this.state.deaths}
-          />
+      <div className="app" onMouseUp={this.onGridMouseUp}>
+        <div className="panel">
+          <Header onClick={this.openAboutModal} />
           <Controls
-            handlePauseClick={this.handlePauseClick}
-            handlePlayClick={this.handlePlayClick}
-            handleClearClick={this.handleClearClick}
+            pause={this.pause}
+            play={this.play}
+            clear={this.clear}
             paused={this.state.paused}
-            speed={this.state.speed}
+            openLoadModal={this.openLoadModal}
+            openSaveModal={this.openSaveModal}
+            torusMode={this.state.torusMode}
+            toggleTorusMode={this.toggleTorusMode}
+            mutantMode={this.state.mutantMode}
+            toggleMutantMode={this.toggleMutantMode}
             handleChangeSpeed={this.changeSpeed}
-            handleChangeCellSize={this.changeCellSize}
-            handleChangeGridSize={this.changeGridSize}
-            cellSize={this.state.cellSize}
-            gridSize={this.state.gridSize}
-            clearable={
-              Object.keys(this.state.cells).length > 0 ? true : false
-            }
-            savedCells={this.state.savedCells}
-            handleLoadCells={this.loadCells}
-          />
-          <Examples handleSelectExample={this.handleSelectExample} />
-          <ImportExport
-            handleExport={this.handleExport}
-            handleImport={this.handleImport}
-            handleDataChange={this.handleDataChange}
-            exportData={this.state.exportData}
+            speed={this.state.speed}
           />
         </div>
-        <Footer />
+        <Grid
+          size={this.state.gridSize}
+          cellSize={this.state.cellSize}
+          onGridMouseDown={this.onGridMouseDown}
+          onGridMouseUp={this.onGridMouseUp}
+        >
+          {this.renderCellList()}
+        </Grid>
+        <div className="zoom-controls">
+          <Stepper
+            label="Zoom"
+            value={this.state.cellSize}
+            changeValue={this.changeCellSize}
+            step={1}
+            min={1}
+            max={20}
+            getAriaValueText={() => this.state.cellSize.toString()}
+          />
+        </div>
+        {/* Dialogs */}
+        <Load
+          isOpen={this.state.loadModalIsOpen}
+          close={this.closeModals}
+          loadData={this.loadData}
+          examples={examples}
+          savedStates={this.state.savedStates}
+          deleteSavedState={this.deleteSavedState}
+        />
+        <Save
+          isOpen={this.state.saveModalIsOpen}
+          close={this.closeModals}
+          saveData={this.saveData}
+          saveName={this.state.saveName}
+          onChangeSaveName={this.onChangeSaveName}
+        />
+        <About
+          isOpen={this.state.aboutModalIsOpen}
+          close={this.closeModals}
+        />
       </div>
     );
   }

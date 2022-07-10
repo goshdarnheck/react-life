@@ -1,5 +1,4 @@
-import React, { memo } from "react";
-import { FunctionComponent } from "react";
+import { memo, FunctionComponent } from "react";
 
 interface cellProps {
   alive: boolean;
@@ -8,6 +7,7 @@ interface cellProps {
   x: number;
   y: number;
   handleCellClick: (cellKey: string) => void;
+  onCellMouseEnter: (cellKey: string) => void;
 }
 
 const Cell: FunctionComponent<cellProps> = memo((props) => {
@@ -18,6 +18,7 @@ const Cell: FunctionComponent<cellProps> = memo((props) => {
 
   return (
     <button
+      onMouseEnter={() => props.onCellMouseEnter(props.cellKey)}
       aria-label={`${props.x}, ${props.y}: ${props.alive ? "alive" : "dead"}`}
       title={`${props.x}, ${props.y}`}
       onClick={() => props.handleCellClick(props.cellKey)}
