@@ -4,7 +4,6 @@
 - style save/load modals
 - style sliders
 - style buttons and toggles
-- style stats
 - better name/logo
 
 ## IDEAS

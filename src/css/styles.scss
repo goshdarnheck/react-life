@@ -177,25 +177,6 @@ button {
   gap: 1em;
 }
 
-.stats {
-  dl {
-    background-color: #000;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    font-family: 'Courier New', Courier, monospace;
-    gap: 0.4em;
-    list-style-type: none;
-    margin: 0;
-    padding: 0.3em 0.5em;
-
-    > div {
-      display: flex;
-      justify-content: space-between;
-    }
-  }
-}
-
 .controls {
   display: flex;
   gap: 1em;
