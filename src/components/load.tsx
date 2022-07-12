@@ -22,16 +22,20 @@ const Load: FunctionComponent<LoadProps> = (props) => {
           </button>
           <h2 id="load-title">Load an Example or Saved State</h2>
         </div>
-        <ul>
-          {props.savedStates.map((state: LoadableState, i: number) => (
-            <li key={i}>
-              <button onClick={() => props.loadData(state.data)}>
-                {state.name}
-              </button>
-              <button className="delete" onClick={() => props.deleteSavedState(i)}>Delete</button>
-            </li>
-          ))}
-        </ul>
+        <h3>Your Saved States</h3>
+        {props.savedStates.length > 0 ?
+          <ul>
+            {props.savedStates.map((state: LoadableState, i: number) => (
+              <li key={i}>
+                <button onClick={() => props.loadData(state.data)}>
+                  {state.name}
+                </button>
+                <button className="delete" onClick={() => props.deleteSavedState(i)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        : <div>You have no saved states yet!</div>}
+        <h3>Examples</h3>
         <ul>
           {props.examples.map((example, i) => (
             <li key={i}>

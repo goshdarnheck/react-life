@@ -14,11 +14,10 @@ const About: FunctionComponent<AboutProps> = ({ isOpen, close }) => (
         <button className="close-button" onClick={close}>
           Close <span aria-hidden>×</span>
         </button>
-        <h2 id="about-title">About React Life</h2>
+        <h2 id="about-title">About</h2>
       </div>
-      <p>I made React Life it's great. It's Conway's Game of Life made in React, which is a bad idea.</p>
-      <p>You shouldn't make Game of Life in React, but you can and it can handle it sort of.</p>
-      <p>What is Game of Life???</p>
+      <p>This is a test to see how the React javascript library can handle rendering Conway's Game of Life.</p>
+      <p>Learn more about <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" target="_blank">Conway's Game of Life</a> on Wikipedia.</p>
       <h3>Torus Mode</h3>
       <p>Torus mode treats edges of the grid as if they are touching the opposite side. Like a donut!</p>
       <h3>Mutation Mode</h3>
