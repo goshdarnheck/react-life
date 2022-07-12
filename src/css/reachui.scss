@@ -11,10 +11,14 @@ div[data-reach-slider-range] {
 }
 
 div[data-reach-slider-handle] {
-  background-color: #888;
-  box-shadow: 0 0.16em 0 0 #333;
+  background-color: #ccc;
+  box-shadow: 0 0.16em 0 0 #555;
   border-radius: 0.3em;
   width: 1.4em;
+
+  &:focus-visible {
+    outline: 0.2em solid limegreen;
+  }
 
   &:hover {
     cursor: grab;
@@ -35,6 +39,11 @@ div[data-reach-dialog-content] {
 }
 
 .controls__modifiers {
+  label {
+    align-items: center;
+    display: flex;
+  }
+
   label:focus-within {
     outline: 1px dotted limegreen;
   }
@@ -42,7 +51,9 @@ div[data-reach-dialog-content] {
 
 span[data-reach-custom-checkbox-container] {
   border: 0.2em solid black;
+  height: 0.8em;
   margin-left: 0.3em;
+  width: 0.8em;
 
   &:focus-within {
     box-shadow: none;

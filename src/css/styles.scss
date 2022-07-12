@@ -130,7 +130,7 @@ button {
 .panel {
   background: white;
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   flex-shrink: 0;
   justify-content: space-between;
   padding: 2rem;
@@ -266,7 +266,7 @@ button {
 
   &__label {
     font-size: 1.4rem;
-    margin-bottom: 0.4em;
+    margin-bottom: 0.6em;
     text-align: center;
   }
 }
@@ -274,7 +274,7 @@ button {
 .zoom-controls {
   background-color: #fff;
   bottom: 1em;
-  padding: 1em;
+  padding: 0.3em 0.5em 0.8em;
   position: absolute;
   right: 2em;
 }

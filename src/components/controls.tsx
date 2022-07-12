@@ -28,7 +28,7 @@ const Controls: FunctionComponent<controlsProps> = memo((props) => (
         <button className="button" onClick={props.openSaveModal}>Save</button>
       </li>
       <li>
-        <button className="button" title="Clear grid" onClick={props.clear}>Reset</button>
+        <button className="button" title="Clear grid" onClick={props.clear}>Clear</button>
       </li>
     </ul>
     <div className="controls__game">
@@ -38,7 +38,7 @@ const Controls: FunctionComponent<controlsProps> = memo((props) => (
           value={props.speed}
           changeValue={props.handleChangeSpeed}
           step={50}
-          min={0}
+          min={450}
           max={950}
           getAriaValueText={() => `${1000 - props.speed}ms`}
         />
@@ -59,13 +59,13 @@ const Controls: FunctionComponent<controlsProps> = memo((props) => (
       <div className="controls__modifiers">
         <div>
           <label>
-            Torus
+            <span>Torus</span>
             <CustomCheckbox checked={props.torusMode} onChange={props.toggleTorusMode} />
           </label>
         </div>
         <div>
           <label>
-            Mutants
+            <span>Mutants</span>
             <CustomCheckbox checked={props.mutantMode} onChange={props.toggleMutantMode} />
           </label>
         </div>

@@ -10,8 +10,7 @@ const Header: FunctionComponent<HeaderProps> = ({ onClick }) => (
   <header className="header">
     <h1>
       <button onClick={onClick}>
-        <LogoSvg />
-        <span>About</span>
+        <span>About React Life</span>
       </button>
     </h1>
   </header>
